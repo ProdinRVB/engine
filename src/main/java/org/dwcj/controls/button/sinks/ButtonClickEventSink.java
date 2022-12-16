@@ -72,4 +72,15 @@ public final class ButtonClickEventSink {
     public void addCallback(Consumer<ButtonClickEvent> callback) {
         targets.add(callback);
     }
+
+    public void removeCallback(Consumer<ButtonClickEvent> callback){
+        targets.remove(callback);
+        try{
+            BBjControl bbjctrl = ControlAccessor.getDefault().getBBjControl(this.button);
+            bbjctrl.clearCallback(Environment.getInstance().getBBjAPI().ON_BUTTON_PUSH);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

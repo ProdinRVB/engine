@@ -134,6 +134,19 @@ public final class Button extends AbstractDwcControl implements Focusable,  TabT
         return this;
     }
 
+    public Button removeOnClick(Consumer<ButtonClickEvent> callback) {
+        if(this.ctrl != null){
+            if(this.buttonClickEventSink == null){
+                return this;
+            }
+            this.buttonClickEventSink.removeCallback(callback);
+        }
+        else{
+            this.callbacks.remove(callback);
+        }
+        return this;
+    }
+
     /**
      * Accessor for whether or not the button is disabled. 
      * @return Boolean value 
