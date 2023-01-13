@@ -14,7 +14,6 @@ import java.util.Map.Entry;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.dwcj.App;
 import org.dwcj.Environment;
 import org.dwcj.controls.AbstractControl;
 import org.dwcj.controls.htmlcontainer.HtmlContainer;
@@ -345,6 +344,30 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
   }
 
   /**
+   * Get the slot panel
+   * 
+   * @param slot the slot name
+   * 
+   * @return the slot panel
+   */
+  protected AbstractDwcjPanel getSlot(String slot) {
+    if (slots.containsKey(slot)) {
+      return slots.get(slot).getKey();
+    }
+
+    return null;
+  }
+
+  /**
+   * Get the default slot panel
+   * 
+   * @return the default slot panel
+   */
+  protected AbstractDwcjPanel getSlot() {
+    return getSlot("__EMPTY_SLOT__");
+  }
+
+  /**
    * Attach a slot to the web component
    * 
    * @param slot    the slot name
@@ -382,7 +405,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
       panel.setAttribute("slot", slot);
     } else {
       // mark the panel as default slot
-      panel.setAttribute("bbj-ds", "true");
+      panel.setAttribute("bbj-default-slot", "true");
     }
 
     // attach the panel directly if the web component is already attached
@@ -399,7 +422,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
     if (slot != "__EMPTY_SLOT__") {
       selector += "[slot='" + slot + "'][bbj-slot='" + getUUID() + "']";
     } else {
-      selector += "[bbj-ds='true'][bbj-slot='" + getUUID() + "']";
+      selector += "[bbj-default-slot='true'][bbj-slot='" + getUUID() + "']";
     }
 
     invokeAsync("Function", "component.appendChild(document.querySelector(\"" + selector + "\"));");
@@ -455,7 +478,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
       if (slot != "__EMPTY_SLOT__") {
         panelToRemove.setAttribute("slot", "__detached__");
       } else {
-        panelToRemove.setAttribute("bbj-ds", "false");
+        panelToRemove.setAttribute("bbj-default-slot", "false");
       }
 
       // detach the panel from the web component

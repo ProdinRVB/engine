@@ -2,7 +2,9 @@ package org.demo.components.drawer;
 
 import org.demo.components.drawer.events.DrawerClosedEvent;
 import org.demo.components.drawer.events.DrawerOpenedEvent;
+import org.dwcj.App;
 import org.dwcj.controls.panels.AbstractDwcjPanel;
+import org.dwcj.controls.panels.Div;
 import org.dwcj.interfaces.HasClassName;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.WebComponent;
@@ -15,7 +17,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
   /**
    * The drawer placement.
    */
-  public enum DrawerPlacement {
+  public enum Placement {
     TOP("top"), TOP_CENTER("top-center"),
     BOTTOM("bottom"), BOTTOM_CENTER("bottom-center"),
     LEFT("left"),
@@ -29,7 +31,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
      *
      * @param value the value
      */
-    DrawerPlacement(String value) {
+    Placement(String value) {
       this.value = value;
     }
 
@@ -53,15 +55,21 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
     }
   }
 
-  private AbstractDwcjPanel contentPanel;
-
   private static PropertyDescriptor<Boolean> AUTO_FOCUS = PropertyDescriptor.property("autoFocus", false);
   private static PropertyDescriptor<String> LABEL = PropertyDescriptor.property("label", "Drawer");
   private static PropertyDescriptor<String> MAX_SIZE = PropertyDescriptor.property("maxSize", "100%");
   private static PropertyDescriptor<Boolean> OPENED = PropertyDescriptor.property("opened", false);
   private static PropertyDescriptor<String> PLACEMENT = PropertyDescriptor.property("placement",
-      DrawerPlacement.LEFT.getValue());
+      Placement.LEFT.getValue());
   private static PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", "16EM");
+
+  /**
+   * Instantiates a new drawer.
+   */
+  public Drawer() {
+    super();
+    setContent(new Div());
+  }
 
   /**
    * Set the drawer content
@@ -69,7 +77,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @param content The drawer content.
    * @return the drawer
    */
-  public Drawer setContent(AbstractDwcjPanel content) {
+  public Drawer setContent(Div content) {
     addSlot(content);
     return this;
   }
@@ -80,7 +88,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @return the drawer content
    */
   public AbstractDwcjPanel getContent() {
-    return contentPanel;
+    return getSlot();
   }
 
   /**
@@ -100,7 +108,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * 
    * @return the drawer auto focus
    */
-  public boolean getAutoFocus() {
+  public boolean isAutoFocus() {
     return get(AUTO_FOCUS);
   }
 
@@ -146,14 +154,32 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
   }
 
   /**
-   * Set Drawer opened.
+   * Open or close the drawer.
    * 
    * @param opened When true, the drawer is shown.
    * @return the drawer
    */
-  public Drawer setOpened(boolean opened) {
+  public Drawer toggle(boolean opened) {
     set(OPENED, opened);
     return this;
+  }
+
+  /**
+   * Open the drawer.
+   * 
+   * @return the drawer
+   */
+  public Drawer open() {
+    return toggle(true);
+  }
+
+  /**
+   * Close the drawer.
+   * 
+   * @return the drawer
+   */
+  public Drawer close() {
+    return toggle(false);
   }
 
   /**
@@ -161,7 +187,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * 
    * @return the drawer opened
    */
-  public boolean getOpened() {
+  public boolean isOpened() {
     return get(OPENED, true, Boolean.class);
   }
 
@@ -171,7 +197,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @param placement The drawer placement.
    * @return the drawer
    */
-  public Drawer setPlacement(DrawerPlacement placement) {
+  public Drawer setPlacement(Placement placement) {
     set(PLACEMENT, placement.getValue());
     return this;
   }
@@ -181,8 +207,8 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * 
    * @return the drawer placement
    */
-  public DrawerPlacement getPlacement() {
-    return DrawerPlacement.valueOf(get(PLACEMENT));
+  public Placement getPlacement() {
+    return Placement.valueOf(get(PLACEMENT));
   }
 
   /**
@@ -212,7 +238,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @param listener the listener
    * @return the drawer
    */
-  public Drawer addDrawerOpenedListener(EventListener<DrawerOpenedEvent> listener) {
+  public Drawer addOpenedListener(EventListener<DrawerOpenedEvent> listener) {
     return addWebComponentEventListener("bbj-drawer-opened", DrawerOpenedEvent.class, listener, FILTER_SAME_NODE);
   }
 
@@ -222,7 +248,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @param listener the listener
    * @return the drawer
    */
-  public Drawer removeDrawerOpenedListener(EventListener<DrawerOpenedEvent> listener) {
+  public Drawer removeOpenedListener(EventListener<DrawerOpenedEvent> listener) {
     return removeWebComponentEventListener("bbj-drawer-opened", DrawerOpenedEvent.class, listener);
   }
 
@@ -232,7 +258,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @param listener the listener
    * @return the drawer
    */
-  public Drawer addDrawerClosedListener(EventListener<DrawerClosedEvent> listener) {
+  public Drawer addClosedListener(EventListener<DrawerClosedEvent> listener) {
     return addWebComponentEventListener("bbj-drawer-closed", DrawerClosedEvent.class, listener, FILTER_SAME_NODE);
   }
 
@@ -242,7 +268,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @param listener the listener
    * @return the drawer
    */
-  public Drawer removeDrawerClosedListener(EventListener<DrawerClosedEvent> listener) {
+  public Drawer removeClosedListener(EventListener<DrawerClosedEvent> listener) {
     return removeWebComponentEventListener("bbj-drawer-closed", DrawerClosedEvent.class, listener);
   }
 
@@ -263,5 +289,5 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
     removeComponentClassName(className);
     return null;
   }
-  
+
 }

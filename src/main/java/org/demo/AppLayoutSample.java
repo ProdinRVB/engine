@@ -1,7 +1,6 @@
 package org.demo;
 
 import org.demo.components.applayout.AppLayout;
-
 import org.dwcj.App;
 import org.dwcj.annotations.AppMeta;
 import org.dwcj.annotations.AppTheme;

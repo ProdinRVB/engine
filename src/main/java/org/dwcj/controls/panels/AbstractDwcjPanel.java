@@ -3,6 +3,7 @@ package org.dwcj.controls.panels;
 import com.basis.bbj.proxies.sysgui.BBjWindow;
 import com.basis.startup.type.BBjException;
 
+import org.dwcj.App;
 import org.dwcj.Environment;
 import org.dwcj.annotations.AnnotationProcessor;
 import org.dwcj.bridge.ControlAccessor;

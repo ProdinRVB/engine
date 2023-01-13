@@ -1,6 +1,8 @@
 package org.dwcj.controls.panels;
 
 import com.basis.bbj.proxies.sysgui.BBjWindow;
+
+import org.dwcj.App;
 import org.dwcj.Environment;
 import org.dwcj.bridge.ControlAccessor;
 import org.dwcj.controls.AbstractControl;
