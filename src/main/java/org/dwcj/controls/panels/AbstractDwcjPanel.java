@@ -14,7 +14,9 @@ import org.dwcj.exceptions.DwcAnnotationException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * the base class for all panel implementations
@@ -53,6 +55,38 @@ public abstract class AbstractDwcjPanel extends AbstractDwcControl {
 
     static {
         PanelAccessor.setDefault(new PanelAccessorImpl());
+    }
+
+    /**
+     * Method which allows user to check whether a control is present within
+     * the panel's list of controls
+     * @return Boolean true if control is present, false if it is not
+     */
+    public Boolean hasControl(AbstractControl c){
+        return controls.contains(c);
+    }
+
+    /**
+     * Iterates through the controls in the panel and returns it if the
+     * id of the control matches the one passed to the function
+     * @param id String representing the ID of the desired control
+     * @return Control matching the passed ID - null if the control is not found.
+     */
+    public AbstractControl getControl(String id){
+        for(AbstractControl c: this.controls){
+            if(Objects.equals(c.getId(), id)){
+                return c;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns a list of all the controls contained within this panel
+     * @return List of various controls
+     */
+    public List<AbstractControl> getControls(){
+        return this.controls;
     }
 
     /**
