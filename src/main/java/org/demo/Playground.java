@@ -1,8 +1,12 @@
 package org.demo;
 
 import org.demo.shoelace.badge.SlBadge;
+import org.demo.shoelace.breadcrumb.BreadcrumbItem;
+import org.demo.shoelace.breadcrumb.SlBreadcrumb;
 import org.demo.shoelace.button.SlButton;
 import org.demo.shoelace.button.events.SlButtonClickEvent;
+import org.demo.shoelace.checkbox.SlCheckbox;
+import org.demo.shoelace.checkbox.events.SlCheckboxChangeEvent;
 import org.dwcj.App;
 import org.dwcj.annotations.Attribute;
 import org.dwcj.annotations.InlineStyleSheet;
@@ -33,38 +37,20 @@ public class Playground extends App {
     AppPanel panel = new AppPanel();
     panel.addClassName("app-panel");
 
-    SlBadge badge = new SlBadge("10");
-    badge.setPill(true);
-    badge.setPulse(true);
+    SlCheckbox checkbox = new SlCheckbox("Checkbox");
+    checkbox.addChangeListener((SlCheckboxChangeEvent event) -> {
+      App.consoleLog(event.isChecked() ? "Checked" : "Unchecked");
+    });
 
-    SlButton button = new SlButton("Click me");
-    button.setPrefix("<sl-icon name='gear'></sl-icon>");
-    // button.setVariant(SlButton.Variant.PRIMARY);
-    button.setSize(SlButton.Size.LARGE);
-    button.setBadge(badge);
+    panel.add(checkbox);
+
+    SlButton button = new SlButton("Button");
     button.addClickListener((SlButtonClickEvent event) -> {
-      App.msgbox("Hello World!");
+      checkbox.click();
+      App.consoleLog(checkbox.isChecked() ? "Checked 21" : "Unchecked 21");
     });
 
-    SlButton button2 = new SlButton("Remove badge");
-    button2.addClickListener((SlButtonClickEvent event) -> {
-      button.getBadge().setPulse(false);
-    });
-
-    // // create a list of badges
-    // for (int i = 0; i < 3; i++) {
-    // SlBadge badge = new SlBadge();
-    // badge.setText("Badge " + String.valueOf(i));
-    // badge.setPill(true);
-    // // set random variant
-    // badge.setVariant(SlBadge.Variant.values()[(int) (Math.random() *
-    // SlBadge.Variant.values().length)]);
-    // badge.setPulse(true);
-    // panel.add(badge);
-    // }
-
-    panel.add(button, button2);
-
+    panel.add(button);
   }
 
 }

@@ -5,6 +5,13 @@ import org.dwcj.interfaces.HasControlText;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;
 
+/**
+ * A badge component.
+ * 
+ * @see <a href="https://shoelace.style/components/badge">Shoelace Badge</a>
+ * @author Hyyan Abo Fakher
+ * @since 1.0.0
+ */
 @NodeName("sl-badge")
 public final class SlBadge extends SlComponent<SlBadge> implements HasControlText {
 
@@ -45,8 +52,6 @@ public final class SlBadge extends SlComponent<SlBadge> implements HasControlTex
       SlBadge.Variant.PRIMARY.getValue());
   private static PropertyDescriptor<Boolean> PILL = PropertyDescriptor.property("pill", false);
   private static PropertyDescriptor<Boolean> PULSE = PropertyDescriptor.property("pulse", false);
-  private static PropertyDescriptor<Boolean> UPDATE_COMPLETE = PropertyDescriptor.property("updateComplete",
-      false);
 
   /**
    * Creates a new badge
@@ -125,16 +130,6 @@ public final class SlBadge extends SlComponent<SlBadge> implements HasControlTex
    */
   public boolean isPulse() {
     return get(PULSE);
-  }
-
-  /**
-   * A read-only promise that resolves when the component has finished updating.
-   * 
-   * @return A read-only promise that resolves when the component has finished
-   *         updating.
-   */
-  public boolean isUpdateComplete() {
-    return get(UPDATE_COMPLETE, true, Boolean.class);
   }
 
   /**

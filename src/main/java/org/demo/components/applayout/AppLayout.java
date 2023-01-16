@@ -555,7 +555,7 @@ public class AppLayout extends WebComponent<AppLayout> implements HasClassName {
    * @return the app layout
    */
   public AppLayout addDrawerOpenedListener(EventListener<DrawerOpenedEvent> listener) {
-    return addWebComponentEventListener("bbj-drawer-opened", DrawerOpenedEvent.class, listener, FILTER_SAME_NODE);
+    return addEventListener("bbj-drawer-opened", DrawerOpenedEvent.class, listener, FILTER_SAME_NODE);
   }
 
   /**
@@ -565,7 +565,7 @@ public class AppLayout extends WebComponent<AppLayout> implements HasClassName {
    * @return the app layout
    */
   public AppLayout removeDrawerOpenedListener(EventListener<DrawerOpenedEvent> listener) {
-    return removeWebComponentEventListener("bbj-drawer-opened", DrawerOpenedEvent.class, listener);
+    return removeEventListener("bbj-drawer-opened", DrawerOpenedEvent.class, listener);
   }
 
   /**
@@ -575,7 +575,7 @@ public class AppLayout extends WebComponent<AppLayout> implements HasClassName {
    * @return the app layout
    */
   public AppLayout addDrawerClosedListener(EventListener<DrawerClosedEvent> listener) {
-    return addWebComponentEventListener("bbj-drawer-closed", DrawerClosedEvent.class, listener, FILTER_SAME_NODE);
+    return addEventListener("bbj-drawer-closed", DrawerClosedEvent.class, listener, FILTER_SAME_NODE);
   }
 
   /**
@@ -585,6 +585,6 @@ public class AppLayout extends WebComponent<AppLayout> implements HasClassName {
    * @return the app layout
    */
   public AppLayout removeDrawerClosedListener(EventListener<DrawerClosedEvent> listener) {
-    return removeWebComponentEventListener("bbj-drawer-closed", DrawerClosedEvent.class, listener);
+    return removeEventListener("bbj-drawer-closed", DrawerClosedEvent.class, listener);
   }
 }

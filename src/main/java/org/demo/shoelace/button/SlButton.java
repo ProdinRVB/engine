@@ -5,7 +5,6 @@ import org.demo.shoelace.badge.SlBadge;
 import org.demo.shoelace.button.events.SlButtonBlurEvent;
 import org.demo.shoelace.button.events.SlButtonClickEvent;
 import org.demo.shoelace.button.events.SlButtonFocusEvent;
-import org.dwcj.App;
 import org.dwcj.annotations.InlineStyleSheet;
 import org.dwcj.interfaces.HasControlText;
 import org.dwcj.webcomponent.PropertyDescriptor;
@@ -215,7 +214,6 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
   private static PropertyDescriptor<String> FORM_METHOD = PropertyDescriptor.property("formMethod", "");
   private static PropertyDescriptor<Boolean> FORM_NO_VALIDATE = PropertyDescriptor.property("formNoValidate", false);
   private static PropertyDescriptor<String> FORM_TARGET = PropertyDescriptor.property("formTarget", "");
-  private static PropertyDescriptor<Boolean> UPDATE_COMPLETE = PropertyDescriptor.property("updateComplete", false);
 
   /**
    * Create a button.
@@ -680,19 +678,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
   public String getFormEnctype() {
     return get(FORM_ENCTYPE);
   }
-
-  /**
-   * Check if the button is a form submit button.
-   * 
-   * A read-only promise that resolves when the component has finished updating.
-   * 
-   * @param formAutocomplete
-   * @return the button
-   */
-  public Boolean isFormUpdateComplete() {
-    return get(UPDATE_COMPLETE, true, Boolean.class);
-  }
-
+  
   /**
    * Set the text of the button.
    * 
@@ -849,7 +835,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * @return the button
    */
   public SlButton addClickListener(EventListener<SlButtonClickEvent> listener) {
-    addWebComponentEventListener("click", SlButtonClickEvent.class, listener);
+    addEventListener("click", SlButtonClickEvent.class, listener);
     return this;
   }
 
@@ -860,7 +846,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * @return the button
    */
   public SlButton removeClickListener(EventListener<SlButtonClickEvent> listener) {
-    removeWebComponentEventListener("click", SlButtonClickEvent.class, listener);
+    removeEventListener("click", SlButtonClickEvent.class, listener);
     return this;
   }
 
@@ -871,7 +857,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * @return the button
    */
   public SlButton addFocusListener(EventListener<SlButtonFocusEvent> listener) {
-    addWebComponentEventListener("sl-focus", SlButtonFocusEvent.class, listener);
+    addEventListener("sl-focus", SlButtonFocusEvent.class, listener);
     return this;
   }
 
@@ -882,7 +868,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * @return the button
    */
   public SlButton removeFocusListener(EventListener<SlButtonFocusEvent> listener) {
-    removeWebComponentEventListener("sl-focus", SlButtonFocusEvent.class, listener);
+    removeEventListener("sl-focus", SlButtonFocusEvent.class, listener);
     return this;
   }
 
@@ -893,7 +879,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * @return the button
    */
   public SlButton addBlurListener(EventListener<SlButtonBlurEvent> listener) {
-    addWebComponentEventListener("sl-blur", SlButtonBlurEvent.class, listener);
+    addEventListener("sl-blur", SlButtonBlurEvent.class, listener);
     return this;
   }
 
@@ -904,7 +890,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * @return the button
    */
   public SlButton removeBlurListener(EventListener<SlButtonBlurEvent> listener) {
-    removeWebComponentEventListener("sl-blur", SlButtonBlurEvent.class, listener);
+    removeEventListener("sl-blur", SlButtonBlurEvent.class, listener);
     return this;
   }
 }
