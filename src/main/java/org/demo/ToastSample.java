@@ -1,16 +1,12 @@
 package org.demo;
 
-import java.util.function.Consumer;
-
 import org.demo.components.toast.Toast;
 import org.demo.components.toast.events.ToastButtonClickedEvent;
 import org.demo.components.toast.events.ToastClosedEvent;
-import org.demo.components.toast.events.ToastOpenedEvent;
 import org.dwcj.App;
 import org.dwcj.annotations.AppTheme;
 import org.dwcj.annotations.AppTitle;
 import org.dwcj.annotations.InlineStyleSheet;
-import org.dwcj.controls.button.Button;
 import org.dwcj.controls.panels.AppPanel;
 import org.dwcj.exceptions.DwcException;
 import org.dwcj.webcomponent.events.EventListener;

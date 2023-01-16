@@ -1,12 +1,14 @@
 package org.dwcj.annotations;
 
 import java.util.HashMap;
-
 import org.dwcj.App;
+import org.dwcj.Environment;
 import org.dwcj.controls.AbstractControl;
 import org.dwcj.exceptions.DwcAnnotationException;
 import org.dwcj.exceptions.DwcException;
 import org.dwcj.util.Assets;
+
+import com.basis.bbj.proxies.BBjObjectTable;
 
 /**
  * Annotation processor for the application and controls annotations
@@ -189,22 +191,40 @@ public final class AnnotationProcessor {
   private void processInlineStyleSheet(Object clazz) throws DwcException {
     InlineStyleSheet[] inlineStyleSheets = clazz.getClass().getAnnotationsByType(InlineStyleSheet.class);
     if (inlineStyleSheets != null) {
-      for (InlineStyleSheet inlineStyleSheet : inlineStyleSheets) {
+      for (InlineStyleSheet sheet : inlineStyleSheets) {
         HashMap<String, String> attributes = new HashMap<>();
-        for (Attribute attribute : inlineStyleSheet.attributes()) {
+        for (Attribute attribute : sheet.attributes()) {
           attributes.put(attribute.name(), attribute.value());
         }
 
-        if (inlineStyleSheet.id() != null && !inlineStyleSheet.id().isEmpty()) {
-          attributes.put("id", inlineStyleSheet.id());
+        BBjObjectTable table = Environment.getInstance().getBBjAPI().getObjectTable();
+        boolean hasId = sheet.id() != null && !sheet.id().isEmpty();
+        boolean isTracked;
+        try {
+          isTracked = (Boolean) table.get("dwcj-injected-stylesheet-" + sheet.id());
+        } catch (Exception e1) {
+          isTracked = false;
         }
 
-        String content = inlineStyleSheet.value();
-        if (inlineStyleSheet.local()) {
+        if (hasId) {
+          if (isTracked) {
+            continue;
+          }
+
+          attributes.put("id", sheet.id());
+
+          if (sheet.once()) {
+            attributes.put("bbj-once","");
+            table.put("injected-sheet-" + sheet.id(), true);
+          }
+        }
+
+        String content = sheet.value();
+        if (sheet.local()) {
           content = Assets.contentOf(content);
         }
 
-        App.addInlineStyleSheet(content, inlineStyleSheet.top(), attributes);
+        App.addInlineStyleSheet(content, sheet.top(), attributes);
       }
     }
   }

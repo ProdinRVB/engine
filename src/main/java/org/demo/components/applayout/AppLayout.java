@@ -4,7 +4,6 @@ import org.demo.components.applayout.events.DrawerClosedEvent;
 import org.demo.components.applayout.events.DrawerOpenedEvent;
 import org.dwcj.controls.panels.AbstractDwcjPanel;
 import org.dwcj.controls.panels.Div;
-import org.dwcj.controls.panels.AbstractDwcjPanel;
 import org.dwcj.interfaces.HasClassName;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.WebComponent;

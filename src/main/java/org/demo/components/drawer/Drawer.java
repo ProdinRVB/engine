@@ -2,7 +2,6 @@ package org.demo.components.drawer;
 
 import org.demo.components.drawer.events.DrawerClosedEvent;
 import org.demo.components.drawer.events.DrawerOpenedEvent;
-import org.dwcj.App;
 import org.dwcj.controls.panels.AbstractDwcjPanel;
 import org.dwcj.controls.panels.Div;
 import org.dwcj.interfaces.HasClassName;

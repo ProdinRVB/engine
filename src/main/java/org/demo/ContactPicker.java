@@ -142,7 +142,7 @@ public class ContactPicker extends App {
 
       call.setEnabled(!phone.isBlank());
       call.setUserData("phone", phone);
-      // call.onClick(this::makeCall);
+      call.onClick(this::makeCall);
     }
   }
 

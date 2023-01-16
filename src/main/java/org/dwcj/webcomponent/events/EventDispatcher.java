@@ -46,6 +46,13 @@ public class EventDispatcher {
   }
 
   /**
+   * Removes all listeners.
+   */
+  public void removeAllListeners() {
+    listeners.clear();
+  }
+
+  /**
    * Dispatch event.
    * 
    * @param <T>   the generic type

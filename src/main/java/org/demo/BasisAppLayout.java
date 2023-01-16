@@ -10,8 +10,6 @@ import org.dwcj.controls.tabcontrol.TabControl;
 import org.dwcj.controls.panels.AppPanel;
 import org.dwcj.controls.tabcontrol.events.TabSelectEvent;
 import org.dwcj.exceptions.DwcAppInitializeException;
-import org.dwcj.util.Assets;
-import org.dwcj.util.files.FileLoader;
 
 @InlineStyleSheet(top = true, value = "" +
         " body,html {overflow: hidden}" +

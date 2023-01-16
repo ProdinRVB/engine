@@ -1,5 +1,8 @@
 package org.dwcj.webcomponent;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
@@ -16,9 +19,11 @@ import com.google.gson.reflect.TypeToken;
 
 import org.dwcj.Environment;
 import org.dwcj.controls.AbstractControl;
+import org.dwcj.controls.AbstractDwcControl;
 import org.dwcj.controls.htmlcontainer.HtmlContainer;
 import org.dwcj.controls.htmlcontainer.events.HtmlContainerJavascriptEvent;
 import org.dwcj.controls.panels.AbstractDwcjPanel;
+import org.dwcj.exceptions.DwcControlDestroyed;
 import org.dwcj.webcomponent.annotations.NodeAttribute;
 import org.dwcj.webcomponent.annotations.NodeName;
 import org.dwcj.webcomponent.events.Event;
@@ -53,7 +58,9 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
   private final ArrayList<String> asyncScripts = new ArrayList<>();
   private final ArrayList<String> registeredClientEvents = new ArrayList<>();
   private final HashMap<String, Class<? extends Event<?>>> clientEventMap = new HashMap<>();
+  private final Map<String, String> rawSlots = new HashMap<>();
   private final Map<String, Entry<AbstractDwcjPanel, Boolean>> slots = new HashMap<>();
+  private final Map<AbstractControl, Entry<String, Boolean>> controls = new HashMap<>();
   private EventDispatcher eventDispatcher;
   private AbstractDwcjPanel panel;
 
@@ -66,6 +73,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
     eventDispatcher = new EventDispatcher();
     hv = new HtmlContainer("");
     hv.setAttribute("bbj-hv", getUUID());
+    hv.setAttribute("bbj-remove", "true");
+    hv.setAttribute(getComponentTagName(), "");
     hv.setTabTraversable(false);
     hv.setFocusable(false);
     hv.onJavascriptEvent(this::handleJavascriptEvents);
@@ -83,10 +92,11 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
   /**
    * Check if the web component is attached to a panel.
    * 
-   * @return true if the web component is attached to a panel, false otherwise
+   * @return true if the web component is attached to a panel and not destroyed,
+   *         false otherwise
    */
   public boolean isAttached() {
-    return panel != null;
+    return panel != null && !isDestroyed();
   }
 
   /**
@@ -94,8 +104,10 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * and directly before any scripts are injected.
    * 
    * @param panel the panel that the web component is attached to
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected void onAttach(AbstractDwcjPanel panel) {
+    assertNotDestroyed();
   }
 
   /**
@@ -103,8 +115,11 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * and directly after all scripts are injected.
    * 
    * @param panel the panel that the web component is detached from
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected void onFlush(AbstractDwcjPanel panel) {
+    assertNotDestroyed();
+
     for (Map.Entry<String, Entry<AbstractDwcjPanel, Boolean>> entry : slots.entrySet()) {
       AbstractDwcjPanel slotPanel = entry.getValue().getKey();
       if (slotPanel != null) {
@@ -117,10 +132,15 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * Get the panel that the web component is attached to or null if the web
    * component is not attached to any panel.
    * 
-   * @return the panel instance or null
+   * @return the panel instance or null if the web component is not attached to
+   *         any panel or destroyed
    */
   protected AbstractDwcjPanel getPanel() {
-    return panel;
+    if (!isDestroyed()) {
+      return panel;
+    }
+
+    return null;
   }
 
   /**
@@ -148,18 +168,27 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
   /**
    * Get the HTML container
    * 
-   * @return the HTML container
+   * @return the HTML container or null if the web component is destroyed
    */
   protected HtmlContainer getHtmlContainer() {
-    return hv;
+    if (!isDestroyed()) {
+      return hv;
+    }
+
+    return null;
   }
 
   /**
    * Get the default html view of the web component
    * 
-   * @return the default html view of the web component
+   * @return the default html view of the web component or empty string if the web
+   *         component is destroyed
    */
   protected String getView() {
+    if (isDestroyed()) {
+      return "";
+    }
+
     String name = getComponentTagName();
 
     // parse NodeAttribute annotations
@@ -185,6 +214,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param args   the method arguments
    * 
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected T invokeAsync(String method, Object... args) {
     doInvoke(true, method, args);
@@ -201,6 +231,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param args   the method arguments
    * 
    * @return The result of the method
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected Object invoke(String method, Object... args) {
     return doInvoke(false, method, args);
@@ -219,6 +250,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    *                         the client side
    * 
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected <K extends Event<?>> T addWebComponentEventListener(
       String eventName,
@@ -226,6 +258,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
       EventListener<K> listener,
       String isAccepted,
       String eventDataBuilder) {
+    assertNotDestroyed();
+
     eventDispatcher.addEventListener(eventClass, listener);
     clientEventMap.put(eventName, eventClass);
 
@@ -298,6 +332,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    *                   client side
    * 
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected <K extends Event<?>> T addWebComponentEventListener(
       String eventName,
@@ -316,6 +351,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param listener   the event listener
    * 
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected <K extends Event<?>> T addWebComponentEventListener(
       String eventName,
@@ -333,9 +369,11 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param listener   the event listener
    * 
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected <K extends Event<?>> T removeWebComponentEventListener(String eventName, Class<K> eventClass,
       EventListener<K> listener) {
+    assertNotDestroyed();
     eventDispatcher.removeEventListener(eventClass, listener);
 
     @SuppressWarnings("unchecked")
@@ -344,13 +382,279 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
   }
 
   /**
+   * Get the added control with the given uuid
+   * 
+   * @param uuid the uuid
+   * @return the control
+   */
+  protected AbstractControl getControl(String uuid) {
+    return controls.entrySet().stream()
+        .filter(e -> e.getValue().getKey().equals(uuid))
+        .map(e -> e.getKey())
+        .findFirst()
+        .orElse(null);
+  }
+
+  /**
+   * Add a control to the web component
+   * 
+   * @param control the control to add
+   * @return the uuid of the control
+   * @throws DwcControlDestroyed if the web component is destroyed
+   * @throws IllegalArgumentException if the control is null, the control is the web
+   *                                 component itself or the control is destroyed.
+   */
+  protected String addControl(AbstractControl control) {
+    assertNotDestroyed();
+
+    if (control == null) {
+      throw new IllegalArgumentException("Cannot add a null as a control");
+    }
+
+    if (control.equals(this)) {
+      throw new IllegalArgumentException("Cannot add a web component to itself");
+    }
+
+    if (control.isDestroyed()) {
+      throw new IllegalArgumentException("Cannot add a destroyed control");
+    }
+
+    if (controls.containsKey(control)) {
+      return controls.get(control).getKey();
+    }
+
+    // assign a uuid to the control
+    String uuid = UUID.randomUUID().toString().substring(0, 8);
+    controls.put(control, new SimpleEntry<>(uuid, false));
+
+    // add wc-link attribute to the control to link it to the web component
+    if (control instanceof AbstractDwcControl) {
+      ((AbstractDwcControl) control).setAttribute("wc-link", uuid);
+    }
+
+    if (control instanceof WebComponent) {
+      MethodHandle method;
+      try {
+        // look up the getHtmlContainer method with MethodHandles
+
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        MethodType mt = MethodType.methodType(HtmlContainer.class);
+        method = lookup.findVirtual(control.getClass(), "getHtmlContainer", mt);
+        HtmlContainer container = (HtmlContainer) method.invoke(control);
+        container.setAttribute("wc-link", uuid);
+      } catch (Throwable e) {
+        // pass
+        Environment.logError("Failed to set web component attribute. " + e.getMessage());
+      }
+    }
+
+    // attach the control to the webcomponent's panel
+    if (isAttached()) {
+      getPanel().add(control);
+      // mark as attached to the panel
+      controls.get(control).setValue(true);
+    }
+
+    // move the control to the web component in the client side
+    StringBuilder sb = new StringBuilder();
+    sb.append("const selector='[wc-link=\"").append(uuid).append("\"]';");
+    sb.append("const control = document.querySelector(selector);");
+    sb.append("if(control)");
+    sb.append(" component.appendChild(control);");
+    sb.append("return;"); // avoid auto wrapping
+
+    invokeAsync("Function", sb.toString());
+
+    return uuid;
+  }
+
+  /**
+   * Remove a control from the web component
+   * 
+   * @param String the uuid of the control to remove
+   * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
+   */
+  protected T removeControl(String uuid) {
+    assertNotDestroyed();
+
+    if (uuid != null) {
+      AbstractControl control = getControl(uuid);
+      if (control != null) {
+        controls.remove(control);
+        control.destroy();
+      }
+    }
+
+    @SuppressWarnings("unchecked")
+    T result = (T) this;
+    return result;
+  }
+
+  /**
+   * Get the raw slot value (the html content)
+   * 
+   * @param slot the slot name
+   * @return the raw slot value if the web component is not destroyed, an empty
+   *         string otherwise
+   */
+  protected String getRawSlot(String slot) {
+    if (isDestroyed()) {
+      return "";
+    }
+
+    return rawSlots.get(slot);
+  }
+
+  /**
+   * Get the default raw slot value (the html content)
+   * 
+   * @return the raw slot value if the web component is not destroyed, an empty
+   *         string otherwise.
+   */
+  protected String getRawSlot() {
+    return getRawSlot("__EMPTY_SLOT__");
+  }
+
+  /**
+   * Set the raw slot value (the html content)
+   * 
+   * @param slot  the slot name
+   * @param value the raw slot value
+   * @return the web component
+   * @throws DwcControlDestroyed      if the web component is destroyed
+   * @throws IllegalArgumentException if the slot is already defined as a slot
+   */
+  protected T addRawSlot(String slot, String value) {
+    assertNotDestroyed();
+
+    if (slots.containsKey(slot)) {
+      throw new IllegalArgumentException("The slot " + slot + " is already defined as a slot");
+    }
+
+    rawSlots.put(slot, value);
+
+    String selector = "";
+    if (slot != "__EMPTY_SLOT__") {
+      selector += "[slot='" + slot + "'][bbj-slot='" + getUUID() + "']";
+    } else {
+      selector += "[bbj-default-slot='true'][bbj-slot='" + getUUID() + "']";
+    }
+
+    // add the slot to the DOM
+    // add the prefix to the button in the DOM
+    StringBuilder js = new StringBuilder();
+    // check if the component has a span node with bbj-${slot} attribute
+    js.append("var span = component.querySelector(\"" + selector + "\"); ");
+    // if the component has a span node with bbj-${slot} attribute
+    js.append("if (span) {");
+    // replace the text of the span node
+    js.append("span.innerHTML = \\`").append(value).append("\\`; ");
+    js.append("} else {");
+    // if the component does not have a span node with bbj-${slot} attribute
+    // create a new span node and append it to the component
+    js.append("span = document.createElement('span');");
+    js.append("span.setAttribute('bbj-slot', '" + getUUID() + "');");
+    if (slot.equals("__EMPTY_SLOT__")) {
+      js.append("span.setAttribute('bbj-default-slot', 'true');");
+    } else {
+      js.append("span.setAttribute('slot', '" + slot + "');");
+    }
+    js.append("span.innerHTML = \\`").append(value).append("\\`; ");
+    js.append("component.appendChild(span);");
+    js.append("}");
+    js.append("return '';"); // to avoid auto wrapping
+
+    invokeAsync("Function", js.toString());
+
+    @SuppressWarnings("unchecked")
+    T result = (T) this;
+    return result;
+  }
+
+  /**
+   * Remove a raw slot
+   * 
+   * @param slot the slot name
+   * @param html the html content
+   * @return the web component
+   * @throws DwcControlDestroyed      if the web component is destroyed
+   * @throws IllegalArgumentException if the slot is already defined as a slot
+   */
+  protected T removeRawSlot(String slot) {
+    assertNotDestroyed();
+
+    if (slots.containsKey(slot)) {
+      throw new IllegalArgumentException("The slot " + slot + " is already defined as a slot");
+    }
+
+    if (rawSlots.containsKey(slot)) {
+      rawSlots.remove(slot);
+
+      // attach the panel in the client side
+      String selector = "";
+      if (slot != "__EMPTY_SLOT__") {
+        selector += "[slot='" + slot + "'][bbj-slot='" + getUUID() + "']";
+      } else {
+        selector += "[bbj-default-slot='true'][bbj-slot='" + getUUID() + "']";
+      }
+
+      // remove the slot from the DOM
+      StringBuilder js = new StringBuilder();
+      // check if the component has a span node with bbj-${slot} attribute
+      js.append("var span = component.querySelector(\"" + selector + "\"); ");
+      // if the component has a span node with bbj-${slot} attribute
+      js.append("if(span){");
+      // remove the span node
+      js.append("span.remove();");
+      js.append("}");
+      js.append("return '';"); // to avoid auto wrapping
+
+      invokeAsync("Function", js.toString());
+    }
+
+    @SuppressWarnings("unchecked")
+    T result = (T) this;
+    return result;
+  }
+
+  /**
+   * Remove the default raw slot
+   * 
+   * @param html the html content
+   * @return the web component
+   * @throws DwcControlDestroyed      if the web component is destroyed
+   * @throws IllegalArgumentException if the slot is already defined as a slot
+   */
+  protected T removeRawSlot() {
+    return removeRawSlot("__EMPTY_SLOT__");
+  }
+
+  /**
+   * Set a default raw slot value (the html content)
+   * 
+   * @param value the raw slot value
+   * @return the web component
+   * @throws DwcControlDestroyed      if the web component is destroyed
+   * @throws IllegalArgumentException if the slot is already defined as a slot
+   */
+  protected T addRawSlot(String value) {
+    return addRawSlot("__EMPTY_SLOT__", value);
+  }
+
+  /**
    * Get the slot panel
    * 
    * @param slot the slot name
    * 
    * @return the slot panel
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected AbstractDwcjPanel getSlot(String slot) {
+    if (isDestroyed()) {
+      return null;
+    }
+
     if (slots.containsKey(slot)) {
       return slots.get(slot).getKey();
     }
@@ -362,6 +666,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * Get the default slot panel
    * 
    * @return the default slot panel
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected AbstractDwcjPanel getSlot() {
     return getSlot("__EMPTY_SLOT__");
@@ -376,8 +681,16 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    *                panel will be destroyed (removed from the DOM)
    * 
    * @return the web component
+   * @throws DwcControlDestroyed      if the web component is destroyed
+   * @throws IllegalArgumentException if the slot is already defined as a raw slot
    */
   protected T addSlot(String slot, AbstractDwcjPanel panel, boolean destroy) {
+    assertNotDestroyed();
+
+    if (rawSlots.containsKey(slot)) {
+      throw new IllegalArgumentException("The slot " + slot + " is already defined as a raw slot");
+    }
+
     if (slots.containsKey(slot)) {
       Entry<AbstractDwcjPanel, Boolean> entry = slots.get(slot);
       AbstractDwcjPanel oldPanel = entry.getKey();
@@ -439,6 +752,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param panel the panel to attach
    * 
    * @return the web component
+   * @throws DwcControlDestroyed      if the web component is destroyed
+   * @throws IllegalArgumentException if the slot is already defined as a raw slot
    */
   protected T addSlot(String slot, AbstractDwcjPanel panel) {
     return addSlot(slot, panel, true);
@@ -450,6 +765,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param panel the panel to attach
    * 
    * @return the web component
+   * @throws DwcControlDestroyed      if the web component is destroyed
+   * @throws IllegalArgumentException if the slot is already defined as a raw slot
    */
   protected T addSlot(AbstractDwcjPanel panel) {
     return addSlot("__EMPTY_SLOT__", panel);
@@ -464,8 +781,16 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    *                the DOM and then it is up to developer to destroy it later.
    * 
    * @return the web component
+   * @throws DwcControlDestroyed      if the web component is destroyed
+   * @throws IllegalArgumentException if the slot is already defined as a raw slot
    */
   protected T removeSlot(String slot, boolean destroy) {
+    assertNotDestroyed();
+
+    if (rawSlots.containsKey(slot)) {
+      throw new IllegalArgumentException("The slot " + slot + " is already defined as a raw slot");
+    }
+
     if (slots.containsKey(slot)) {
       Entry<AbstractDwcjPanel, Boolean> entry = slots.get(slot);
       AbstractDwcjPanel panelToRemove = entry.getKey();
@@ -500,9 +825,22 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * 
    * @param slot the slot name
    * @return the web component
+   * @throws DwcControlDestroyed      if the web component is destroyed
+   * @throws IllegalArgumentException if the slot is already defined as a raw slot
    */
   protected T removeSlot(String slot) {
     return removeSlot(slot, true);
+  }
+
+  /**
+   * Detach the default slot from the web component
+   * 
+   * @return the web component
+   * @throws DwcControlDestroyed      if the web component is destroyed
+   * @throws IllegalArgumentException if the slot is already defined as a raw slot
+   */
+  protected T removeSlot() {
+    return removeSlot("__EMPTY_SLOT__");
   }
 
   /**
@@ -512,9 +850,14 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param defaultValue the default value of the attribute
    * @param fromClient   true if the attribute should be read from the client
    * 
-   * @return the value of the attribute
+   * @return the value of the attribute or the default value if the attribute is
+   *         not set or the web component is destroyed
    */
   protected String getComponentAttribute(String name, String defaultValue, boolean fromClient) {
+    if (isDestroyed()) {
+      return defaultValue;
+    }
+
     Object result = null;
 
     if (fromClient) {
@@ -543,7 +886,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param name         the name of the attribute
    * @param defaultValue the default value of the attribute
    * 
-   * @return the value of the attribute
+   * @return the value of the attribute or the default value if the attribute is
+   *         not set or the web component is destroyed.
    */
   protected String getComponentAttribute(String name, String defaultValue) {
     return getComponentAttribute(name, defaultValue, false);
@@ -554,7 +898,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * 
    * @param name the name of the attribute
    * 
-   * @return the value of the attribute
+   * @return the value of the attribute or null if the attribute is not set or the
+   *         web component is destroyed.
    */
 
   protected String getComponentAttribute(String name) {
@@ -568,10 +913,11 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param value the value of the attribute
    * 
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected T setComponentAttribute(String name, String value) {
-    attributes.put(name, value);
     invokeAsync("setAttribute", name, value);
+    attributes.put(name, value);
 
     @SuppressWarnings("unchecked")
     T result = (T) this;
@@ -584,6 +930,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param name the name and the value of the attribute
    * 
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected T setComponentAttribute(String name) {
     return setComponentAttribute(name, name);
@@ -596,9 +943,14 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param defaultValue the default value of the property
    * @param fromClient   true if the property should be read from the client
    * 
-   * @return the value of the property
+   * @return the value of the property or the default value if the property is not
+   *         set or the web component is destroyed.
    */
   protected Object getComponentProperty(String name, Object defaultValue, boolean fromClient) {
+    if (isDestroyed()) {
+      return defaultValue;
+    }
+
     Object result = null;
 
     if (fromClient) {
@@ -627,7 +979,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param name         the name of the property
    * @param defaultValue the default value of the property
    * 
-   * @return the value of the property
+   * @return the value of the property or the default value if the property is not
+   *         set or the web component is destroyed.
    */
   protected Object getComponentProperty(String name, Object defaultValue) {
     return getComponentProperty(name, defaultValue, false);
@@ -638,7 +991,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * 
    * @param name the name of the property
    * 
-   * @return the value of the property
+   * @return the value of the property or null if the property is not set or the
+   *         web component is destroyed.
    */
   protected Object getComponentProperty(String name) {
     return getComponentProperty(name, null, false);
@@ -651,10 +1005,11 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param value the value of the property
    * 
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected T setComponentProperty(String name, Object value) {
-    properties.put(name, value);
     invokeAsync("this", name, value);
+    properties.put(name, value);
 
     @SuppressWarnings("unchecked")
     T result = (T) this;
@@ -667,6 +1022,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param name the name and the value of the property
    * 
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected T setComponentProperty(String name) {
     return setComponentProperty(name, name);
@@ -680,9 +1036,14 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param fromClient true if the property should be read from the client
    * @param type       the type of the property
    * 
-   * @return the value of the property or attribute
+   * @return the value of the property or attribute or the default value if the
+   *         property or attribute is not set or the web component is destroyed.
    */
   protected <V> V get(PropertyDescriptor<V> property, boolean fromClient, Type type) {
+    if (isDestroyed()) {
+      return property.getDefaultValue();
+    }
+
     boolean isAttribute = property.isAttribute();
 
     if (!isAttribute) {
@@ -714,7 +1075,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param <V>      the type of the property
    * @param property the property
    * 
-   * @return the value of the property or attribute
+   * @return the value of the property or attribute or the default value if the
+   *         property or attribute is not set or the web component is destroyed.
    */
   protected <V> V get(PropertyDescriptor<V> property) {
     return get(property, false, null);
@@ -728,8 +1090,11 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param value    the value of the property
    * 
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected <V> T set(PropertyDescriptor<V> property, V value) {
+    assertNotDestroyed();
+
     boolean isAttribute = property.isAttribute();
 
     if (!isAttribute) {
@@ -750,6 +1115,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param property the property
    * 
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected <V> T set(PropertyDescriptor<V> property) {
     return set(property, property.getDefaultValue());
@@ -760,6 +1126,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * 
    * @param className the class name
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected T addComponentClassName(String className) {
     return invokeAsync("classList.add", className);
@@ -770,6 +1137,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * 
    * @param className the class name
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected T removeComponentClassName(String className) {
     return invokeAsync("classList.remove", className);
@@ -781,6 +1149,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param name  the name of the style
    * @param value the value of the style
    * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected T setComponentStyle(String name, String value) {
     return invokeAsync("style.setProperty", name, value);
@@ -793,7 +1162,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * DOM, it will return null.
    * 
    * @param name the name of the style
-   * @return the value of the style
+   * @return the value of the style or null if the web component is destroyed or
+   *         if the component is not attached to the DOM.
    */
   protected String getComponentComputedStyle(String name) {
     Object result = invoke("Function", "window.getComputedStyle(component).getPropertyValue(\\'" + name + "\\')");
@@ -804,8 +1174,11 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * Create the control
    * 
    * @param panel the parent panel
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected void create(AbstractDwcjPanel panel) {
+    assertNotDestroyed();
+
     this.panel = panel;
     super.create(panel);
 
@@ -819,6 +1192,16 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
 
       if (slotPanel != null && !isAttached) {
         panel.add(slotPanel);
+      }
+    }
+
+    // loop over the controls and add them to the web component panel
+    for (Entry<AbstractControl, Entry<String, Boolean>> entry : controls.entrySet()) {
+      AbstractControl control = entry.getKey();
+      boolean isAttached = entry.getValue().getValue();
+
+      if (control != null && !isAttached) {
+        panel.add(control);
       }
     }
 
@@ -840,14 +1223,17 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param args   the arguments
    * 
    * @return the result
+   * @throws DwcControlDestroyed if the web component is destroyed
    */
   private Object doInvoke(boolean async, String method, Object... args) {
+    assertNotDestroyed();
+
     // TODO: Ask Jim to add support for async calls using executeScript
     StringBuilder script = new StringBuilder();
     script.append("(() => {");
-    script.append("const hv = document.querySelector(\"[bbj-hv='").append(getUUID()).append("']\" );");
-    script.append("const component = document.querySelector").append("(\"[bbj-component='").append(getUUID())
-        .append("']\");");
+    script.append("const hv = document.querySelector(`[bbj-hv='").append(getUUID()).append("']`);");
+    script.append("const component = document.querySelector").append("(`[bbj-component='").append(getUUID())
+        .append("']`);");
     script.append("  if (component) {");
     // set or get property
     if (method == "this") {
@@ -909,6 +1295,10 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param htmlContainerJavascriptEvent
    */
   private void handleJavascriptEvents(HtmlContainerJavascriptEvent htmlContainerJavascriptEvent) {
+    if (isDestroyed()) {
+      return;
+    }
+
     Map<String, String> eventMap = htmlContainerJavascriptEvent.getEventMap();
     // the name of the server side event
     String type = (String) eventMap.get("type");
@@ -944,6 +1334,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
     Constructor<?>[] constructors = eventClass.getDeclaredConstructors();
     for (Constructor<?> constructor : constructors) {
       Class<?>[] parameterTypes = constructor.getParameterTypes();
+
+      // is not inner class
       if (parameterTypes.length == 2 &&
           WebComponent.class.isAssignableFrom(parameterTypes[0]) &&
           parameterTypes[1] == Map.class) {
@@ -958,6 +1350,38 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
     }
 
     return event;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void destroy() {
+    if (isDestroyed()) {
+      return;
+    }
+
+    getHtmlContainer().destroy();
+    properties.clear();
+    attributes.clear();
+    asyncScripts.clear();
+    registeredClientEvents.clear();
+    clientEventMap.clear();
+    slots.clear();
+    rawSlots.clear();
+    eventDispatcher.removeAllListeners();
+
+    super.destroy();
+  }
+
+  /**
+   * Assert that the web component is not destroyed
+   */
+  private void assertNotDestroyed() {
+    if (isDestroyed()) {
+      throw new DwcControlDestroyed(
+          String.format("WebComponent %s [id=%s] is destroyed", getComponentTagName(), getUUID()));
+    }
   }
 
   /**
