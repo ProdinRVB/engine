@@ -1,12 +1,9 @@
 package org.demo;
 
-import org.demo.shoelace.badge.SlBadge;
-import org.demo.shoelace.breadcrumb.BreadcrumbItem;
-import org.demo.shoelace.breadcrumb.SlBreadcrumb;
 import org.demo.shoelace.button.SlButton;
 import org.demo.shoelace.button.events.SlButtonClickEvent;
-import org.demo.shoelace.checkbox.SlCheckbox;
-import org.demo.shoelace.checkbox.events.SlCheckboxChangeEvent;
+import org.demo.shoelace.input.SlInput;
+import org.demo.shoelace.input.events.SlInputModifiedEvent;
 import org.dwcj.App;
 import org.dwcj.annotations.Attribute;
 import org.dwcj.annotations.InlineStyleSheet;
@@ -37,20 +34,21 @@ public class Playground extends App {
     AppPanel panel = new AppPanel();
     panel.addClassName("app-panel");
 
-    SlCheckbox checkbox = new SlCheckbox("Checkbox");
-    checkbox.addChangeListener((SlCheckboxChangeEvent event) -> {
-      App.consoleLog(event.isChecked() ? "Checked" : "Unchecked");
+    SlInput input = new SlInput();
+    input.setPlaceholder("username ...");
+    input.setPrefix("<sl-icon name='house'></sl-icon>");
+    input.setHelpText("this is a message");
+    input.addModifiedListener((SlInputModifiedEvent event) -> {
+      App.consoleLog("Input changed: " + event.getValue());
     });
-
-    panel.add(checkbox);
 
     SlButton button = new SlButton("Button");
     button.addClickListener((SlButtonClickEvent event) -> {
-      checkbox.click();
-      App.consoleLog(checkbox.isChecked() ? "Checked 21" : "Unchecked 21");
+      input.focus();
+      input.setSelectionRange(0,3);
     });
 
-    panel.add(button);
+    panel.add(input,button);
   }
 
 }

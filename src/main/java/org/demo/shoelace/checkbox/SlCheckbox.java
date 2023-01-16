@@ -1,5 +1,6 @@
 package org.demo.shoelace.checkbox;
 
+import org.demo.shoelace.SlSize;
 import org.demo.shoelace.SlComponent;
 import org.demo.shoelace.checkbox.events.SlCheckboxBlurEvent;
 import org.demo.shoelace.checkbox.events.SlCheckboxChangeEvent;
@@ -11,43 +12,20 @@ import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;
 import org.dwcj.webcomponent.events.EventListener;
 
+/**
+ * A breadcrumb component.
+ * 
+ * @see <a href="https://shoelace.style/components/breadcrumb">Shoelace - Breadcrumb</a>
+ * @author Hyyan Abo Fakher
+ * @since 1.0.0
+ */
 @NodeName("sl-checkbox")
 public final class SlCheckbox extends SlComponent<SlCheckbox> implements HasControlText {
-
-  /**
-   * The checkbox's size.
-   */
-  public enum Size {
-    SMALL("small"),
-    MEDIUM("medium"),
-    LARGE("large");
-
-    private final String value;
-
-    Size(String value) {
-      this.value = value;
-    }
-
-    /**
-     * @return the value
-     */
-    public String getValue() {
-      return value;
-    }
-
-    /**
-     * @param value the value as string
-     */
-    @Override
-    public String toString() {
-      return value;
-    }
-  }
 
   // Properties
   private static PropertyDescriptor<String> NAME = PropertyDescriptor.property("name", "");
   private static PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
-  private static PropertyDescriptor<Size> SIZE = PropertyDescriptor.property("size", Size.MEDIUM);
+  private static PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", SlSize.MEDIUM.getValue());
   private static PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
   private static PropertyDescriptor<Boolean> REQUIRED = PropertyDescriptor.property("required", false);
   private static PropertyDescriptor<Boolean> CHECKED = PropertyDescriptor.property("checked", false);
@@ -121,8 +99,8 @@ public final class SlCheckbox extends SlComponent<SlCheckbox> implements HasCont
    * @param size The checkbox's size.
    * @return the checkbox
    */
-  public SlCheckbox setSize(Size size) {
-    set(SIZE, size);
+  public SlCheckbox setSize(SlSize size) {
+    set(SIZE, size.getValue());
     return this;
   }
 
@@ -131,8 +109,8 @@ public final class SlCheckbox extends SlComponent<SlCheckbox> implements HasCont
    * 
    * @return The checkbox's size.
    */
-  public Size getSize() {
-    return get(SIZE);
+  public SlSize getSize() {
+    return SlSize.valueOf(get(SIZE));
   }
 
   /**

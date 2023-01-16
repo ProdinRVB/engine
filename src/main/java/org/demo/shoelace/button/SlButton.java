@@ -1,6 +1,7 @@
 package org.demo.shoelace.button;
 
 import org.demo.shoelace.SlComponent;
+import org.demo.shoelace.SlSize;
 import org.demo.shoelace.badge.SlBadge;
 import org.demo.shoelace.button.events.SlButtonBlurEvent;
 import org.demo.shoelace.button.events.SlButtonClickEvent;
@@ -48,36 +49,6 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
     private final String value;
 
     Variant(String value) {
-      this.value = value;
-    }
-
-    /**
-     * @return the value
-     */
-    public String getValue() {
-      return value;
-    }
-
-    /**
-     * @param value the value as string
-     */
-    @Override
-    public String toString() {
-      return value;
-    }
-  }
-
-  /**
-   * The button's size.
-   */
-  public enum Size {
-    SMALL("small"),
-    MEDIUM("medium"),
-    LARGE("large");
-
-    private final String value;
-
-    Size(String value) {
       this.value = value;
     }
 
@@ -195,7 +166,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
   // Properties
   private static PropertyDescriptor<String> VARIANT = PropertyDescriptor.property("variant",
       Variant.DEFAULT.getValue());
-  private static PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", Size.MEDIUM.getValue());
+  private static PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", SlSize.MEDIUM.getValue());
   private static PropertyDescriptor<Boolean> CARET = PropertyDescriptor.property("caret", false);
   private static PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
   private static PropertyDescriptor<Boolean> LOADING = PropertyDescriptor.property("loading", false);
@@ -263,9 +234,9 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * 
    * @param size
    * @return the button
-   * @see Size
+   * @see SlSize
    */
-  public SlButton setSize(Size size) {
+  public SlButton setSize(SlSize size) {
     set(SIZE, size.getValue());
     return this;
   }
@@ -274,10 +245,10 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * Get the size of the button. Available sizes are: small, medium, and large.
    * 
    * @return the size
-   * @see Size
+   * @see SlSize
    */
-  public Size getSize() {
-    return Size.valueOf(get(SIZE));
+  public SlSize getSize() {
+    return SlSize.valueOf(get(SIZE));
   }
 
   /**
