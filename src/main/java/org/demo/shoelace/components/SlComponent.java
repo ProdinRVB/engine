@@ -1,4 +1,4 @@
-package org.demo.shoelace;
+package org.demo.shoelace.components;
 
 import org.dwcj.annotations.InlineStyleSheet;
 import org.dwcj.webcomponent.WebComponent;

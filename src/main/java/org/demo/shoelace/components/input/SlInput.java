@@ -1,12 +1,12 @@
-package org.demo.shoelace.input;
+package org.demo.shoelace.components.input;
 
-import org.demo.shoelace.SlComponent;
-import org.demo.shoelace.SlSize;
-import org.demo.shoelace.input.events.SlInputBlurEvent;
-import org.demo.shoelace.input.events.SlInputChangeEvent;
-import org.demo.shoelace.input.events.SlInputClearEvent;
-import org.demo.shoelace.input.events.SlInputFocusEvent;
-import org.demo.shoelace.input.events.SlInputModifiedEvent;
+import org.demo.shoelace.components.SlComponent;
+import org.demo.shoelace.components.input.events.SlInputBlurEvent;
+import org.demo.shoelace.components.input.events.SlInputChangeEvent;
+import org.demo.shoelace.components.input.events.SlInputClearEvent;
+import org.demo.shoelace.components.input.events.SlInputFocusEvent;
+import org.demo.shoelace.components.input.events.SlInputModifiedEvent;
+import org.demo.shoelace.enums.SlSize;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;
 import org.dwcj.webcomponent.events.EventListener;

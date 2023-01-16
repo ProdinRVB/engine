@@ -1,12 +1,12 @@
-package org.demo.shoelace.checkbox;
+package org.demo.shoelace.components.checkbox;
 
-import org.demo.shoelace.SlSize;
-import org.demo.shoelace.SlComponent;
-import org.demo.shoelace.checkbox.events.SlCheckboxBlurEvent;
-import org.demo.shoelace.checkbox.events.SlCheckboxChangeEvent;
-import org.demo.shoelace.checkbox.events.SlCheckboxClickEvent;
-import org.demo.shoelace.checkbox.events.SlCheckboxFocusEvent;
-import org.demo.shoelace.checkbox.events.SlCheckboxInputEvent;
+import org.demo.shoelace.components.SlComponent;
+import org.demo.shoelace.components.checkbox.events.SlCheckboxBlurEvent;
+import org.demo.shoelace.components.checkbox.events.SlCheckboxChangeEvent;
+import org.demo.shoelace.components.checkbox.events.SlCheckboxClickEvent;
+import org.demo.shoelace.components.checkbox.events.SlCheckboxFocusEvent;
+import org.demo.shoelace.components.checkbox.events.SlCheckboxInputEvent;
+import org.demo.shoelace.enums.SlSize;
 import org.dwcj.interfaces.HasControlText;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;

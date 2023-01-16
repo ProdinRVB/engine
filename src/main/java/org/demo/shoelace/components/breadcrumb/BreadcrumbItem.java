@@ -1,7 +1,9 @@
-package org.demo.shoelace.breadcrumb;
+package org.demo.shoelace.components.breadcrumb;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+
+import org.demo.shoelace.enums.SlTarget;
 
 /**
  * A breadcrumb item.
@@ -10,40 +12,9 @@ import java.beans.PropertyChangeSupport;
  */
 public final class BreadcrumbItem {
 
-    /**
-   * Tells the browser where to open the link.
-   */
-  public enum Target {
-    BLANK("_blank"),
-    PARENT("_parent"),
-    SELF("_self"),
-    TOP("_top");
-
-    private final String value;
-
-    Target(String value) {
-      this.value = value;
-    }
-
-    /**
-     * @return the value
-     */
-    public String getValue() {
-      return value;
-    }
-
-    /**
-     * @param value the value as string
-     */
-    @Override
-    public String toString() {
-      return value;
-    }
-  }
-
   private String text = "";
   private String href = "";
-  private Target target = Target.SELF;
+  private SlTarget target = SlTarget.SELF;
   private String rel = "noreferrer noopener";
   private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
@@ -74,7 +45,7 @@ public final class BreadcrumbItem {
    * @param href the href to use
    * @param target the target to use
    */
-  public BreadcrumbItem(String text, String href, Target target) {
+  public BreadcrumbItem(String text, String href, SlTarget target) {
     this.setText(text);
     this.setHref(href);
     this.setTarget(target);
@@ -88,7 +59,7 @@ public final class BreadcrumbItem {
    * @param target the target to use
    * @param rel the rel to use
    */
-  public BreadcrumbItem(String text, String href, Target target, String rel) {
+  public BreadcrumbItem(String text, String href, SlTarget target, String rel) {
     this.setText(text);
     this.setHref(href);
     this.setTarget(target);
@@ -178,8 +149,8 @@ public final class BreadcrumbItem {
    * @param target the target
    * @return the breadcrumb item
    */
-  public BreadcrumbItem setTarget(Target target) {
-    Target oldValue = this.target;
+  public BreadcrumbItem setTarget(SlTarget target) {
+    SlTarget oldValue = this.target;
     this.target = target;
     pcs.firePropertyChange("target", oldValue, target);
 
@@ -191,7 +162,7 @@ public final class BreadcrumbItem {
    * 
    * @return the target
    */
-  public Target getTarget() {
+  public SlTarget getTarget() {
     return target;
   }
 

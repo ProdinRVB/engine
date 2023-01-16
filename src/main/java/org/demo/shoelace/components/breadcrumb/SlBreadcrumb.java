@@ -1,11 +1,11 @@
-package org.demo.shoelace.breadcrumb;
+package org.demo.shoelace.components.breadcrumb;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.demo.shoelace.SlComponent;
+import org.demo.shoelace.components.SlComponent;
 import org.dwcj.interfaces.HasControlText;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;

@@ -1,11 +1,12 @@
-package org.demo.shoelace.button;
+package org.demo.shoelace.components.button;
 
-import org.demo.shoelace.SlComponent;
-import org.demo.shoelace.SlSize;
-import org.demo.shoelace.badge.SlBadge;
-import org.demo.shoelace.button.events.SlButtonBlurEvent;
-import org.demo.shoelace.button.events.SlButtonClickEvent;
-import org.demo.shoelace.button.events.SlButtonFocusEvent;
+import org.demo.shoelace.components.badge.SlBadge;
+import org.demo.shoelace.components.button.events.SlButtonBlurEvent;
+import org.demo.shoelace.components.button.events.SlButtonClickEvent;
+import org.demo.shoelace.components.button.events.SlButtonFocusEvent;
+import org.demo.shoelace.enums.SlSize;
+import org.demo.shoelace.enums.SlTarget;
+import org.demo.shoelace.components.SlComponent;
 import org.dwcj.annotations.InlineStyleSheet;
 import org.dwcj.interfaces.HasControlText;
 import org.dwcj.webcomponent.PropertyDescriptor;
@@ -79,37 +80,6 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
     private final String value;
 
     Type(String value) {
-      this.value = value;
-    }
-
-    /**
-     * @return the value
-     */
-    public String getValue() {
-      return value;
-    }
-
-    /**
-     * @param value the value as string
-     */
-    @Override
-    public String toString() {
-      return value;
-    }
-  }
-
-  /**
-   * Tells the browser where to open the link.
-   */
-  public enum Target {
-    BLANK("_blank"),
-    PARENT("_parent"),
-    SELF("_self"),
-    TOP("_top");
-
-    private final String value;
-
-    Target(String value) {
       this.value = value;
     }
 
@@ -478,9 +448,10 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * 
    * @param target
    * @return the button
+   * @see SlTarget
    */
-  public SlButton setTarget(String target) {
-    set(TARGET, target);
+  public SlButton setTarget(SlTarget target) {
+    set(TARGET, target.getValue());
     return this;
   }
 
@@ -488,11 +459,12 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * Get the target of the button.
    * 
    * @return the target
+   * @see SlTarget
    */
-  public String getTarget() {
-    return get(TARGET);
+  public SlTarget getTarget() {
+    return SlTarget.valueOf(get(TARGET));
   }
-
+  
   /**
    * Set the download of the button.
    * 

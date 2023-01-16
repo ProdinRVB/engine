@@ -1,9 +1,9 @@
 package org.demo;
 
-import org.demo.shoelace.button.SlButton;
-import org.demo.shoelace.button.events.SlButtonClickEvent;
-import org.demo.shoelace.input.SlInput;
-import org.demo.shoelace.input.events.SlInputModifiedEvent;
+import org.demo.shoelace.components.button.SlButton;
+import org.demo.shoelace.components.button.events.SlButtonClickEvent;
+import org.demo.shoelace.components.input.SlInput;
+import org.demo.shoelace.components.input.events.SlInputModifiedEvent;
 import org.dwcj.App;
 import org.dwcj.annotations.Attribute;
 import org.dwcj.annotations.InlineStyleSheet;

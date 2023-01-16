@@ -1,4 +1,4 @@
-package org.demo.shoelace;
+package org.demo.shoelace.enums;
 
 /**
  * The components available sizes

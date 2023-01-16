@@ -1,9 +1,9 @@
-package org.demo.shoelace.input.events;
+package org.demo.shoelace.components.checkbox.events;
 
 import java.util.Map;
 
 import org.dwcj.webcomponent.events.Event;
-import org.demo.shoelace.input.SlInput;
+import org.demo.shoelace.components.checkbox.SlCheckbox;
 
 /**
  * The checkbox focus event.
@@ -12,13 +12,13 @@ import org.demo.shoelace.input.SlInput;
  * 
  * @author Hyyan Abo Fakher
  */
-public class SlInputFocusEvent extends Event<SlInput> {
+public class SlCheckboxFocusEvent extends Event<SlCheckbox> {
 
   /**
    * @param control  the control
    * @param eventMap the event map
    */
-  public SlInputFocusEvent(SlInput control, Map<String, Object> eventMap) {
+  public SlCheckboxFocusEvent(SlCheckbox control, Map<String, Object> eventMap) {
     super(control, eventMap);
   }
 }

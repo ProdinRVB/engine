@@ -1,6 +1,6 @@
-package org.demo.shoelace.badge;
+package org.demo.shoelace.components.badge;
 
-import org.demo.shoelace.SlComponent;
+import org.demo.shoelace.components.SlComponent;
 import org.dwcj.interfaces.HasControlText;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;

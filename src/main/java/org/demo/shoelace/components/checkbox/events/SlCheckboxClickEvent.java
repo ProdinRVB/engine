@@ -1,8 +1,8 @@
-package org.demo.shoelace.checkbox.events;
+package org.demo.shoelace.components.checkbox.events;
 
 import java.util.Map;
 
-import org.demo.shoelace.checkbox.SlCheckbox;
+import org.demo.shoelace.components.checkbox.SlCheckbox;
 
 /**
  * The checkbox click event.

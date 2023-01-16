@@ -1,9 +1,9 @@
-package org.demo.shoelace.button.events;
+package org.demo.shoelace.components.button.events;
 
 import java.util.Map;
 
 import org.dwcj.webcomponent.events.Event;
-import org.demo.shoelace.button.SlButton;
+import org.demo.shoelace.components.button.SlButton;
 
 /**
  * The button focus event.

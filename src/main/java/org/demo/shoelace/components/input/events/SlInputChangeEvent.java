@@ -1,7 +1,7 @@
-package org.demo.shoelace.input.events;
+package org.demo.shoelace.components.input.events;
 
 import java.util.Map;
-import org.demo.shoelace.input.SlInput;
+import org.demo.shoelace.components.input.SlInput;
 
 /**
  * The checkbox focus event.

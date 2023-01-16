@@ -1,9 +1,9 @@
-package org.demo.shoelace.checkbox.events;
+package org.demo.shoelace.components.checkbox.events;
 
 import java.util.Map;
 
 import org.dwcj.webcomponent.events.Event;
-import org.demo.shoelace.checkbox.SlCheckbox;
+import org.demo.shoelace.components.checkbox.SlCheckbox;
 
 /**
  * The checkbox focus event.
