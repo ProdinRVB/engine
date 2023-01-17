@@ -1,5 +1,7 @@
 package org.demo;
 
+import org.demo.shoelace.components.alert.SlAlert;
+import org.demo.shoelace.components.alert.events.SlAlertCloseEvent;
 import org.demo.shoelace.components.button.SlButton;
 import org.demo.shoelace.components.button.events.SlButtonClickEvent;
 import org.demo.shoelace.components.dialog.SlDialog;
@@ -42,45 +44,19 @@ public class Playground extends App {
     AppPanel panel = new AppPanel();
     panel.addClassName("app-panel");
 
-    // SlInput input = new SlInput();
-    // input.setPlaceholder("username ...");
-    // input.setPrefix("<sl-icon name='house'></sl-icon>");
-    // input.setHelpText("this is a message");
-    // input.addChangeListener((SlInputChangeEvent event) -> {
-    // App.consoleLog("Input changed: " + event.getValue());
-    // });
-
-    // SlRadioGroup radioGroup = new SlRadioGroup("Select an option", "Choose the
-    // most appropriate option.");
-    // SlRadioButton r1 = new SlRadioButton("Option 1", "option1");
-    // SlRadioButton r2 = new SlRadioButton("Option 2", "option2");
-    // SlRadioButton r3 = new SlRadioButton("Option 3", "option3");
-    // radioGroup.add(r1, r2, r3);
-
-    SlDialog dialog = new SlDialog("Dialog");
-    SlButton close = new SlButton("Close");
-
-    close.addClickListener((SlButtonClickEvent event) -> {
-      dialog.close();
-      // App.msgbox("Dialog closed");
-    });
-
-    SlInput input = new SlInput();
-    input.setPlaceholder("I will have focus when the dialog is opened");
-    input.setAutoFocus(true);
-
-    dialog.getContent().add(input);
-    dialog.getFooter().add(close);
-    dialog.addCloseListener((SlDialogCloseEvent event) -> {
-      App.consoleLog("Dialog closed");
+    SlAlert alert = new SlAlert("Hello World");
+    alert.setClosable(true);
+    alert.setDuration(3000);
+    alert.addCloseListener((SlAlertCloseEvent event) -> {
+      alert.destroy();
     });
 
     SlButton button = new SlButton("Button");
     button.addClickListener((SlButtonClickEvent event) -> {
-      dialog.open();
+      alert.toast();
     });
 
-    panel.add(button, dialog);
+    panel.add(button, alert);
   }
 
 }

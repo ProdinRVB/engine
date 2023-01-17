@@ -9,6 +9,13 @@ import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;
 import org.dwcj.webcomponent.events.EventListener;
 
+/**
+ * The dialog component.
+ * 
+ * @see <a href="https://shoelace.style/components/dialog">Shoelace Dialog</a>
+ * @author Hyyan Abo Fakher
+ * @since 1.0.0
+ */
 @NodeName("sl-dialog")
 public class SlDialog extends SlComponent<SlDialog> {
 
