@@ -2,6 +2,7 @@ package org.demo;
 
 import org.demo.shoelace.components.alert.SlAlert;
 import org.demo.shoelace.components.alert.events.SlAlertCloseEvent;
+import org.demo.shoelace.components.avatar.SlAvatar;
 import org.demo.shoelace.components.button.SlButton;
 import org.demo.shoelace.components.button.events.SlButtonClickEvent;
 import org.demo.shoelace.components.dialog.SlDialog;
@@ -44,21 +45,15 @@ public class Playground extends App {
     AppPanel panel = new AppPanel();
     panel.addClassName("app-panel");
 
-    SlAlert alert = new SlAlert("Hello World");
-    alert.setPrefix("<bbj-icon name='copy' pool='bbj'></bbj-icon>");
-    alert.setVariant(SlAlert.Variant.WARNING);
-    alert.setClosable(true);
-    alert.setDuration(3000);
-    alert.addCloseListener((SlAlertCloseEvent event) -> {
-      alert.destroy();
-    });
+   SlAvatar avatar = new SlAvatar("https://avatars.githubusercontent.com/u/1026325?v=4");
+    avatar.setSize("200px");
 
     SlButton button = new SlButton("Button");
     button.addClickListener((SlButtonClickEvent event) -> {
-      alert.toast();
+      // alert.toast();
     });
 
-    panel.add(button, alert);
+    panel.add(button, avatar);
   }
 
 }
