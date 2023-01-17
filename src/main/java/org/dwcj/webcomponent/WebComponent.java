@@ -30,7 +30,6 @@ import org.dwcj.webcomponent.annotations.NodeAttribute;
 import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
 import org.dwcj.webcomponent.annotations.NodeName;
-import org.dwcj.webcomponent.events.Configurator;
 import org.dwcj.webcomponent.events.Event;
 import org.dwcj.webcomponent.events.EventDispatcher;
 import org.dwcj.webcomponent.events.EventListener;
