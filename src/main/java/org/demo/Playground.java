@@ -2,6 +2,8 @@ package org.demo;
 
 import org.demo.shoelace.components.button.SlButton;
 import org.demo.shoelace.components.button.events.SlButtonClickEvent;
+import org.demo.shoelace.components.dialog.SlDialog;
+import org.demo.shoelace.components.dialog.events.SlDialogCloseEvent;
 import org.demo.shoelace.components.input.SlInput;
 import org.demo.shoelace.components.input.events.SlInputChangeEvent;
 import org.demo.shoelace.components.input.events.SlInputModifiedEvent;
@@ -14,6 +16,7 @@ import org.dwcj.annotations.Attribute;
 import org.dwcj.annotations.InlineStyleSheet;
 import org.dwcj.annotations.JavaScript;
 import org.dwcj.annotations.StyleSheet;
+import org.dwcj.controls.label.Label;
 import org.dwcj.controls.panels.AppPanel;
 import org.dwcj.exceptions.DwcException;
 
@@ -47,24 +50,37 @@ public class Playground extends App {
     // App.consoleLog("Input changed: " + event.getValue());
     // });
 
-    SlRadioGroup radioGroup = new SlRadioGroup("Select an option", "Choose the most appropriate option.");
-    SlRadioButton r1 = new SlRadioButton("Option 1", "option1");
-    SlRadioButton r2 = new SlRadioButton("Option 2", "option2");
-    SlRadioButton r3 = new SlRadioButton("Option 3", "option3");
-    radioGroup.add(r1, r2, r3);
-    
+    // SlRadioGroup radioGroup = new SlRadioGroup("Select an option", "Choose the
+    // most appropriate option.");
+    // SlRadioButton r1 = new SlRadioButton("Option 1", "option1");
+    // SlRadioButton r2 = new SlRadioButton("Option 2", "option2");
+    // SlRadioButton r3 = new SlRadioButton("Option 3", "option3");
+    // radioGroup.add(r1, r2, r3);
 
-    radioGroup.addChangeListener((SlRadioGroupChangeEvent event) -> {
-      App.consoleLog("Radio group changed: " + event.getValue());
+    SlDialog dialog = new SlDialog("Dialog");
+    SlButton close = new SlButton("Close");
+
+    close.addClickListener((SlButtonClickEvent event) -> {
+      dialog.close();
+      // App.msgbox("Dialog closed");
+    });
+
+    SlInput input = new SlInput();
+    input.setPlaceholder("I will have focus when the dialog is opened");
+    input.setAutoFocus(true);
+
+    dialog.getContent().add(input);
+    dialog.getFooter().add(close);
+    dialog.addCloseListener((SlDialogCloseEvent event) -> {
+      App.consoleLog("Dialog closed");
     });
 
     SlButton button = new SlButton("Button");
     button.addClickListener((SlButtonClickEvent event) -> {
-      radioGroup.remove(r1);
-      radioGroup.setValue("option2");
+      dialog.open();
     });
 
-    panel.add(radioGroup, button , new SlRadio("Radio Button") , new SlButton("Radio Button") );
+    panel.add(button, dialog);
   }
 
 }

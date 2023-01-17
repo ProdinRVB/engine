@@ -13,8 +13,16 @@ import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;
 import org.dwcj.webcomponent.events.EventListener;
 
+/**
+ * A radio group component.
+ * 
+ * @see <a href="https://shoelace.style/components/radio-group">Shoelace - Radio
+ *      Group</a>
+ * @author Hyyan Abo Fakher
+ * @since 1.0.0
+ */
 @NodeName("sl-radio-group")
-public class SlRadioGroup extends SlComponent<SlRadioGroup> {
+public final class SlRadioGroup extends SlComponent<SlRadioGroup> {
 
   private final Map<AbstractControl, String> controls = new HashMap<>();
 
