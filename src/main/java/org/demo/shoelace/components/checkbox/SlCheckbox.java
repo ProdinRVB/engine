@@ -15,7 +15,8 @@ import org.dwcj.webcomponent.events.EventListener;
 /**
  * A breadcrumb component.
  * 
- * @see <a href="https://shoelace.style/components/breadcrumb">Shoelace - Breadcrumb</a>
+ * @see <a href="https://shoelace.style/components/breadcrumb">Shoelace -
+ *      Breadcrumb</a>
  * @author Hyyan Abo Fakher
  * @since 1.0.0
  */
@@ -309,8 +310,7 @@ public final class SlCheckbox extends SlComponent<SlCheckbox> implements HasCont
    * @return the checkbox
    */
   public SlCheckbox addClickListener(EventListener<SlCheckboxClickEvent> listener) {
-    String eventDataBuilder = "event.detail.checked = event.target.checked;";
-    addEventListener("click", SlCheckboxClickEvent.class, listener, "", eventDataBuilder);
+    addEventListener(SlCheckboxClickEvent.class, listener);
     return this;
   }
 
@@ -321,7 +321,7 @@ public final class SlCheckbox extends SlComponent<SlCheckbox> implements HasCont
    * @return the checkbox
    */
   public SlCheckbox removeClickListener(EventListener<SlCheckboxClickEvent> listener) {
-    removeEventListener("click", SlCheckboxClickEvent.class, listener);
+    removeEventListener(SlCheckboxClickEvent.class, listener);
     return this;
   }
 
@@ -332,7 +332,7 @@ public final class SlCheckbox extends SlComponent<SlCheckbox> implements HasCont
    * @return the checkbox
    */
   public SlCheckbox addFocusListener(EventListener<SlCheckboxFocusEvent> listener) {
-    addEventListener("focus", SlCheckboxFocusEvent.class, listener);
+    addEventListener(SlCheckboxFocusEvent.class, listener);
     return this;
   }
 
@@ -343,7 +343,7 @@ public final class SlCheckbox extends SlComponent<SlCheckbox> implements HasCont
    * @return the checkbox
    */
   public SlCheckbox removeFocusListener(EventListener<SlCheckboxFocusEvent> listener) {
-    removeEventListener("focus", SlCheckboxFocusEvent.class, listener);
+    removeEventListener(SlCheckboxFocusEvent.class, listener);
     return this;
   }
 
@@ -354,7 +354,7 @@ public final class SlCheckbox extends SlComponent<SlCheckbox> implements HasCont
    * @return the checkbox
    */
   public SlCheckbox addBlurListener(EventListener<SlCheckboxBlurEvent> listener) {
-    addEventListener("blur", SlCheckboxBlurEvent.class, listener);
+    addEventListener(SlCheckboxBlurEvent.class, listener);
     return this;
   }
 
@@ -365,7 +365,7 @@ public final class SlCheckbox extends SlComponent<SlCheckbox> implements HasCont
    * @return the checkbox
    */
   public SlCheckbox removeBlurListener(EventListener<SlCheckboxBlurEvent> listener) {
-    removeEventListener("blur", SlCheckboxBlurEvent.class, listener);
+    removeEventListener(SlCheckboxBlurEvent.class, listener);
     return this;
   }
 
@@ -376,8 +376,7 @@ public final class SlCheckbox extends SlComponent<SlCheckbox> implements HasCont
    * @return the checkbox
    */
   public SlCheckbox addChangeListener(EventListener<SlCheckboxChangeEvent> listener) {
-    String eventDataBuilder = "event.detail.checked = event.target.checked;";
-    addEventListener("sl-change", SlCheckboxChangeEvent.class, listener, "", eventDataBuilder);
+    addEventListener(SlCheckboxChangeEvent.class, listener);
     return this;
   }
 
@@ -388,7 +387,7 @@ public final class SlCheckbox extends SlComponent<SlCheckbox> implements HasCont
    * @return the checkbox
    */
   public SlCheckbox removeChangeListener(EventListener<SlCheckboxChangeEvent> listener) {
-    removeEventListener("sl-change", SlCheckboxChangeEvent.class, listener);
+    removeEventListener(SlCheckboxChangeEvent.class, listener);
     return this;
   }
 
@@ -399,8 +398,7 @@ public final class SlCheckbox extends SlComponent<SlCheckbox> implements HasCont
    * @return the checkbox
    */
   public SlCheckbox addInputListener(EventListener<SlCheckboxInputEvent> listener) {
-    String eventDataBuilder = "event.detail.checked = event.target.checked;";
-    addEventListener("sl-input", SlCheckboxInputEvent.class, listener, "", eventDataBuilder);
+    addEventListener(SlCheckboxInputEvent.class, listener);
     return this;
   }
 
@@ -411,7 +409,7 @@ public final class SlCheckbox extends SlComponent<SlCheckbox> implements HasCont
    * @return the checkbox
    */
   public SlCheckbox removeInputListener(EventListener<SlCheckboxInputEvent> listener) {
-    removeEventListener("sl-input", SlCheckboxInputEvent.class, listener);
+    removeEventListener(SlCheckboxInputEvent.class, listener);
     return this;
   }
 }

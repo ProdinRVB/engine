@@ -778,7 +778,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * @return the button
    */
   public SlButton addClickListener(EventListener<SlButtonClickEvent> listener) {
-    addEventListener("click", SlButtonClickEvent.class, listener);
+    addEventListener(SlButtonClickEvent.class, listener);
     return this;
   }
 
@@ -789,7 +789,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * @return the button
    */
   public SlButton removeClickListener(EventListener<SlButtonClickEvent> listener) {
-    removeEventListener("click", SlButtonClickEvent.class, listener);
+    removeEventListener(SlButtonClickEvent.class, listener);
     return this;
   }
 
@@ -800,7 +800,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * @return the button
    */
   public SlButton addFocusListener(EventListener<SlButtonFocusEvent> listener) {
-    addEventListener("sl-focus", SlButtonFocusEvent.class, listener);
+    addEventListener(SlButtonFocusEvent.class, listener);
     return this;
   }
 
@@ -811,7 +811,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * @return the button
    */
   public SlButton removeFocusListener(EventListener<SlButtonFocusEvent> listener) {
-    removeEventListener("sl-focus", SlButtonFocusEvent.class, listener);
+    removeEventListener(SlButtonFocusEvent.class, listener);
     return this;
   }
 
@@ -822,7 +822,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * @return the button
    */
   public SlButton addBlurListener(EventListener<SlButtonBlurEvent> listener) {
-    addEventListener("sl-blur", SlButtonBlurEvent.class, listener);
+    addEventListener(SlButtonBlurEvent.class, listener);
     return this;
   }
 
@@ -833,7 +833,7 @@ public final class SlButton extends SlComponent<SlButton> implements HasControlT
    * @return the button
    */
   public SlButton removeBlurListener(EventListener<SlButtonBlurEvent> listener) {
-    removeEventListener("sl-blur", SlButtonBlurEvent.class, listener);
+    removeEventListener(SlButtonBlurEvent.class, listener);
     return this;
   }
 }

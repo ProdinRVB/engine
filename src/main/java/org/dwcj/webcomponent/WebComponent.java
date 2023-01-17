@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
+import java.util.function.Function;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,8 +25,12 @@ import org.dwcj.controls.htmlcontainer.HtmlContainer;
 import org.dwcj.controls.htmlcontainer.events.HtmlContainerJavascriptEvent;
 import org.dwcj.controls.panels.AbstractDwcjPanel;
 import org.dwcj.exceptions.DwcControlDestroyed;
+import org.dwcj.exceptions.DwcRuntimeException;
 import org.dwcj.webcomponent.annotations.NodeAttribute;
+import org.dwcj.webcomponent.annotations.EventExpressions;
+import org.dwcj.webcomponent.annotations.EventName;
 import org.dwcj.webcomponent.annotations.NodeName;
+import org.dwcj.webcomponent.events.Configurator;
 import org.dwcj.webcomponent.events.Event;
 import org.dwcj.webcomponent.events.EventDispatcher;
 import org.dwcj.webcomponent.events.EventListener;
@@ -44,13 +49,6 @@ import org.dwcj.webcomponent.events.EventListener;
  * @author Hyyan Abo Fakher
  */
 public abstract class WebComponent<T extends WebComponent<T>> extends AbstractControl {
-  /**
-   * The filter to check if the event target is the same node
-   * as the component node.
-   * 
-   * @see #addEventListener(String, EventListener, String, String)
-   */
-  protected static final String FILTER_SAME_NODE = "event.target.isSameNode(component)";
   private final HtmlContainer hv;
   private final String uuid = UUID.randomUUID().toString().substring(0, 8);
   private final Map<String, Object> properties = new HashMap<>();
@@ -61,7 +59,14 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
   private final Map<String, String> rawSlots = new HashMap<>();
   private final Map<String, Entry<AbstractDwcjPanel, Boolean>> slots = new HashMap<>();
   private final Map<AbstractControl, Entry<String, Boolean>> controls = new HashMap<>();
-  private EventDispatcher eventDispatcher;
+  private final EventDispatcher dispatcher = new EventDispatcher();
+  private final Function<String, String> wrap = (body) -> {
+    if (!body.contains("return")) {
+      body = "return " + body;
+    }
+
+    return body;
+  };
   private AbstractDwcjPanel panel;
 
   /**
@@ -70,7 +75,6 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
   public WebComponent() {
     super();
 
-    eventDispatcher = new EventDispatcher();
     hv = new HtmlContainer("");
     hv.setAttribute("bbj-hv", getUUID());
     hv.setAttribute("bbj-remove", "true");
@@ -144,25 +148,12 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
   }
 
   /**
-   * Get the tag name of the web component
-   * 
-   * @return the tag name of the web component
-   */
-  protected String getComponentTagName() {
-    if (getClass().isAnnotationPresent(NodeName.class)) {
-      return getClass().getAnnotation(NodeName.class).value();
-    } else {
-      throw new RuntimeException("The web component class must be annotated with @WebComponentTag");
-    }
-  }
-
-  /**
    * Get the event dispatcher
    * 
    * @return the event dispatcher
    */
   protected EventDispatcher getEventDispatcher() {
-    return eventDispatcher;
+    return dispatcher;
   }
 
   /**
@@ -179,10 +170,29 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
   }
 
   /**
+   * Get the tag name of the web component
+   * 
+   * @return the tag name of the web component
+   * @throws DwcRuntimeException if the web component class is not annotated
+   *                             with @NodeName
+   */
+  protected String getComponentTagName() {
+    if (getClass().isAnnotationPresent(NodeName.class)) {
+      return getClass().getAnnotation(NodeName.class).value();
+    } else {
+      throw new DwcRuntimeException(
+          "The web component class must be annotated with @NodeName");
+    }
+  }
+
+  /**
    * Get the default html view of the web component
    * 
    * @return the default html view of the web component or empty string if the web
    *         component is destroyed
+   * 
+   * @throws DwcRuntimeException if the web component class is not annotated
+   *                             with @NodeName
    */
   protected String getView() {
     if (isDestroyed()) {
@@ -201,8 +211,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
     attr.append(" bbj-component=\"").append(getUUID()).append("\"");
 
     StringBuilder view = new StringBuilder();
-    view.append("<").append(name).append(attr).append(">");
-    view.append("</").append(name).append(">");
+    view.append("<").append(name).append(attr).append(">")
+        .append("</").append(name).append(">");
 
     return view.toString();
   }
@@ -240,79 +250,139 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
   /**
    * Add an event listener
    * 
-   * @param <K>              the event class
-   * @param eventName        the event name as defined in the web component
-   * @param eventClass       the event class
-   * @param listener         the event listener
-   * @param isAccepted       the javascript function to filter the event in the
-   *                         client side
-   * @param eventDataBuilder the javascript function to build the event data in
-   *                         the client side
+   * @param <K>        the event class
+   * @param eventClass the event class
+   * @param listener   the event listener
    * 
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected <K extends Event<?>> T addEventListener(
-      String eventName,
       Class<K> eventClass,
-      EventListener<K> listener,
-      String isAccepted,
-      String eventDataBuilder) {
+      EventListener<K> listener) {
     assertNotDestroyed();
 
-    eventDispatcher.addEventListener(eventClass, listener);
+    String eventName = null;
+
+    if (eventClass.isAnnotationPresent(EventName.class)) {
+      eventName = eventClass.getAnnotation(EventName.class).value();
+    } else {
+      throw new DwcRuntimeException(
+          "The event class must be annotated with @NodeEvent");
+    }
+
+    dispatcher.addEventListener(eventClass, listener);
     clientEventMap.put(eventName, eventClass);
 
+    // register the event on the client side
     if (!registeredClientEvents.contains(eventName)) {
       StringBuilder js = new StringBuilder();
-      js.append("new Function('event', `");
-      js.append("const hv = document.querySelector('[bbj-hv=\"").append(getUUID())
-          .append("\"]');");
-      js.append("const component = hv.querySelector('[bbj-component=\"").append(getUUID())
-          .append("\"]');");
-      js.append("if(!hv || !hv.basisDispatchCustomEvent) return;");
+      js.append("new Function('event', `")
+          .append("const hv = document.querySelector('[bbj-hv=\"").append(getUUID()).append("\"]');")
+          .append("const component = hv.querySelector('[bbj-component=\"").append(getUUID()).append("\"]');")
+          .append("if(!hv || !hv.basisDispatchCustomEvent) return;")
 
-      // apply a filter if one is provided to the event listener
-      if (isAccepted != null && !isAccepted.isEmpty()) {
-        String body = isAccepted;
-        if (!body.contains("return")) {
-          body = "return " + body;
-        }
+          .append("let isPreventDefault = false;")
+          .append("let isStopPropagation = false;")
+          .append("let isStopImmediatePropagation = false;")
+          .append("let isAccepted = true;");
 
-        js.append("const filterFunc = new Function('event', 'component','hv', \\`").append(body)
-            .append("\\`);");
-        js.append("if(!filterFunc(event, component, hv)) return;");
+      String filter = null;
+      String detail = null;
+      String preventDefault = null;
+      String stopPropagation = null;
+      String stopImmediatePropagation = null;
+
+      if (eventClass.isAnnotationPresent(EventExpressions.class)) {
+        EventExpressions eventConfig = eventClass.getAnnotation(EventExpressions.class);
+        filter = eventConfig.filter();
+        detail = eventConfig.detail();
+        preventDefault = eventConfig.preventDefault();
+        stopPropagation = eventConfig.stopPropagation();
+        stopImmediatePropagation = eventConfig.stopImmediatePropagation();
       }
 
-      // build the event data if one is provided to the event listener
-      if (eventDataBuilder != null && !eventDataBuilder.isEmpty()) {
-        String body = eventDataBuilder;
-        if (!body.contains("return")) {
-          body = "return " + body;
-        }
+      // apply prevent default if one is provided in the event listener config
+      if (preventDefault != null && !preventDefault.isEmpty()) {
+        js.append("const preventDefaultFunc = new Function('event', 'component','hv', \\`")
+            .append(wrap.apply(preventDefault))
+            .append("\\`);") // end of function
+            .append("if(preventDefaultFunc(event, component, hv)) {")
+            .append("event.preventDefault();")
+            .append("isPreventDefault = true;")
+            .append("}");
+      }
 
-        js.append("const eventDataBuilder = new Function('event', 'component','hv', \\`").append(body)
-            .append("\\`);");
-        js.append("const eventData = eventDataBuilder(event, component, hv);");
+      // apply stop propagation if one is provided in the event listener config
+      if (stopPropagation != null && !stopPropagation.isEmpty()) {
+        js.append("const stopPropagationFunc = new Function('event', 'component','hv', \\`")
+            .append(wrap.apply(stopPropagation))
+            .append("\\`);") // end of function
+            .append("if(stopPropagationFunc(event, component, hv)) {")
+            .append("event.stopPropagation();")
+            .append("isStopPropagation = true;")
+            .append("}");
+      }
+
+      // apply stop immediate propagation if one is provided in the event listener
+      // config
+      if (stopImmediatePropagation != null && !stopImmediatePropagation.isEmpty()) {
+        js.append("const stopImmediatePropagationFunc = new Function('event', 'component','hv', \\`")
+            .append(wrap.apply(stopImmediatePropagation))
+            .append("\\`);") // end of function
+            .append("if(stopImmediatePropagationFunc(event, component, hv)) {")
+            .append("event.stopImmediatePropagation();")
+            .append("isStopImmediatePropagation = true;")
+            .append("}");
+      }
+
+      // apply a filter if one is provided to the event listener config
+      if (filter != null && !filter.isEmpty()) {
+        js.append("const filterFunc = new Function('event', 'component','hv', \\`")
+            .append(wrap.apply(filter))
+            .append("\\`);") // end of function
+            .append("if(!filterFunc(event, component, hv)) {")
+            .append("isAccepted = false;")
+            .append("}");
+      }
+
+      js.append("if(!isAccepted) return;");
+
+      // apply a data builder if one is provided to the event listener config
+      if (detail != null && !detail.isEmpty()) {
+        js.append("const detailBuilder = new Function('event', 'component','hv', \\`")
+            .append(wrap.apply(detail))
+            .append("\\`);") // end of function
+            .append("const eventData = detailBuilder(event, component, hv);");
       }
 
       // stringifyEvent
-      js.append("const stringifyEvent = (e) => {");
-      js.append("const obj = {};");
-      js.append("for (let k in e) {");
-      js.append("obj[k] = e[k];");
-      js.append("}"); // end of for
-      js.append("return JSON.stringify(obj, (k, v) => {");
-      js.append("if (v instanceof Node) return v.nodeName;");
-      js.append("if (v instanceof Window) return 'Window';");
-      js.append("return v;");
-      js.append("}, ' ');");
-      js.append("};"); // end of stringifyEvent
-      js.append("hv.basisDispatchCustomEvent(hv, {type: '").append(eventName)
-          .append("', detail: JSON.parse(stringifyEvent(event))});");
-      js.append("`)"); // end of new Function
+      // this function is used to convert the event object to a JSON string
+      // it will also convert the event target to the node name
+      js.append("const stringifyEvent = (e) => {")
+          .append("const obj = {};")
+          .append("for (let k in e) {")
+          .append("obj[k] = e[k];")
+          .append("}") // end of for
+          .append("return JSON.stringify(obj, (k, v) => {")
+          .append("if (v instanceof Node) return v.nodeName;")
+          .append("if (v instanceof Window) return 'Window';")
+          .append("return v;")
+          .append("}, ' ');")
+          .append("};"); // end of stringifyEvent
 
-      invokeAsync("addEventListener", eventName, new JsRawParam(js.toString()));
+      // dispatch the event to the server
+      js.append("hv.basisDispatchCustomEvent(hv, {type: '")
+          .append(eventName)
+          .append("', detail: JSON.parse(stringifyEvent(event))});") // end basisDispatchCustomEvent call
+          .append("`)"); // end of new Function
+
+      // register the event listener in the client side
+      invokeAsync(
+          "addEventListener",
+          eventName,
+          new JsRawParam(js.toString()));
+
       registeredClientEvents.add(eventName);
     }
 
@@ -322,59 +392,19 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
   }
 
   /**
-   * Add an event listener
-   * 
-   * @param <K>        the event class
-   * @param eventName  the event name as defined in the web component
-   * @param eventClass the event class
-   * @param listener   the event listener
-   * @param isAccepted the javascript function to filter the event in the
-   *                   client side
-   * 
-   * @return the web component
-   * @throws DwcControlDestroyed if the web component is destroyed
-   */
-  protected <K extends Event<?>> T addEventListener(
-      String eventName,
-      Class<K> eventClass,
-      EventListener<K> listener,
-      String isAccepted) {
-    return addEventListener(eventName, eventClass, listener, isAccepted, null);
-  }
-
-  /**
-   * Add an event listener
-   * 
-   * @param <K>        the event class
-   * @param eventName  the event name as defined in the web component
-   * @param eventClass the event class
-   * @param listener   the event listener
-   * 
-   * @return the web component
-   * @throws DwcControlDestroyed if the web component is destroyed
-   */
-  protected <K extends Event<?>> T addEventListener(
-      String eventName,
-      Class<K> eventClass,
-      EventListener<K> listener) {
-    return addEventListener(eventName, eventClass, listener, null, null);
-  }
-
-  /**
    * Remove an event listener
    * 
    * @param <K>        the event class
-   * @param eventName  the event name as defined in the web component
    * @param eventClass the event class
    * @param listener   the event listener
    * 
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected <K extends Event<?>> T removeEventListener(String eventName, Class<K> eventClass,
+  protected <K extends Event<?>> T removeEventListener(Class<K> eventClass,
       EventListener<K> listener) {
     assertNotDestroyed();
-    eventDispatcher.removeEventListener(eventClass, listener);
+    dispatcher.removeEventListener(eventClass, listener);
 
     @SuppressWarnings("unchecked")
     T result = (T) this;
@@ -400,9 +430,11 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * 
    * @param control the control to add
    * @return the uuid of the control
-   * @throws DwcControlDestroyed if the web component is destroyed
-   * @throws IllegalArgumentException if the control is null, the control is the web
-   *                                 component itself or the control is destroyed.
+   * @throws DwcControlDestroyed      if the web component is destroyed
+   * @throws IllegalArgumentException if the control is null, the control is the
+   *                                  web
+   *                                  component itself or the control is
+   *                                  destroyed.
    */
   protected String addControl(AbstractControl control) {
     assertNotDestroyed();
@@ -456,14 +488,14 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
     }
 
     // move the control to the web component in the client side
-    StringBuilder sb = new StringBuilder();
-    sb.append("const selector='[wc-link=\"").append(uuid).append("\"]';");
-    sb.append("const control = document.querySelector(selector);");
-    sb.append("if(control)");
-    sb.append(" component.appendChild(control);");
-    sb.append("return;"); // avoid auto wrapping
+    StringBuilder js = new StringBuilder();
+    js.append("const selector='[wc-link=\"").append(uuid).append("\"]';")
+        .append("const control = document.querySelector(selector);")
+        .append("if(control)")
+        .append(" component.appendChild(control);")
+        .append("return;"); // avoid auto wrapping
 
-    invokeAsync("Function", sb.toString());
+    invokeAsync("Function", js.toString());
 
     return uuid;
   }
@@ -542,28 +574,30 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
     }
 
     // add the slot to the DOM
-    // add the prefix to the button in the DOM
     StringBuilder js = new StringBuilder();
+
     // check if the component has a span node with bbj-${slot} attribute
-    js.append("var span = component.querySelector(\"" + selector + "\"); ");
-    // if the component has a span node with bbj-${slot} attribute
-    js.append("if (span) {");
-    // replace the text of the span node
-    js.append("span.innerHTML = \\`").append(value).append("\\`; ");
-    js.append("} else {");
-    // if the component does not have a span node with bbj-${slot} attribute
-    // create a new span node and append it to the component
-    js.append("span = document.createElement('span');");
-    js.append("span.setAttribute('bbj-slot', '" + getUUID() + "');");
+    js.append("var span = component.querySelector(\"" + selector + "\"); ")
+        // if the component has a span node with bbj-${slot} attribute
+        .append("if (span) {")
+        // replace the text of the span node
+        .append("span.innerHTML = \\`").append(value).append("\\`; ")
+        .append("} else {")
+        // if the component does not have a span node with bbj-${slot} attribute
+        // create a new span node and append it to the component
+        .append("span = document.createElement('span');")
+        .append("span.setAttribute('bbj-slot', '" + getUUID() + "');");
+
     if (slot.equals("__EMPTY_SLOT__")) {
       js.append("span.setAttribute('bbj-default-slot', 'true');");
     } else {
       js.append("span.setAttribute('slot', '" + slot + "');");
     }
-    js.append("span.innerHTML = \\`").append(value).append("\\`; ");
-    js.append("component.appendChild(span);");
-    js.append("}");
-    js.append("return '';"); // to avoid auto wrapping
+
+    js.append("span.innerHTML = \\`").append(value).append("\\`; ")
+        .append("component.appendChild(span);")
+        .append("}")
+        .append("return '';"); // to avoid auto wrapping
 
     invokeAsync("Function", js.toString());
 
@@ -602,13 +636,13 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
       // remove the slot from the DOM
       StringBuilder js = new StringBuilder();
       // check if the component has a span node with bbj-${slot} attribute
-      js.append("var span = component.querySelector(\"" + selector + "\"); ");
-      // if the component has a span node with bbj-${slot} attribute
-      js.append("if(span){");
-      // remove the span node
-      js.append("span.remove();");
-      js.append("}");
-      js.append("return '';"); // to avoid auto wrapping
+      js.append("var span = component.querySelector(\"" + selector + "\"); ")
+          // if the component has a span node with bbj-${slot} attribute
+          .append("if(span){")
+          // remove the span node
+          .append("span.remove();")
+          .append("}")
+          .append("return '';"); // to avoid auto wrapping
 
       invokeAsync("Function", js.toString());
     }
@@ -1229,61 +1263,64 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
     assertNotDestroyed();
 
     // TODO: Ask Jim to add support for async calls using executeScript
-    StringBuilder script = new StringBuilder();
-    script.append("(() => {");
-    script.append("const hv = document.querySelector(`[bbj-hv='").append(getUUID()).append("']`);");
-    script.append("const component = document.querySelector").append("(`[bbj-component='").append(getUUID())
-        .append("']`);");
-    script.append("  if (component) {");
+    StringBuilder js = new StringBuilder();
+    js.append("(() => {")
+        .append("const hv = document.querySelector(`[bbj-hv='").append(getUUID()).append("']`);")
+        .append("const component = document.querySelector").append("(`[bbj-component='").append(getUUID())
+        .append("']`);")
+        .append("  if (component) {");
+
     // set or get property
     if (method == "this") {
       int len = args.length;
       if (len == 1) {
         // get property
-        script.append("return component.").append(args[0]).append(";");
+        js.append("return component.").append(args[0]).append(";");
       } else if (len == 2) {
         // set property
-        script.append("component.").append(args[0]).append(" = ").append(new Gson().toJson(args[1])).append(";");
-        script.append("return null;");
+        js.append("component.").append(args[0]).append(" = ").append(new Gson().toJson(args[1])).append(";")
+            .append("return null;");
       }
     }
+
     // invoke a custom function
     else if (method == "Function") {
-      String body = (String) args[0];
-      if (!body.contains("return")) {
-        body = "return " + body;
-      }
-      script.append("return new Function('component','hv', `").append(body).append("`)(component);");
+      js.append("return new Function('component','hv', `")
+          .append(wrap.apply((String) args[0]))
+          .append("`)(component);");
     }
+
     // invoke a method on the component
     else {
-      // call method
-      script.append("return component.").append(method).append("(");
+      js.append("return component.").append(method).append("(");
+
+      // add arguments
       for (int i = 0; i < args.length; i++) {
         if (i > 0) {
-          script.append(", ");
+          js.append(", ");
         }
 
         if (args[i] instanceof WebComponent.JsRawParam) {
-          script.append(String.valueOf(args[i]));
+          js.append(String.valueOf(args[i]));
         } else {
-          script.append(new Gson().toJson(args[i]));
+          js.append(new Gson().toJson(args[i]));
         }
       }
-      script.append(");");
+
+      js.append(");"); // end of method call
     }
 
-    script.append("  }");
-    script.append("})()");
+    js.append("  }"); // end of if (component)
+    js.append("})()"); // end of function
 
     if (hv.getCaughtUp()) {
       if (async) {
-        hv.executeAsyncScript(script.toString());
+        hv.executeAsyncScript(js.toString());
       } else {
-        return hv.executeScript(script.toString());
+        return hv.executeScript(js.toString());
       }
     } else {
-      asyncScripts.add(script.toString());
+      asyncScripts.add(js.toString());
     }
 
     return null;
@@ -1369,7 +1406,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
     clientEventMap.clear();
     slots.clear();
     rawSlots.clear();
-    eventDispatcher.removeAllListeners();
+    dispatcher.removeAllListeners();
 
     super.destroy();
   }

@@ -3,13 +3,15 @@ package org.demo.components.toast.events;
 import java.util.Map;
 
 import org.demo.components.toast.Toast;
+import org.dwcj.webcomponent.annotations.EventName;
 import org.dwcj.webcomponent.events.Event;
 
 /**
- * ToastClosedEvent. This event is fired when the toast is closed.
+ * Event fired when the toast is closed.
  * 
  * @author Hyyan Abo Fakher
  */
+@EventName("bbj-closed")
 public class ToastClosedEvent extends Event<Toast> {
 
   /**

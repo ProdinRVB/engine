@@ -1,10 +1,11 @@
 package org.demo.components.applayout;
 
-import org.demo.components.applayout.events.DrawerClosedEvent;
-import org.demo.components.applayout.events.DrawerOpenedEvent;
+import org.demo.components.drawer.events.DrawerClosedEvent;
+import org.demo.components.drawer.events.DrawerOpenedEvent;
+
+import org.dwcj.interfaces.HasClassName;
 import org.dwcj.controls.panels.AbstractDwcjPanel;
 import org.dwcj.controls.panels.Div;
-import org.dwcj.interfaces.HasClassName;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.WebComponent;
 import org.dwcj.webcomponent.annotations.NodeAttribute;
@@ -555,7 +556,7 @@ public class AppLayout extends WebComponent<AppLayout> implements HasClassName {
    * @return the app layout
    */
   public AppLayout addDrawerOpenedListener(EventListener<DrawerOpenedEvent> listener) {
-    return addEventListener("bbj-drawer-opened", DrawerOpenedEvent.class, listener, FILTER_SAME_NODE);
+    return addEventListener(DrawerOpenedEvent.class, listener);
   }
 
   /**
@@ -565,7 +566,7 @@ public class AppLayout extends WebComponent<AppLayout> implements HasClassName {
    * @return the app layout
    */
   public AppLayout removeDrawerOpenedListener(EventListener<DrawerOpenedEvent> listener) {
-    return removeEventListener("bbj-drawer-opened", DrawerOpenedEvent.class, listener);
+    return removeEventListener(DrawerOpenedEvent.class, listener);
   }
 
   /**
@@ -575,7 +576,7 @@ public class AppLayout extends WebComponent<AppLayout> implements HasClassName {
    * @return the app layout
    */
   public AppLayout addDrawerClosedListener(EventListener<DrawerClosedEvent> listener) {
-    return addEventListener("bbj-drawer-closed", DrawerClosedEvent.class, listener, FILTER_SAME_NODE);
+    return addEventListener(DrawerClosedEvent.class, listener);
   }
 
   /**
@@ -585,6 +586,6 @@ public class AppLayout extends WebComponent<AppLayout> implements HasClassName {
    * @return the app layout
    */
   public AppLayout removeDrawerClosedListener(EventListener<DrawerClosedEvent> listener) {
-    return removeEventListener("bbj-drawer-closed", DrawerClosedEvent.class, listener);
+    return removeEventListener(DrawerClosedEvent.class, listener);
   }
 }

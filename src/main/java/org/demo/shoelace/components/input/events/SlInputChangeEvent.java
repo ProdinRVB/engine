@@ -2,6 +2,7 @@ package org.demo.shoelace.components.input.events;
 
 import java.util.Map;
 import org.demo.shoelace.components.input.SlInput;
+import org.dwcj.webcomponent.annotations.EventName;
 
 /**
  * The checkbox focus event.
@@ -10,6 +11,7 @@ import org.demo.shoelace.components.input.SlInput;
  * 
  * @author Hyyan Abo Fakher
  */
+@EventName("sl-change")
 public class SlInputChangeEvent extends SlInputModifiedEvent {
 
   /**

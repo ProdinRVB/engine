@@ -307,7 +307,7 @@ public final class Toast extends WebComponent<Toast> implements HasClassName {
    * @return the toast
    */
   public Toast addOpenedListener(EventListener<ToastOpenedEvent> listener) {
-    addEventListener("bbj-opened", ToastOpenedEvent.class, listener);
+    addEventListener(ToastOpenedEvent.class, listener);
     return this;
   }
 
@@ -318,7 +318,7 @@ public final class Toast extends WebComponent<Toast> implements HasClassName {
    * @return the toast
    */
   public Toast removeOpenedListener(EventListener<ToastOpenedEvent> listener) {
-    removeEventListener("bbj-opened", ToastOpenedEvent.class, listener);
+    removeEventListener(ToastOpenedEvent.class, listener);
     return this;
   }
 
@@ -329,7 +329,7 @@ public final class Toast extends WebComponent<Toast> implements HasClassName {
    * @return the toast
    */
   public Toast addClosedListener(EventListener<ToastClosedEvent> listener) {
-    addEventListener("bbj-closed", ToastClosedEvent.class, listener);
+    addEventListener(ToastClosedEvent.class, listener);
     return this;
   }
 
@@ -340,7 +340,7 @@ public final class Toast extends WebComponent<Toast> implements HasClassName {
    * @return the toast
    */
   public Toast removeClosedListener(EventListener<ToastClosedEvent> listener) {
-    removeEventListener("bbj-closed", ToastClosedEvent.class, listener);
+    removeEventListener( ToastClosedEvent.class, listener);
     return this;
   }
 
@@ -351,14 +351,7 @@ public final class Toast extends WebComponent<Toast> implements HasClassName {
    * @return the toast
    */
   public Toast addButtonClickedListener(EventListener<ToastButtonClickedEvent> listener) {
-    // Make sure to report events only if the target has the data-action attribute
-    // (buttons)
-    String isAccepted = "event.target.closest(\"[data-action]\") != null;";
-    // Build the event data and set the button action
-    String eventDataBuilder = "event.buttonToastId = event.target.closest(\"[data-action]\").getAttribute(\"data-action\");";
-
-    addEventListener("click", ToastButtonClickedEvent.class, listener, isAccepted, eventDataBuilder);
-
+    addEventListener(ToastButtonClickedEvent.class, listener);
     return this;
   }
 
@@ -369,7 +362,7 @@ public final class Toast extends WebComponent<Toast> implements HasClassName {
    * @return the toast
    */
   public Toast removeButtonClickedListener(EventListener<ToastButtonClickedEvent> listener) {
-    removeEventListener("click", ToastButtonClickedEvent.class, listener);
+    removeEventListener(ToastButtonClickedEvent.class, listener);
     return this;
   }
 

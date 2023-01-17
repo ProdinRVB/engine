@@ -238,7 +238,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @return the drawer
    */
   public Drawer addOpenedListener(EventListener<DrawerOpenedEvent> listener) {
-    return addEventListener("bbj-drawer-opened", DrawerOpenedEvent.class, listener, FILTER_SAME_NODE);
+    return addEventListener(DrawerOpenedEvent.class, listener);
   }
 
   /**
@@ -248,7 +248,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @return the drawer
    */
   public Drawer removeOpenedListener(EventListener<DrawerOpenedEvent> listener) {
-    return removeEventListener("bbj-drawer-opened", DrawerOpenedEvent.class, listener);
+    return removeEventListener(DrawerOpenedEvent.class, listener);
   }
 
   /**
@@ -258,7 +258,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @return the drawer
    */
   public Drawer addClosedListener(EventListener<DrawerClosedEvent> listener) {
-    return addEventListener("bbj-drawer-closed", DrawerClosedEvent.class, listener, FILTER_SAME_NODE);
+    return addEventListener( DrawerClosedEvent.class, listener);
   }
 
   /**
@@ -268,7 +268,7 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @return the drawer
    */
   public Drawer removeClosedListener(EventListener<DrawerClosedEvent> listener) {
-    return removeEventListener("bbj-drawer-closed", DrawerClosedEvent.class, listener);
+    return removeEventListener(DrawerClosedEvent.class, listener);
   }
 
   /**
@@ -288,5 +288,4 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
     removeComponentClassName(className);
     return null;
   }
-
 }

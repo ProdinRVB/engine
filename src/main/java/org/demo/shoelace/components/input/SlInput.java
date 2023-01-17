@@ -1133,7 +1133,7 @@ public final class SlInput extends SlComponent<SlInput> {
    * @return the input
    */
   public SlInput addFocusListener(EventListener<SlInputFocusEvent> listener) {
-    addEventListener("focus", SlInputFocusEvent.class, listener);
+    addEventListener(SlInputFocusEvent.class, listener);
     return this;
   }
 
@@ -1144,7 +1144,7 @@ public final class SlInput extends SlComponent<SlInput> {
    * @return the input
    */
   public SlInput removeFocusListener(EventListener<SlInputFocusEvent> listener) {
-    removeEventListener("focus", SlInputFocusEvent.class, listener);
+    removeEventListener(SlInputFocusEvent.class, listener);
     return this;
   }
 
@@ -1155,7 +1155,7 @@ public final class SlInput extends SlComponent<SlInput> {
    * @return the input
    */
   public SlInput addBlurListener(EventListener<SlInputBlurEvent> listener) {
-    addEventListener("blur", SlInputBlurEvent.class, listener);
+    addEventListener(SlInputBlurEvent.class, listener);
     return this;
   }
 
@@ -1166,7 +1166,7 @@ public final class SlInput extends SlComponent<SlInput> {
    * @return the input
    */
   public SlInput removeBlurListener(EventListener<SlInputBlurEvent> listener) {
-    removeEventListener("blur", SlInputBlurEvent.class, listener);
+    removeEventListener(SlInputBlurEvent.class, listener);
     return this;
   }
 
@@ -1177,8 +1177,7 @@ public final class SlInput extends SlComponent<SlInput> {
    * @return the input
    */
   public SlInput addChangeListener(EventListener<SlInputChangeEvent> listener) {
-    String eventDataBuilder = "event.detail.value = event.target.value;";
-    addEventListener("sl-change", SlInputChangeEvent.class, listener, "", eventDataBuilder);
+    addEventListener(SlInputChangeEvent.class, listener);
     return this;
   }
 
@@ -1189,7 +1188,7 @@ public final class SlInput extends SlComponent<SlInput> {
    * @return the input
    */
   public SlInput removeChangeListener(EventListener<SlInputChangeEvent> listener) {
-    removeEventListener("sl-change", SlInputChangeEvent.class, listener);
+    removeEventListener(SlInputChangeEvent.class, listener);
     return this;
   }
 
@@ -1200,8 +1199,7 @@ public final class SlInput extends SlComponent<SlInput> {
    * @return the input
    */
   public SlInput addModifiedListener(EventListener<SlInputModifiedEvent> listener) {
-    String eventDataBuilder = "event.detail.value = event.target.value;";
-    addEventListener("sl-input", SlInputModifiedEvent.class, listener, "", eventDataBuilder);
+    addEventListener(SlInputModifiedEvent.class, listener);
     return this;
   }
 
@@ -1212,7 +1210,7 @@ public final class SlInput extends SlComponent<SlInput> {
    * @return the input
    */
   public SlInput removeModifiedListener(EventListener<SlInputModifiedEvent> listener) {
-    removeEventListener("sl-input", SlInputModifiedEvent.class, listener);
+    removeEventListener(SlInputModifiedEvent.class, listener);
     return this;
   }
 
@@ -1223,7 +1221,7 @@ public final class SlInput extends SlComponent<SlInput> {
    * @return the input
    */
   public SlInput addClearListener(EventListener<SlInputClearEvent> listener) {
-    addEventListener("sl-clear", SlInputClearEvent.class, listener);
+    addEventListener(SlInputClearEvent.class, listener);
     return this;
   }
 
@@ -1234,7 +1232,7 @@ public final class SlInput extends SlComponent<SlInput> {
    * @return the input
    */
   public SlInput removeClearListener(EventListener<SlInputClearEvent> listener) {
-    removeEventListener("sl-clear", SlInputClearEvent.class, listener);
+    removeEventListener(SlInputClearEvent.class, listener);
     return this;
   }
 }

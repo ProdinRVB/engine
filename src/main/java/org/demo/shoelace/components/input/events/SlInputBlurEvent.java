@@ -2,6 +2,7 @@ package org.demo.shoelace.components.input.events;
 
 import java.util.Map;
 
+import org.dwcj.webcomponent.annotations.EventName;
 import org.dwcj.webcomponent.events.Event;
 import org.demo.shoelace.components.input.SlInput;
 
@@ -12,6 +13,7 @@ import org.demo.shoelace.components.input.SlInput;
  * 
  * @author Hyyan Abo Fakher
  */
+@EventName("sl-blur")
 public class SlInputBlurEvent extends Event<SlInput> {
 
   /**

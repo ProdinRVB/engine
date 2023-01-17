@@ -3,6 +3,7 @@ package org.demo;
 import org.demo.shoelace.components.button.SlButton;
 import org.demo.shoelace.components.button.events.SlButtonClickEvent;
 import org.demo.shoelace.components.input.SlInput;
+import org.demo.shoelace.components.input.events.SlInputChangeEvent;
 import org.demo.shoelace.components.input.events.SlInputModifiedEvent;
 import org.dwcj.App;
 import org.dwcj.annotations.Attribute;
@@ -38,7 +39,7 @@ public class Playground extends App {
     input.setPlaceholder("username ...");
     input.setPrefix("<sl-icon name='house'></sl-icon>");
     input.setHelpText("this is a message");
-    input.addModifiedListener((SlInputModifiedEvent event) -> {
+    input.addChangeListener((SlInputChangeEvent event) -> {
       App.consoleLog("Input changed: " + event.getValue());
     });
 
