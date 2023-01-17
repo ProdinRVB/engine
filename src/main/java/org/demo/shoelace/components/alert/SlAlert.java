@@ -200,6 +200,26 @@ public class SlAlert extends SlComponent<SlAlert> implements HasControlText {
   }
 
   /**
+   * Set the prefix slot
+   * 
+   * @param prefix the prefix
+   * @return the alert
+   */
+  public SlAlert setPrefix(String prefix) {
+    addRawSlot("icon", prefix);
+    return this;
+  }
+
+  /**
+   * Get the prefix slot
+   * 
+   * @return the prefix
+   */
+  public String getPrefix() {
+    return getRawSlot("icon");
+  }
+
+  /**
    * Add a listener for the open event.
    * 
    * @param listener the listener

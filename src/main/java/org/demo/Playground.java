@@ -45,6 +45,8 @@ public class Playground extends App {
     panel.addClassName("app-panel");
 
     SlAlert alert = new SlAlert("Hello World");
+    alert.setPrefix("<bbj-icon name='copy' pool='bbj'></bbj-icon>");
+    alert.setVariant(SlAlert.Variant.WARNING);
     alert.setClosable(true);
     alert.setDuration(3000);
     alert.addCloseListener((SlAlertCloseEvent event) -> {
