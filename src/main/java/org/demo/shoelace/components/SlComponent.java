@@ -11,8 +11,8 @@ import org.dwcj.webcomponent.WebComponent;
  * @author Hyyan Abo Fakher
  */
 @InlineStyleSheet(id = "sl-common-styles", once = true, value = "" +
-    "[sl-component]{overflow: unset}" +
-    "[sl-component] .BBjHtmlView-content{overflow: unset}")
+    "[sl-component]{overflow: visible}" +
+    "[sl-component] .BBjHtmlView-content{overflow: visible}")
 public abstract class SlComponent<T extends WebComponent<T>> extends WebComponent<T> {
 
   /**

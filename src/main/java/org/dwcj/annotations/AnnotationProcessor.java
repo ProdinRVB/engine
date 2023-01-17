@@ -201,7 +201,7 @@ public final class AnnotationProcessor {
         boolean hasId = sheet.id() != null && !sheet.id().isEmpty();
         boolean isTracked;
         try {
-          isTracked = (Boolean) table.get("dwcj-injected-stylesheet-" + sheet.id());
+          isTracked = (Boolean) table.get("dwcj.styles." + sheet.id());
         } catch (Exception e1) {
           isTracked = false;
         }
@@ -215,7 +215,7 @@ public final class AnnotationProcessor {
 
           if (sheet.once()) {
             attributes.put("bbj-once","");
-            table.put("injected-sheet-" + sheet.id(), true);
+            table.put("dwcj.styles." + sheet.id(), true);
           }
         }
 

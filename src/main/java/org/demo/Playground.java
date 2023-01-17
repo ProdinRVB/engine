@@ -5,6 +5,10 @@ import org.demo.shoelace.components.button.events.SlButtonClickEvent;
 import org.demo.shoelace.components.input.SlInput;
 import org.demo.shoelace.components.input.events.SlInputChangeEvent;
 import org.demo.shoelace.components.input.events.SlInputModifiedEvent;
+import org.demo.shoelace.components.radio.SlRadio;
+import org.demo.shoelace.components.radiobutton.SlRadioButton;
+import org.demo.shoelace.components.radiogroup.SlRadioGroup;
+import org.demo.shoelace.components.radiogroup.events.SlRadioGroupChangeEvent;
 import org.dwcj.App;
 import org.dwcj.annotations.Attribute;
 import org.dwcj.annotations.InlineStyleSheet;
@@ -35,21 +39,32 @@ public class Playground extends App {
     AppPanel panel = new AppPanel();
     panel.addClassName("app-panel");
 
-    SlInput input = new SlInput();
-    input.setPlaceholder("username ...");
-    input.setPrefix("<sl-icon name='house'></sl-icon>");
-    input.setHelpText("this is a message");
-    input.addChangeListener((SlInputChangeEvent event) -> {
-      App.consoleLog("Input changed: " + event.getValue());
+    // SlInput input = new SlInput();
+    // input.setPlaceholder("username ...");
+    // input.setPrefix("<sl-icon name='house'></sl-icon>");
+    // input.setHelpText("this is a message");
+    // input.addChangeListener((SlInputChangeEvent event) -> {
+    // App.consoleLog("Input changed: " + event.getValue());
+    // });
+
+    SlRadioGroup radioGroup = new SlRadioGroup("Select an option", "Choose the most appropriate option.");
+    SlRadioButton r1 = new SlRadioButton("Option 1", "option1");
+    SlRadioButton r2 = new SlRadioButton("Option 2", "option2");
+    SlRadioButton r3 = new SlRadioButton("Option 3", "option3");
+    radioGroup.add(r1, r2, r3);
+    
+
+    radioGroup.addChangeListener((SlRadioGroupChangeEvent event) -> {
+      App.consoleLog("Radio group changed: " + event.getValue());
     });
 
     SlButton button = new SlButton("Button");
     button.addClickListener((SlButtonClickEvent event) -> {
-      input.focus();
-      input.setSelectionRange(0,3);
+      radioGroup.remove(r1);
+      radioGroup.setValue("option2");
     });
 
-    panel.add(input,button);
+    panel.add(radioGroup, button , new SlRadio("Radio Button") , new SlButton("Radio Button") );
   }
 
 }

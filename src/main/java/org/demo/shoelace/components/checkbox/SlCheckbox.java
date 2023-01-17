@@ -13,10 +13,9 @@ import org.dwcj.webcomponent.annotations.NodeName;
 import org.dwcj.webcomponent.events.EventListener;
 
 /**
- * A breadcrumb component.
+ * A checkbox component.
  * 
- * @see <a href="https://shoelace.style/components/breadcrumb">Shoelace -
- *      Breadcrumb</a>
+ * @see <a href="https://shoelace.style/components/checkbox">Shoelace - Checkbox</a>
  * @author Hyyan Abo Fakher
  * @since 1.0.0
  */
