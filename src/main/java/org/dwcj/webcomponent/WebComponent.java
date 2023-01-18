@@ -1405,7 +1405,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
     clientEventMap.clear();
     slots.clear();
     rawSlots.clear();
-    dispatcher.removeAllListeners();
+    dispatcher.clear();
 
     super.destroy();
   }

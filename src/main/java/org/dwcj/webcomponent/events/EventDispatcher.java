@@ -48,7 +48,7 @@ public class EventDispatcher {
   /**
    * Removes all listeners.
    */
-  public void removeAllListeners() {
+  public void clear() {
     listeners.clear();
   }
 
