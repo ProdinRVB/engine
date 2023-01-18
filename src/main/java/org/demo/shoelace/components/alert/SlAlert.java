@@ -16,7 +16,7 @@ import org.dwcj.webcomponent.events.EventListener;
  * @since 1.0.0
  */
 @NodeName("sl-alert")
-public class SlAlert extends SlComponent<SlAlert> implements HasControlText {
+public final class SlAlert extends SlComponent<SlAlert> implements HasControlText {
 
   /**
    * The alert's theme variant.
