@@ -2,10 +2,13 @@ package org.demo.shoelace.components.breadcrumb;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.demo.shoelace.components.SlComponent;
+import org.dwcj.exceptions.DwcRuntimeException;
 import org.dwcj.interfaces.HasControlText;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;
@@ -13,14 +16,15 @@ import org.dwcj.webcomponent.annotations.NodeName;
 /**
  * A breadcrumb component.
  * 
- * @see <a href="https://shoelace.style/components/breadcrumb">Shoelace Breadcrumb</a>
+ * @see <a href="https://shoelace.style/components/breadcrumb">Shoelace
+ *      Breadcrumb</a>
  * @author Hyyan Abo Fakher
  * @since 1.0.0
  */
 @NodeName("sl-breadcrumb")
 public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements HasControlText {
 
-  private List<BreadcrumbItem> items = new ArrayList<>();
+  private List<SlBreadcrumbItem> items = new ArrayList<>();
 
   // Properties
   private static PropertyDescriptor<String> LABEL = PropertyDescriptor.property("labe", "");
@@ -91,10 +95,22 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * @param item the item to add
    * @return the breadcrumb
    */
-  public SlBreadcrumb addItem(BreadcrumbItem item) {
+  public SlBreadcrumb add(SlBreadcrumbItem item) {
     items.add(item);
-    item.addPropertyChangeListener(new ItemChangeListener());
-    addOrUpdateClientItem(item);
+
+    // call addPropertyChangeListener with reflection
+    // to keep track of changes in the tab
+    Method method = null;
+    try {
+      method = item.getClass().getDeclaredMethod("addPropertyChangeListener", PropertyChangeListener.class);
+      method.setAccessible(true);
+      method.invoke(item, new ItemChangeListener());
+    } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+        | InvocationTargetException e) {
+      throw new DwcRuntimeException("Error while adding property change listener to tab", e);
+    }
+
+    updateInClient(item);
 
     return this;
   }
@@ -105,8 +121,8 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * @param text the text to add
    * @return the breadcrumb
    */
-  public SlBreadcrumb addItem(String text) {
-    addItem(new BreadcrumbItem(text));
+  public SlBreadcrumb add(String text) {
+    add(new SlBreadcrumbItem(text));
 
     return this;
   }
@@ -118,8 +134,8 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * @param href the href to add
    * @return the breadcrumb
    */
-  public SlBreadcrumb addItem(String text, String href) {
-    addItem(new BreadcrumbItem(text, href));
+  public SlBreadcrumb add(String text, String href) {
+    add(new SlBreadcrumbItem(text, href));
     return this;
   }
 
@@ -129,9 +145,9 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * @param items the items to add
    * @return the breadcrumb
    */
-  public SlBreadcrumb addItems(BreadcrumbItem... items) {
-    for (BreadcrumbItem item : items) {
-      addItem(item);
+  public SlBreadcrumb add(SlBreadcrumbItem... items) {
+    for (SlBreadcrumbItem item : items) {
+      add(item);
     }
     return this;
   }
@@ -142,9 +158,9 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * @param items the items to add
    * @return the breadcrumb
    */
-  public SlBreadcrumb addItems(String... items) {
+  public SlBreadcrumb add(String... items) {
     for (String item : items) {
-      addItem(item);
+      add(item);
     }
     return this;
   }
@@ -155,9 +171,9 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * @param items the items to add
    * @return the breadcrumb
    */
-  public SlBreadcrumb setItems(BreadcrumbItem... items) {
+  public SlBreadcrumb setItems(SlBreadcrumbItem... items) {
     this.items.clear();
-    return addItems(items);
+    return add(items);
   }
 
   /**
@@ -166,7 +182,7 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * @param index the index of the item
    * @return the item at the given index
    */
-  public BreadcrumbItem getItem(int index) {
+  public SlBreadcrumbItem get(int index) {
     return items.get(index);
   }
 
@@ -176,7 +192,7 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * @param item the item to check
    * @return true if the breadcrumb has the given item
    */
-  public boolean hasItem(BreadcrumbItem item) {
+  public boolean contains(SlBreadcrumbItem item) {
     return items.contains(item);
   }
 
@@ -186,8 +202,8 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * @param text the text of the item to check
    * @return true if the breadcrumb has the given item
    */
-  public boolean hasItem(String text) {
-    for (BreadcrumbItem item : items) {
+  public boolean contains(String text) {
+    for (SlBreadcrumbItem item : items) {
       if (item.getText().equals(text)) {
         return true;
       }
@@ -202,8 +218,8 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * @param item the item to remove
    * @return the breadcrumb
    */
-  public SlBreadcrumb removeItem(BreadcrumbItem item) {
-    removeClientItem(item);
+  public SlBreadcrumb remove(SlBreadcrumbItem item) {
+    removeInClient(item);
     items.remove(item);
     return this;
   }
@@ -214,10 +230,10 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * @param text the text of the item to remove
    * @return the breadcrumb
    */
-  public SlBreadcrumb removeItem(String text) {
-    for (BreadcrumbItem item : items) {
+  public SlBreadcrumb remove(String text) {
+    for (SlBreadcrumbItem item : items) {
       if (item.getText().equals(text)) {
-        removeItem(item);
+        remove(item);
         break;
       }
     }
@@ -231,18 +247,9 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * @param index the index of the item to remove
    * @return the breadcrumb
    */
-  public SlBreadcrumb removeItem(int index) {
-    removeItem(items.get(index));
+  public SlBreadcrumb remove(int index) {
+    remove(items.get(index));
     return this;
-  }
-
-  /**
-   * Get the list of items in the breadcrumb
-   * 
-   * @return
-   */
-  public List<BreadcrumbItem> getItems() {
-    return items;
   }
 
   /**
@@ -250,7 +257,7 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * 
    * @param item the item to add
    */
-  private void addOrUpdateClientItem(BreadcrumbItem item) {
+  private void updateInClient(SlBreadcrumbItem item) {
     int index = items.indexOf(item);
     StringBuilder js = new StringBuilder();
 
@@ -273,7 +280,7 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
    * 
    * @param item the item to remove
    */
-  private void removeClientItem(BreadcrumbItem item) {
+  private void removeInClient(SlBreadcrumbItem item) {
     int index = items.indexOf(item);
     StringBuilder js = new StringBuilder();
 
@@ -285,7 +292,7 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
 
     invokeAsync("Function", js.toString());
   }
-  
+
   /**
    * An item change listener. When a property of a breadcrumb item changes, this
    * listener will update the corresponding property of the sl-breadcrumb-item
@@ -300,7 +307,7 @@ public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements Has
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-      addOrUpdateClientItem((BreadcrumbItem) evt.getSource());
+      updateInClient((SlBreadcrumbItem) evt.getSource());
     }
   }
 }

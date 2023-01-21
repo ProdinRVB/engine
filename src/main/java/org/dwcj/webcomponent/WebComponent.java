@@ -19,13 +19,16 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.dwcj.Environment;
+
 import org.dwcj.controls.AbstractControl;
 import org.dwcj.controls.AbstractDwcControl;
 import org.dwcj.controls.htmlcontainer.HtmlContainer;
 import org.dwcj.controls.htmlcontainer.events.HtmlContainerJavascriptEvent;
 import org.dwcj.controls.panels.AbstractDwcjPanel;
+
 import org.dwcj.exceptions.DwcControlDestroyed;
 import org.dwcj.exceptions.DwcRuntimeException;
+
 import org.dwcj.webcomponent.annotations.NodeAttribute;
 import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
@@ -239,11 +242,65 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @param method the method name
    * @param args   the method arguments
    * 
+   * @return The web component
+   * @throws DwcControlDestroyed if the web component is destroyed
+   * @see #invokeAsync(String, Object...)
+   */
+  protected T callAsyncFunction(String functionName, Object... args) {
+    return invokeAsync(functionName, args);
+  }
+
+  /**
+   * Wrap the expression in a function and invoke it asynchronously on the client
+   * 
+   * @param expression the expression to execute
+   * 
+   * @return the web component
+   * @throws DwcControlDestroyed if the web component is destroyed
+   * @see #invokeAsync(String, Object...)
+   */
+  protected T executeAsyncExpression(String expression) {
+    return invokeAsync("Function", expression);
+  }
+
+  /**
+   * Invoke a client method on the web component
+   * 
+   * @param method the method name
+   * @param args   the method arguments
+   * 
    * @return The result of the method
    * @throws DwcControlDestroyed if the web component is destroyed
    */
   protected Object invoke(String method, Object... args) {
     return doInvoke(false, method, args);
+  }
+
+  /**
+   * Invoke a client method on the web component
+   * 
+   * @param method the method name
+   * @param args   the method arguments
+   * 
+   * @return The result of the method
+   * @throws DwcControlDestroyed if the web component is destroyed
+   * @see #invoke(String, Object...)
+   */
+  protected Object callFunction(String functionName, Object... args) {
+    return invoke(functionName, args);
+  }
+
+  /**
+   * Wrap the expression in a function and invoke it on the client
+   * 
+   * @param expression the expression to execute
+   * 
+   * @return the result of the expression
+   * @throws DwcControlDestroyed if the web component is destroyed
+   * @see #invoke(String, Object...)
+   */
+  protected Object executeExpression(String expression) {
+    return invoke("Function", expression);
   }
 
   /**

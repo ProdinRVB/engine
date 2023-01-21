@@ -10,7 +10,7 @@ import org.demo.shoelace.enums.SlTarget;
  * 
  * @author Hyyan Abo Fakher
  */
-public final class BreadcrumbItem {
+public final class SlBreadcrumbItem {
 
   private String text = "";
   private String href = "";
@@ -23,7 +23,7 @@ public final class BreadcrumbItem {
    * 
    * @param text the text to display
    */
-  public BreadcrumbItem(String text) {
+  public SlBreadcrumbItem(String text) {
     this.setText(text);
   }
 
@@ -33,7 +33,7 @@ public final class BreadcrumbItem {
    * @param text the text to display
    * @param href the href to use
    */
-  public BreadcrumbItem(String text, String href) {
+  public SlBreadcrumbItem(String text, String href) {
     this.setText(text);
     this.setHref(href);
   }
@@ -41,11 +41,11 @@ public final class BreadcrumbItem {
   /**
    * Create a new breadcrumb item.
    * 
-   * @param text the text to display
-   * @param href the href to use
+   * @param text   the text to display
+   * @param href   the href to use
    * @param target the target to use
    */
-  public BreadcrumbItem(String text, String href, SlTarget target) {
+  public SlBreadcrumbItem(String text, String href, SlTarget target) {
     this.setText(text);
     this.setHref(href);
     this.setTarget(target);
@@ -54,12 +54,12 @@ public final class BreadcrumbItem {
   /**
    * Create a new breadcrumb item.
    * 
-   * @param text the text to display
-   * @param href the href to use
+   * @param text   the text to display
+   * @param href   the href to use
    * @param target the target to use
-   * @param rel the rel to use
+   * @param rel    the rel to use
    */
-  public BreadcrumbItem(String text, String href, SlTarget target, String rel) {
+  public SlBreadcrumbItem(String text, String href, SlTarget target, String rel) {
     this.setText(text);
     this.setHref(href);
     this.setTarget(target);
@@ -72,7 +72,7 @@ public final class BreadcrumbItem {
    * @param text the text
    * @return the breadcrumb item
    */
-  public BreadcrumbItem setText(String text) {
+  public SlBreadcrumbItem setText(String text) {
     String oldValue = this.text;
     this.text = text;
     pcs.firePropertyChange("text", oldValue, text);
@@ -99,7 +99,7 @@ public final class BreadcrumbItem {
    * @param href the href
    * @return the breadcrumb item
    */
-  public BreadcrumbItem setHref(String href) {
+  public SlBreadcrumbItem setHref(String href) {
     String oldValue = this.href;
     this.href = href;
     pcs.firePropertyChange("href", oldValue, href);
@@ -124,7 +124,7 @@ public final class BreadcrumbItem {
    * @param rel the rel
    * @return the breadcrumb item
    */
-  public BreadcrumbItem setRel(String rel) {
+  public SlBreadcrumbItem setRel(String rel) {
     String oldValue = this.rel;
     this.rel = rel;
     pcs.firePropertyChange("rel", oldValue, rel);
@@ -149,7 +149,7 @@ public final class BreadcrumbItem {
    * @param target the target
    * @return the breadcrumb item
    */
-  public BreadcrumbItem setTarget(SlTarget target) {
+  public SlBreadcrumbItem setTarget(SlTarget target) {
     SlTarget oldValue = this.target;
     this.target = target;
     pcs.firePropertyChange("target", oldValue, target);
@@ -172,7 +172,8 @@ public final class BreadcrumbItem {
    * @param listener the listener
    * @return the breadcrumb item
    */
-  public BreadcrumbItem addPropertyChangeListener(PropertyChangeListener listener) {
+  @SuppressWarnings("unused")
+  private SlBreadcrumbItem addPropertyChangeListener(PropertyChangeListener listener) {
     this.pcs.addPropertyChangeListener(listener);
     return this;
   }
@@ -183,7 +184,8 @@ public final class BreadcrumbItem {
    * @param listener the listener
    * @return the breadcrumb item
    */
-  public BreadcrumbItem removePropertyChangeListener(PropertyChangeListener listener) {
+  @SuppressWarnings("unused")
+  private SlBreadcrumbItem removePropertyChangeListener(PropertyChangeListener listener) {
     this.pcs.removePropertyChangeListener(listener);
     return this;
   }
