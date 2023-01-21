@@ -19,7 +19,7 @@ import org.dwcj.webcomponent.events.EventListener;
  * @since 1.0.0
  */
 @NodeName("sl-input")
-public final class SlInput extends SlComponent<SlInput> {
+public final class SlInput extends SlComponent {
 
   /**
    * The type of input

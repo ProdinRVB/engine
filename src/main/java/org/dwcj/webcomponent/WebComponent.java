@@ -50,7 +50,7 @@ import org.dwcj.webcomponent.events.EventListener;
  * 
  * @author Hyyan Abo Fakher
  */
-public abstract class WebComponent<T extends WebComponent<T>> extends AbstractControl {
+public abstract class WebComponent extends AbstractControl {
   private final HtmlContainer hv;
   private final String uuid = UUID.randomUUID().toString().substring(0, 8);
   private final Map<String, Object> properties = new HashMap<>();
@@ -228,12 +228,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected T invokeAsync(String method, Object... args) {
+  protected void invokeAsync(String method, Object... args) {
     doInvoke(true, method, args);
-
-    @SuppressWarnings("unchecked")
-    T result = (T) this;
-    return result;
   }
 
   /**
@@ -246,8 +242,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @throws DwcControlDestroyed if the web component is destroyed
    * @see #invokeAsync(String, Object...)
    */
-  protected T callAsyncFunction(String functionName, Object... args) {
-    return invokeAsync(functionName, args);
+  protected void callAsyncFunction(String functionName, Object... args) {
+    invokeAsync(functionName, args);
   }
 
   /**
@@ -259,8 +255,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @throws DwcControlDestroyed if the web component is destroyed
    * @see #invokeAsync(String, Object...)
    */
-  protected T executeAsyncExpression(String expression) {
-    return invokeAsync("Function", expression);
+  protected void executeAsyncExpression(String expression) {
+    invokeAsync("Function", expression);
   }
 
   /**
@@ -313,7 +309,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected <K extends Event<?>> T addEventListener(
+  protected <K extends Event<?>> void addEventListener(
       Class<K> eventClass,
       EventListener<K> listener) {
     assertNotDestroyed();
@@ -441,10 +437,6 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
 
       registeredClientEvents.add(eventName);
     }
-
-    @SuppressWarnings("unchecked")
-    T result = (T) this;
-    return result;
   }
 
   /**
@@ -457,14 +449,10 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected <K extends Event<?>> T removeEventListener(Class<K> eventClass,
+  protected <K extends Event<?>> void removeEventListener(Class<K> eventClass,
       EventListener<K> listener) {
     assertNotDestroyed();
     dispatcher.removeEventListener(eventClass, listener);
-
-    @SuppressWarnings("unchecked")
-    T result = (T) this;
-    return result;
   }
 
   /**
@@ -563,7 +551,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected T removeControl(String uuid) {
+  protected void removeControl(String uuid) {
     assertNotDestroyed();
 
     if (uuid != null) {
@@ -573,10 +561,6 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
         control.destroy();
       }
     }
-
-    @SuppressWarnings("unchecked")
-    T result = (T) this;
-    return result;
   }
 
   /**
@@ -613,7 +597,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @throws DwcControlDestroyed      if the web component is destroyed
    * @throws IllegalArgumentException if the slot is already defined as a slot
    */
-  protected T addRawSlot(String slot, String value) {
+  protected void addRawSlot(String slot, String value) {
     assertNotDestroyed();
 
     if (slots.containsKey(slot)) {
@@ -656,10 +640,6 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
         .append("return '';"); // to avoid auto wrapping
 
     invokeAsync("Function", js.toString());
-
-    @SuppressWarnings("unchecked")
-    T result = (T) this;
-    return result;
   }
 
   /**
@@ -671,7 +651,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @throws DwcControlDestroyed      if the web component is destroyed
    * @throws IllegalArgumentException if the slot is already defined as a slot
    */
-  protected T removeRawSlot(String slot) {
+  protected void removeRawSlot(String slot) {
     assertNotDestroyed();
 
     if (slots.containsKey(slot)) {
@@ -702,10 +682,6 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
 
       invokeAsync("Function", js.toString());
     }
-
-    @SuppressWarnings("unchecked")
-    T result = (T) this;
-    return result;
   }
 
   /**
@@ -716,8 +692,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @throws DwcControlDestroyed      if the web component is destroyed
    * @throws IllegalArgumentException if the slot is already defined as a slot
    */
-  protected T removeRawSlot() {
-    return removeRawSlot("__EMPTY_SLOT__");
+  protected void removeRawSlot() {
+    removeRawSlot("__EMPTY_SLOT__");
   }
 
   /**
@@ -728,8 +704,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @throws DwcControlDestroyed      if the web component is destroyed
    * @throws IllegalArgumentException if the slot is already defined as a slot
    */
-  protected T addRawSlot(String value) {
-    return addRawSlot("__EMPTY_SLOT__", value);
+  protected void addRawSlot(String value) {
+    addRawSlot("__EMPTY_SLOT__", value);
   }
 
   /**
@@ -774,7 +750,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @throws DwcControlDestroyed      if the web component is destroyed
    * @throws IllegalArgumentException if the slot is already defined as a raw slot
    */
-  protected T addSlot(String slot, AbstractDwcjPanel panel, boolean destroy) {
+  protected void addSlot(String slot, AbstractDwcjPanel panel, boolean destroy) {
     assertNotDestroyed();
 
     if (rawSlots.containsKey(slot)) {
@@ -829,10 +805,6 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
     }
 
     invokeAsync("Function", "component.appendChild(document.querySelector(\"" + selector + "\"));");
-
-    @SuppressWarnings("unchecked")
-    T result = (T) this;
-    return result;
   }
 
   /**
@@ -845,8 +817,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @throws DwcControlDestroyed      if the web component is destroyed
    * @throws IllegalArgumentException if the slot is already defined as a raw slot
    */
-  protected T addSlot(String slot, AbstractDwcjPanel panel) {
-    return addSlot(slot, panel, true);
+  protected void addSlot(String slot, AbstractDwcjPanel panel) {
+    addSlot(slot, panel, true);
   }
 
   /**
@@ -858,8 +830,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @throws DwcControlDestroyed      if the web component is destroyed
    * @throws IllegalArgumentException if the slot is already defined as a raw slot
    */
-  protected T addSlot(AbstractDwcjPanel panel) {
-    return addSlot("__EMPTY_SLOT__", panel);
+  protected void addSlot(AbstractDwcjPanel panel) {
+    addSlot("__EMPTY_SLOT__", panel);
   }
 
   /**
@@ -874,7 +846,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @throws DwcControlDestroyed      if the web component is destroyed
    * @throws IllegalArgumentException if the slot is already defined as a raw slot
    */
-  protected T removeSlot(String slot, boolean destroy) {
+  protected void removeSlot(String slot, boolean destroy) {
     assertNotDestroyed();
 
     if (rawSlots.containsKey(slot)) {
@@ -904,10 +876,6 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
         panelToRemove.setVisible(false);
       }
     }
-
-    @SuppressWarnings("unchecked")
-    T result = (T) this;
-    return result;
   }
 
   /**
@@ -918,8 +886,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @throws DwcControlDestroyed      if the web component is destroyed
    * @throws IllegalArgumentException if the slot is already defined as a raw slot
    */
-  protected T removeSlot(String slot) {
-    return removeSlot(slot, true);
+  protected void removeSlot(String slot) {
+    removeSlot(slot, true);
   }
 
   /**
@@ -929,8 +897,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @throws DwcControlDestroyed      if the web component is destroyed
    * @throws IllegalArgumentException if the slot is already defined as a raw slot
    */
-  protected T removeSlot() {
-    return removeSlot("__EMPTY_SLOT__");
+  protected void removeSlot() {
+    removeSlot("__EMPTY_SLOT__");
   }
 
   /**
@@ -1005,13 +973,9 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected T setComponentAttribute(String name, String value) {
+  protected void setComponentAttribute(String name, String value) {
     invokeAsync("setAttribute", name, value);
     attributes.put(name, value);
-
-    @SuppressWarnings("unchecked")
-    T result = (T) this;
-    return result;
   }
 
   /**
@@ -1022,8 +986,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected T setComponentAttribute(String name) {
-    return setComponentAttribute(name, name);
+  protected void setComponentAttribute(String name) {
+    setComponentAttribute(name, name);
   }
 
   /**
@@ -1097,13 +1061,9 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected T setComponentProperty(String name, Object value) {
+  protected void setComponentProperty(String name, Object value) {
     invokeAsync("this", name, value);
     properties.put(name, value);
-
-    @SuppressWarnings("unchecked")
-    T result = (T) this;
-    return result;
   }
 
   /**
@@ -1114,8 +1074,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected T setComponentProperty(String name) {
-    return setComponentProperty(name, name);
+  protected void setComponentProperty(String name) {
+    setComponentProperty(name, name);
   }
 
   /**
@@ -1182,7 +1142,7 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected <V> T set(PropertyDescriptor<V> property, V value) {
+  protected <V> void set(PropertyDescriptor<V> property, V value) {
     assertNotDestroyed();
 
     boolean isAttribute = property.isAttribute();
@@ -1192,10 +1152,6 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
     } else {
       setComponentAttribute(property.getName(), value.toString());
     }
-
-    @SuppressWarnings("unchecked")
-    T result = (T) this;
-    return result;
   }
 
   /**
@@ -1207,8 +1163,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected <V> T set(PropertyDescriptor<V> property) {
-    return set(property, property.getDefaultValue());
+  protected <V> void set(PropertyDescriptor<V> property) {
+    set(property, property.getDefaultValue());
   }
 
   /**
@@ -1218,8 +1174,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected T addComponentClassName(String className) {
-    return invokeAsync("classList.add", className);
+  protected void addComponentClassName(String className) {
+    invokeAsync("classList.add", className);
   }
 
   /**
@@ -1229,8 +1185,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected T removeComponentClassName(String className) {
-    return invokeAsync("classList.remove", className);
+  protected void removeComponentClassName(String className) {
+    invokeAsync("classList.remove", className);
   }
 
   /**
@@ -1241,8 +1197,8 @@ public abstract class WebComponent<T extends WebComponent<T>> extends AbstractCo
    * @return the web component
    * @throws DwcControlDestroyed if the web component is destroyed
    */
-  protected T setComponentStyle(String name, String value) {
-    return invokeAsync("style.setProperty", name, value);
+  protected void setComponentStyle(String name, String value) {
+    invokeAsync("style.setProperty", name, value);
   }
 
   /**

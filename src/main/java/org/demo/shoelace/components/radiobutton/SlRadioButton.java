@@ -24,7 +24,7 @@ import org.dwcj.webcomponent.events.EventListener;
     "[sl-radio-button] [slot='suffix']{" +
     " display: flex" +
     "}")
-public final class SlRadioButton extends SlComponent<SlRadioButton> implements HasControlText {
+public final class SlRadioButton extends SlComponent implements HasControlText {
 
   // Properties
   private static PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");

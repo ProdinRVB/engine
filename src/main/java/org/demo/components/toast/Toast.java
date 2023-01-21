@@ -24,7 +24,7 @@ import org.dwcj.webcomponent.events.EventListener;
  * @author Hyyan Abo Fakher
  **/
 @NodeName("bbj-toast")
-public final class Toast extends WebComponent<Toast> implements HasClassName {
+public final class Toast extends WebComponent implements HasClassName {
 
   /**
    * The theme of the toast

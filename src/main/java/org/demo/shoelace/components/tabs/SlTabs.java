@@ -25,7 +25,7 @@ import org.dwcj.webcomponent.events.EventListener;
  * @since 1.0.0
  */
 @NodeName("sl-tab-group")
-public final class SlTabs extends SlComponent<SlTabs> {
+public final class SlTabs extends SlComponent {
 
   /** The placement of the tabs. */
   public enum Placement {

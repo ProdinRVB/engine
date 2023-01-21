@@ -12,7 +12,7 @@ import org.dwcj.webcomponent.annotations.NodeName;
  * @since 1.0.0
  */
 @NodeName("sl-avatar")
-public final class SlAvatar extends SlComponent<SlAvatar> {
+public final class SlAvatar extends SlComponent {
 
   /**
    * Indicates how the browser should load the image.

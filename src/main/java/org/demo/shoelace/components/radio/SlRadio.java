@@ -17,7 +17,7 @@ import org.dwcj.webcomponent.events.EventListener;
  * @since 1.0.0
  */
 @NodeName("sl-radio")
-public final class SlRadio extends SlComponent<SlRadio> implements HasControlText {
+public final class SlRadio extends SlComponent implements HasControlText {
 
   // Properties
   private static PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");

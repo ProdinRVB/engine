@@ -23,7 +23,7 @@ import org.dwcj.webcomponent.events.EventListener;
  */
 @NodeName("bbj-app-layout")
 @NodeAttribute(name = "fit-viewport")
-public class AppLayout extends WebComponent<AppLayout> implements HasClassName {
+public class AppLayout extends WebComponent implements HasClassName {
 
   /**
    * The drawer placement.
@@ -556,7 +556,8 @@ public class AppLayout extends WebComponent<AppLayout> implements HasClassName {
    * @return the app layout
    */
   public AppLayout addDrawerOpenedListener(EventListener<DrawerOpenedEvent> listener) {
-    return addEventListener(DrawerOpenedEvent.class, listener);
+    addEventListener(DrawerOpenedEvent.class, listener);
+    return this;
   }
 
   /**
@@ -566,7 +567,8 @@ public class AppLayout extends WebComponent<AppLayout> implements HasClassName {
    * @return the app layout
    */
   public AppLayout removeDrawerOpenedListener(EventListener<DrawerOpenedEvent> listener) {
-    return removeEventListener(DrawerOpenedEvent.class, listener);
+    removeEventListener(DrawerOpenedEvent.class, listener);
+    return this;
   }
 
   /**
@@ -576,7 +578,8 @@ public class AppLayout extends WebComponent<AppLayout> implements HasClassName {
    * @return the app layout
    */
   public AppLayout addDrawerClosedListener(EventListener<DrawerClosedEvent> listener) {
-    return addEventListener(DrawerClosedEvent.class, listener);
+    addEventListener(DrawerClosedEvent.class, listener);
+    return this;
   }
 
   /**
@@ -586,6 +589,7 @@ public class AppLayout extends WebComponent<AppLayout> implements HasClassName {
    * @return the app layout
    */
   public AppLayout removeDrawerClosedListener(EventListener<DrawerClosedEvent> listener) {
-    return removeEventListener(DrawerClosedEvent.class, listener);
+    removeEventListener(DrawerClosedEvent.class, listener);
+    return this;
   }
 }

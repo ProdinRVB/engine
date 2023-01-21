@@ -13,7 +13,7 @@ import org.dwcj.webcomponent.annotations.NodeName;
  * @since 1.0.0
  */
 @NodeName("sl-badge")
-public final class SlBadge extends SlComponent<SlBadge> implements HasControlText {
+public final class SlBadge extends SlComponent implements HasControlText {
 
   /**
    * The badge's theme variant.

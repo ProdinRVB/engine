@@ -11,7 +11,7 @@ import org.dwcj.webcomponent.annotations.NodeName;
 import org.dwcj.webcomponent.events.EventListener;
 
 @NodeName("bbj-drawer")
-public class Drawer extends WebComponent<Drawer> implements HasClassName {
+public class Drawer extends WebComponent implements HasClassName {
 
   /**
    * The drawer placement.
@@ -238,7 +238,8 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @return the drawer
    */
   public Drawer addOpenedListener(EventListener<DrawerOpenedEvent> listener) {
-    return addEventListener(DrawerOpenedEvent.class, listener);
+    addEventListener(DrawerOpenedEvent.class, listener);
+    return this;
   }
 
   /**
@@ -248,7 +249,8 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @return the drawer
    */
   public Drawer removeOpenedListener(EventListener<DrawerOpenedEvent> listener) {
-    return removeEventListener(DrawerOpenedEvent.class, listener);
+    removeEventListener(DrawerOpenedEvent.class, listener);
+    return this;
   }
 
   /**
@@ -258,7 +260,8 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @return the drawer
    */
   public Drawer addClosedListener(EventListener<DrawerClosedEvent> listener) {
-    return addEventListener( DrawerClosedEvent.class, listener);
+    addEventListener(DrawerClosedEvent.class, listener);
+    return this;
   }
 
   /**
@@ -268,7 +271,8 @@ public class Drawer extends WebComponent<Drawer> implements HasClassName {
    * @return the drawer
    */
   public Drawer removeClosedListener(EventListener<DrawerClosedEvent> listener) {
-    return removeEventListener(DrawerClosedEvent.class, listener);
+    removeEventListener(DrawerClosedEvent.class, listener);
+    return this;
   }
 
   /**

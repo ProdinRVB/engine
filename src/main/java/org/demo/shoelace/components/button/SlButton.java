@@ -33,7 +33,7 @@ import org.dwcj.webcomponent.events.EventListener;
     " translate: 50% -50%;" +
     " pointer-events: none;" +
     "}")
-public final class SlButton extends SlComponent<SlButton> implements HasControlText {
+public final class SlButton extends SlComponent implements HasControlText {
 
   /**
    * The button's theme variant.

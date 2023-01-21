@@ -17,7 +17,7 @@ import org.dwcj.webcomponent.annotations.NodeName;
 @JavaScript(id = "shoelace-qr-code", url = "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.87/dist/shoelace.js", attributes = {
     @Attribute(name = "type", value = "module")
 })
-public final class QRCode extends WebComponent<QRCode> {
+public final class QRCode extends WebComponent {
 
   private static PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
   private static PropertyDescriptor<Integer> SIZE = PropertyDescriptor.property("size", 200);
@@ -67,7 +67,8 @@ public final class QRCode extends WebComponent<QRCode> {
    * @param value the value of the QRCode
    */
   public QRCode setValue(String value) {
-    return set(VALUE, value);
+    set(VALUE, value);
+    return this;
   }
 
   /**
@@ -85,7 +86,8 @@ public final class QRCode extends WebComponent<QRCode> {
    * @param size the size of the QRCode
    */
   public QRCode setSize(int size) {
-    return set(SIZE, size);
+    set(SIZE, size);
+    return this;
   }
 
   /**
@@ -105,6 +107,7 @@ public final class QRCode extends WebComponent<QRCode> {
    */
   public QRCode setColor(Color color) {
     String hex = String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
-    return set(COLOR, hex);
+    set(COLOR, hex);
+    return this;
   }
 }

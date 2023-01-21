@@ -22,7 +22,7 @@ import org.dwcj.webcomponent.annotations.NodeName;
  * @since 1.0.0
  */
 @NodeName("sl-breadcrumb")
-public final class SlBreadcrumb extends SlComponent<SlBreadcrumb> implements HasControlText {
+public final class SlBreadcrumb extends SlComponent implements HasControlText {
 
   private List<SlBreadcrumbItem> items = new ArrayList<>();
 

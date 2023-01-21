@@ -14,12 +14,12 @@ import org.dwcj.webcomponent.WebComponent;
  * @param <T>
  *            the generic type
  */
-public class Event<T extends WebComponent<T>> extends EventObject implements ControlEvent {
+public class Event<T extends WebComponent> extends EventObject implements ControlEvent {
 
   private Map<String, Object> eventMap;
 
   /**
-   * @param control  the control
+   * @param control  the controlW
    * @param eventMap the event map
    */
   public Event(T control, Map<String, Object> eventMap) {

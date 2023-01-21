@@ -22,7 +22,7 @@ import org.dwcj.webcomponent.events.EventListener;
  * @since 1.0.0
  */
 @NodeName("sl-radio-group")
-public final class SlRadioGroup extends SlComponent<SlRadioGroup> {
+public final class SlRadioGroup extends SlComponent {
 
   private final Map<AbstractControl, String> controls = new HashMap<>();
 

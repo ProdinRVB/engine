@@ -17,7 +17,7 @@ import org.dwcj.webcomponent.events.EventListener;
  * @since 1.0.0
  */
 @NodeName("sl-dialog")
-public class SlDialog extends SlComponent<SlDialog> {
+public class SlDialog extends SlComponent {
 
   private AbstractDwcjPanel content;
   private AbstractDwcjPanel footer;
