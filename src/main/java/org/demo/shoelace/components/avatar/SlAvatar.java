@@ -41,6 +41,19 @@ public final class SlAvatar extends SlComponent {
     public String toString() {
       return value;
     }
+
+    /**
+     * @param value the value as string
+     * @return the loading strategy
+     */
+    public static LoadingStrategy fromString(String value) {
+      for (LoadingStrategy strategy : LoadingStrategy.values()) {
+        if (strategy.value.equals(value)) {
+          return strategy;
+        }
+      }
+      return null;
+    }
   }
 
   /**
@@ -71,6 +84,19 @@ public final class SlAvatar extends SlComponent {
     @Override
     public String toString() {
       return value;
+    }
+
+    /**
+     * @param value the value as string
+     * @return the shape
+     */
+    public static Shape fromString(String value) {
+      for (Shape shape : Shape.values()) {
+        if (shape.value.equals(value)) {
+          return shape;
+        }
+      }
+      return null;
     }
   }
 
@@ -180,7 +206,7 @@ public final class SlAvatar extends SlComponent {
    * @return the loading strategy
    */
   public LoadingStrategy getLoading() {
-    return LoadingStrategy.valueOf(get(LOADING));
+    return LoadingStrategy.fromString(get(LOADING));
   }
 
   /**
@@ -200,7 +226,7 @@ public final class SlAvatar extends SlComponent {
    * @return the shape
    */
   public Shape getShape() {
-    return Shape.valueOf(get(SHAPE));
+    return Shape.fromString(get(SHAPE));
   }
 
   /**

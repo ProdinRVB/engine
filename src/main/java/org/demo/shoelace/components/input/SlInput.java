@@ -56,6 +56,19 @@ public final class SlInput extends SlComponent {
     public String toString() {
       return value;
     }
+
+    /**
+     * @param value the value as string
+     * @return the type
+     */
+    public static Type fromString(String value) {
+      for (Type type : Type.values()) {
+        if (type.value.equals(value)) {
+          return type;
+        }
+      }
+      return null;
+    }
   }
 
   /**
@@ -90,6 +103,19 @@ public final class SlInput extends SlComponent {
     public String toString() {
       return value;
     }
+
+    /**
+     * @param value the value as string
+     * @return the auto capitalize
+     */
+    public static AutoCapitalize fromString(String value) {
+      for (AutoCapitalize autoCapitalize : AutoCapitalize.values()) {
+        if (autoCapitalize.value.equals(value)) {
+          return autoCapitalize;
+        }
+      }
+      return null;
+    }
   }
 
   /**
@@ -122,6 +148,19 @@ public final class SlInput extends SlComponent {
     @Override
     public String toString() {
       return value;
+    }
+
+    /**
+     * @param value the value as string
+     * @return the enter key hint
+     */
+    public static EnterKeyHint fromString(String value) {
+      for (EnterKeyHint enterKeyHint : EnterKeyHint.values()) {
+        if (enterKeyHint.value.equals(value)) {
+          return enterKeyHint;
+        }
+      }
+      return null;
     }
   }
 
@@ -159,6 +198,19 @@ public final class SlInput extends SlComponent {
     public String toString() {
       return value;
     }
+
+    /**
+     * @param value the value as string
+     * @return the input mode
+     */
+    public static InputMode fromString(String value) {
+      for (InputMode inputMode : InputMode.values()) {
+        if (inputMode.value.equals(value)) {
+          return inputMode;
+        }
+      }
+      return null;
+    }
   }
 
   /** The selection direction */
@@ -188,6 +240,19 @@ public final class SlInput extends SlComponent {
     @Override
     public String toString() {
       return value;
+    }
+
+    /**
+     * @param value the value as string
+     * @return the selection direction
+     */
+    public static SelectionDirection fromString(String value) {
+      for (SelectionDirection selectionDirection : SelectionDirection.values()) {
+        if (selectionDirection.value.equals(value)) {
+          return selectionDirection;
+        }
+      }
+      return null;
     }
   }
 
@@ -294,7 +359,7 @@ public final class SlInput extends SlComponent {
    * @return the type
    */
   public Type getType() {
-    return Type.valueOf(get(TYPE));
+    return Type.fromString(get(TYPE));
   }
 
   /**
@@ -385,7 +450,7 @@ public final class SlInput extends SlComponent {
    * @return the size
    */
   public SlSize getSize() {
-    return SlSize.valueOf(get(SIZE));
+    return SlSize.fromString(get(SIZE));
   }
 
   /**
@@ -788,7 +853,7 @@ public final class SlInput extends SlComponent {
    * @return the auto capitalize state
    */
   public AutoCapitalize getAutoCapitalize() {
-    return AutoCapitalize.valueOf(get(AUTO_CAPITALIZE));
+    return AutoCapitalize.fromString(get(AUTO_CAPITALIZE));
   }
 
   /**
@@ -900,7 +965,7 @@ public final class SlInput extends SlComponent {
    * @return the auto save state
    */
   public EnterKeyHint getEnterKeyHint() {
-    return EnterKeyHint.valueOf(get(ENTER_KEY_HINT));
+    return EnterKeyHint.fromString(get(ENTER_KEY_HINT));
   }
 
   /**
@@ -940,7 +1005,7 @@ public final class SlInput extends SlComponent {
    * @return the input mode
    */
   public InputMode getInputMode() {
-    return InputMode.valueOf(get(INPUT_MODE));
+    return InputMode.fromString(get(INPUT_MODE));
   }
 
   /**

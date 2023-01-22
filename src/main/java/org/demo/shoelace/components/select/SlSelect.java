@@ -57,6 +57,20 @@ public final class SlSelect extends SlComponent {
     public String toString() {
       return value;
     }
+
+    /**
+     * @param value the value as string
+     * @return the placement
+     */
+    public static Placement fromString(String value) {
+      for (Placement placement : Placement.values()) {
+        if (placement.value.equals(value)) {
+          return placement;
+        }
+      }
+
+      return null;
+    }
   }
 
   private List<SlOption> options = new ArrayList<>();
@@ -221,7 +235,7 @@ public final class SlSelect extends SlComponent {
    * @return The select's size.
    */
   public SlSize getSize() {
-    return SlSize.valueOf(get(SIZE));
+    return SlSize.fromString(get(SIZE));
   }
 
   /**
@@ -459,7 +473,7 @@ public final class SlSelect extends SlComponent {
    * @return The select's placement.
    */
   public Placement getPlacement() {
-    return Placement.valueOf(get(PLACEMENT));
+    return Placement.fromString(get(PLACEMENT));
   }
 
   /**

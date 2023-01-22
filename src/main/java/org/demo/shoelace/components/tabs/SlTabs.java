@@ -54,6 +54,20 @@ public final class SlTabs extends SlComponent {
     public String toString() {
       return value;
     }
+
+    /**
+     * @param value the value as string
+     * @return the placement
+     */
+    public static Placement fromString(String value) {
+      for (Placement placement : Placement.values()) {
+        if (placement.value.equals(value)) {
+          return placement;
+        }
+      }
+
+      return null;
+    }
   }
 
   /**
@@ -83,6 +97,20 @@ public final class SlTabs extends SlComponent {
     @Override
     public String toString() {
       return value;
+    }
+
+    /**
+     * @param value the value as string
+     * @return the activation behavior
+     */
+    public static ActivationBehavior fromString(String value) {
+      for (ActivationBehavior behavior : ActivationBehavior.values()) {
+        if (behavior.value.equals(value)) {
+          return behavior;
+        }
+      }
+
+      return null;
     }
   }
 
@@ -128,7 +156,7 @@ public final class SlTabs extends SlComponent {
    * @return the placement
    */
   public Placement getPlacement() {
-    return Placement.valueOf(get(PLACEMENT));
+    return Placement.fromString(get(PLACEMENT));
   }
 
   /**
@@ -148,7 +176,7 @@ public final class SlTabs extends SlComponent {
    * @return the activation behavior
    */
   public ActivationBehavior getActivationBehavior() {
-    return ActivationBehavior.valueOf(get(ACTIVATION_BEHAVIOR));
+    return ActivationBehavior.fromString(get(ACTIVATION_BEHAVIOR));
   }
 
   /**

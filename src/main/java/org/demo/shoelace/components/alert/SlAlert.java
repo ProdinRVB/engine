@@ -48,6 +48,19 @@ public final class SlAlert extends SlComponent implements HasControlText {
     public String toString() {
       return value;
     }
+
+    /**
+     * @param value the value as string
+     * @return the variant
+     */
+    public static Variant fromString(String value) {
+      for (Variant variant : Variant.values()) {
+        if (variant.value.equals(value)) {
+          return variant;
+        }
+      }
+      return null;
+    }
   }
 
   // Properties
@@ -142,7 +155,7 @@ public final class SlAlert extends SlComponent implements HasControlText {
    * @return the variant
    */
   public Variant getVariant() {
-    return Variant.valueOf(get(VARIANT));
+    return Variant.fromString(get(VARIANT));
   }
 
   /**

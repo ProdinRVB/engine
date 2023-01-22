@@ -29,4 +29,17 @@ public enum SlTarget {
   public String toString() {
     return value;
   }
+
+  /**
+   * @param value the value as string
+   * @return the target
+   */
+  public static SlTarget fromString(String value) {
+    for (SlTarget target : SlTarget.values()) {
+      if (target.value.equals(value)) {
+        return target;
+      }
+    }
+    return null;
+  }
 }

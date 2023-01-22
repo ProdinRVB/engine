@@ -67,6 +67,19 @@ public final class SlButton extends SlComponent implements HasControlText {
     public String toString() {
       return value;
     }
+
+    /**
+     * @param value the value as string
+     * @return the variant
+     */
+    public static Variant fromString(String value) {
+      for (Variant variant : Variant.values()) {
+        if (variant.value.equals(value)) {
+          return variant;
+        }
+      }
+      return null;
+    }
   }
 
   /**
@@ -96,6 +109,19 @@ public final class SlButton extends SlComponent implements HasControlText {
     @Override
     public String toString() {
       return value;
+    }
+
+    /**
+     * @param value the value as string
+     * @return the type
+     */
+    public static Type fromString(String value) {
+      for (Type type : Type.values()) {
+        if (type.value.equals(value)) {
+          return type;
+        }
+      }
+      return null;
     }
   }
 
@@ -127,6 +153,19 @@ public final class SlButton extends SlComponent implements HasControlText {
     @Override
     public String toString() {
       return value;
+    }
+
+    /**
+     * @param value the value as string
+     * @return the form target
+     */
+    public static FormTarget fromString(String value) {
+      for (FormTarget formTarget : FormTarget.values()) {
+        if (formTarget.value.equals(value)) {
+          return formTarget;
+        }
+      }
+      return null;
     }
   }
 
@@ -196,7 +235,7 @@ public final class SlButton extends SlComponent implements HasControlText {
    * @see Variant
    */
   public Variant getVariant() {
-    return Variant.valueOf(get(VARIANT));
+    return Variant.fromString(get(VARIANT));
   }
 
   /**
@@ -218,7 +257,7 @@ public final class SlButton extends SlComponent implements HasControlText {
    * @see SlSize
    */
   public SlSize getSize() {
-    return SlSize.valueOf(get(SIZE));
+    return SlSize.fromString(get(SIZE));
   }
 
   /**
@@ -367,7 +406,7 @@ public final class SlButton extends SlComponent implements HasControlText {
    * @see Type
    */
   public Type getType() {
-    return Type.valueOf(get(TYPE));
+    return Type.fromString(get(TYPE));
   }
 
   /**
@@ -462,9 +501,9 @@ public final class SlButton extends SlComponent implements HasControlText {
    * @see SlTarget
    */
   public SlTarget getTarget() {
-    return SlTarget.valueOf(get(TARGET));
+    return SlTarget.fromString(get(TARGET));
   }
-  
+
   /**
    * Set the download of the button.
    * 
@@ -621,7 +660,7 @@ public final class SlButton extends SlComponent implements HasControlText {
   public String getFormEnctype() {
     return get(FORM_ENCTYPE);
   }
-  
+
   /**
    * Set the text of the button.
    * 
