@@ -3,11 +3,9 @@ package org.dwcj.webcomponent.events;
 import java.io.Serializable;
 
 /**
- * The listener interface for receiving wc events. The class that is interested
- * in processing a wc event implements this interface, and the object created
- * with that class is registered with a component, using the component's
- * <code>addEventListener</code> method. When the wc event occurs, that object's
- * appropriate method is invoked.
+ * The listener interface for receiving events. The class that is interested
+ * in processing an event implements this interface, and the object created
+ * with that class is registered with a control.
  *
  * @param <T>
  *            the generic type

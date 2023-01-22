@@ -8,8 +8,9 @@ import org.dwcj.interfaces.Control;
 import org.dwcj.interfaces.ControlEvent;
 
 /**
- * The Class WcEvent. This class is the base class for all events fired by the
- * web components.
+ * The Class Event. 
+ * 
+ * This class is the base class for all events fired by the controls.
  * 
  * @param <T>
  *            the generic type

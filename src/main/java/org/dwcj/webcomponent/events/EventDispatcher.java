@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * The Class WcEventDispatcher handles the event registration and dispatching.
+ * The Class EventDispatcher handles the event registration and dispatching.
  * 
  * @author Hyyan Abo Fakher
  */
