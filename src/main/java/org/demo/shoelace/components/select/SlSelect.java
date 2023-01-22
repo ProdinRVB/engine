@@ -15,6 +15,7 @@ import org.demo.shoelace.components.select.events.SlSelectHideEvent;
 import org.demo.shoelace.components.select.events.SlSelectInputEvent;
 import org.demo.shoelace.components.select.events.SlSelectFocusEvent;
 import org.demo.shoelace.enums.SlSize;
+import org.dwcj.annotations.InlineStyleSheet;
 import org.dwcj.exceptions.DwcRuntimeException;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;
@@ -918,14 +919,14 @@ public class SlSelect extends SlComponent {
     // check if option is created, if not, create it
     String prefix = option.getPrefix();
     if (prefix != null && !prefix.isEmpty()) {
-      js.append("const prefix = option.querySelector('span[slot=\"prefix\"]');")
+      js.append("let prefix = option.querySelector('span[slot=\"prefix\"]');")
           .append("if (!prefix) {")
-          .append(" const span = document.createElement('span');")
-          .append(" span.setAttribute('slot', 'prefix');")
-          .append(" option.appendChild(span);")
+          .append(" prefix = document.createElement('span');")
+          .append(" prefix.setAttribute('slot', 'prefix');")
+          .append(" prefix.style.display = 'flex';")
+          .append(" option.appendChild(prefix);")
           .append("}")
-          .append("prefix.innerHTML = \\`").append(option.getPrefix())
-          .append("\\`;");
+          .append("prefix.innerHTML = \\`").append(option.getPrefix()).append("\\`;");
     } else {
       js.append("const prefix = option.querySelector('span[slot=\"prefix\"]');")
           .append("if (prefix) {")
@@ -935,14 +936,14 @@ public class SlSelect extends SlComponent {
 
     String suffix = option.getSuffix();
     if (suffix != null && !suffix.isEmpty()) {
-      js.append("const suffix = option.querySelector('span[slot=\"suffix\"]');")
+      js.append("let suffix = option.querySelector('span[slot=\"suffix\"]');")
           .append("if (!suffix) {")
-          .append(" const span = document.createElement('span');")
-          .append(" span.setAttribute('slot', 'suffix');")
-          .append(" option.appendChild(span);")
+          .append(" suffix = document.createElement('span');")
+          .append(" suffix.setAttribute('slot', 'suffix');")
+          .append(" suffix.style.display = 'flex';")
+          .append(" option.appendChild(suffix);")
           .append("}")
-          .append("suffix.innerHTML = \\`").append(option.getSuffix())
-          .append("\\`;");
+          .append("suffix.innerHTML = \\`").append(option.getSuffix()).append("\\`;");
     } else {
       js.append("const suffix = option.querySelector('span[slot=\"suffix\"]');")
           .append("if (suffix) {")

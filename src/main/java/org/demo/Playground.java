@@ -35,32 +35,38 @@ public class Playground extends App {
 
     AppPanel panel = new AppPanel();
     panel.addClassName("app-panel");
-
+    
     SlSelect select = new SlSelect();
+    SlButton button = new SlButton("Log selected value");
+    panel.add(select, button);
+
     select.setStyle("width", "300px");
     select.add("Email", "Phone", "Chat");
+    SlOption other = new SlOption("My Great Option");
+    other.setPrefix("<sl-icon  name='envelope'></sl-icon>");
+    select.add(other);
     select.setMultiple(true);
     select.setSelected("Phone", "Chat", "other");
     // List<SlOption> values = select.getSelected();
     // for (SlOption value : values) {
     //   msgbox(String.valueOf(value.getValue()));
     // }
-    select.addShowListener(e -> {
-      List<SlOption> values = select.getSelected();
-      for (SlOption value : values) {
-        consoleLog("Show: " + (value.getValue()));
-      }
-    });
+    // select.addShowListener(e -> {
+    //   List<SlOption> values = select.getSelected();
+    //   for (SlOption value : values) {
+    //     consoleLog("Show: " + (value.getValue()));
+    //   }
+    // });
 
-    SlButton button = new SlButton("Log selected value");
     button.addClickListener(e -> {
+      
       List<SlOption> values2 = select.getSelected();
       for (SlOption value : values2) {
         consoleLog(value.getValue());
       }
     });
 
-    panel.add(select, button);
+    
   }
 
 }

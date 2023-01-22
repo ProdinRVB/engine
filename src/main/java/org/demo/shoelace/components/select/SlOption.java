@@ -72,7 +72,7 @@ public final class SlOption {
    */
   public SlOption setValue(String value) {
     String oldValue = this.value;
-    this.value = value;
+    this.value = value.replaceAll("\\s", "");
     this.pcs.firePropertyChange("value", oldValue, value);
     return this;
   }
