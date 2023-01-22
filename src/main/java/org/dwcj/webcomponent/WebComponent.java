@@ -18,6 +18,7 @@ import java.util.function.Function;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.dwcj.App;
 import org.dwcj.Environment;
 
 import org.dwcj.controls.AbstractControl;

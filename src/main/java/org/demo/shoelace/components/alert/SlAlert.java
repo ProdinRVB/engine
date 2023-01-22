@@ -195,7 +195,7 @@ public final class SlAlert extends SlComponent implements HasControlText {
    * @return the alert
    */
   public SlAlert toast() {
-    invokeAsync("toast");
+    callAsyncFunction("toast");
     return this;
   }
 

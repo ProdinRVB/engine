@@ -32,7 +32,7 @@ public class ToastSample extends App {
 
     // Button btn = new Button("Show Toast");
     // btn.onClick((e) -> {
-    //   App.msgbox("Clicked Listener 1");
+    // App.msgbox("Clicked Listener 1");
     // });
     // panel.add(btn);
 
@@ -48,7 +48,7 @@ public class ToastSample extends App {
         .addCloseButton()
         .show("The application has new updates.")
         .addButtonClickedListener((ToastButtonClickedEvent e) -> {
-          Toast component = e.getWebComponent();
+          Toast component = (Toast) e.getControl();
           String buttonId = e.getButtonId();
           switch (buttonId) {
             case "update-btn":
@@ -61,7 +61,7 @@ public class ToastSample extends App {
           }
         })
         // .addOpenedListener((ToastOpenedEvent e) -> {
-        //   App.msgbox("Opened Listener");
+        // App.msgbox("Opened Listener");
         // })
         .addClosedListener(closedListener)
         .addClosedListener((ToastClosedEvent e) -> {

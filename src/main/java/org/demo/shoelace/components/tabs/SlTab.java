@@ -15,7 +15,7 @@ public final class SlTab {
   private String text = "";
   private boolean closable = false;
   private boolean disable = false;
-  private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+  private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
   /**
    * Create a new tab.
@@ -47,7 +47,7 @@ public final class SlTab {
   public SlTab setText(String label) {
     String old = this.text;
     this.text = label;
-    this.pcs.firePropertyChange("label", old, label);
+    this.support.firePropertyChange("label", old, label);
     return this;
   }
 
@@ -78,7 +78,7 @@ public final class SlTab {
   public SlTab setClosable(boolean closeable) {
     boolean old = this.closable;
     this.closable = closeable;
-    this.pcs.firePropertyChange("closeable", old, closeable);
+    this.support.firePropertyChange("closeable", old, closeable);
     return this;
   }
 
@@ -100,7 +100,7 @@ public final class SlTab {
   public SlTab setDisable(boolean disable) {
     boolean old = this.disable;
     this.disable = disable;
-    this.pcs.firePropertyChange("disable", old, disable);
+    this.support.firePropertyChange("disable", old, disable);
     return this;
   }
 
@@ -122,7 +122,7 @@ public final class SlTab {
   private SlTab setId(String id) {
     String old = this.id;
     this.id = id;
-    this.pcs.firePropertyChange("id", old, id);
+    this.support.firePropertyChange("id", old, id);
     return this;
   }
 
@@ -134,7 +134,7 @@ public final class SlTab {
    */
   @SuppressWarnings("unused")
   private SlTab addPropertyChangeListener(PropertyChangeListener listener) {
-    this.pcs.addPropertyChangeListener(listener);
+    this.support.addPropertyChangeListener(listener);
     return this;
   }
 
@@ -146,7 +146,7 @@ public final class SlTab {
    */
   @SuppressWarnings("unused")
   private SlTab removePropertyChangeListener(PropertyChangeListener listener) {
-    this.pcs.removePropertyChangeListener(listener);
+    this.support.removePropertyChangeListener(listener);
     return this;
   }
 }

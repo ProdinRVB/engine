@@ -16,7 +16,7 @@ public final class SlBreadcrumbItem {
   private String href = "";
   private SlTarget target = SlTarget.SELF;
   private String rel = "noreferrer noopener";
-  private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+  private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
   /**
    * Create a new breadcrumb item.
@@ -75,7 +75,7 @@ public final class SlBreadcrumbItem {
   public SlBreadcrumbItem setText(String text) {
     String oldValue = this.text;
     this.text = text;
-    pcs.firePropertyChange("text", oldValue, text);
+    support.firePropertyChange("text", oldValue, text);
 
     return this;
   }
@@ -102,7 +102,7 @@ public final class SlBreadcrumbItem {
   public SlBreadcrumbItem setHref(String href) {
     String oldValue = this.href;
     this.href = href;
-    pcs.firePropertyChange("href", oldValue, href);
+    support.firePropertyChange("href", oldValue, href);
 
     return this;
   }
@@ -127,7 +127,7 @@ public final class SlBreadcrumbItem {
   public SlBreadcrumbItem setRel(String rel) {
     String oldValue = this.rel;
     this.rel = rel;
-    pcs.firePropertyChange("rel", oldValue, rel);
+    support.firePropertyChange("rel", oldValue, rel);
 
     return this;
   }
@@ -152,7 +152,7 @@ public final class SlBreadcrumbItem {
   public SlBreadcrumbItem setTarget(SlTarget target) {
     SlTarget oldValue = this.target;
     this.target = target;
-    pcs.firePropertyChange("target", oldValue, target);
+    support.firePropertyChange("target", oldValue, target);
 
     return this;
   }
@@ -174,7 +174,7 @@ public final class SlBreadcrumbItem {
    */
   @SuppressWarnings("unused")
   private SlBreadcrumbItem addPropertyChangeListener(PropertyChangeListener listener) {
-    this.pcs.addPropertyChangeListener(listener);
+    this.support.addPropertyChangeListener(listener);
     return this;
   }
 
@@ -186,7 +186,7 @@ public final class SlBreadcrumbItem {
    */
   @SuppressWarnings("unused")
   private SlBreadcrumbItem removePropertyChangeListener(PropertyChangeListener listener) {
-    this.pcs.removePropertyChangeListener(listener);
+    this.support.removePropertyChangeListener(listener);
     return this;
   }
 }

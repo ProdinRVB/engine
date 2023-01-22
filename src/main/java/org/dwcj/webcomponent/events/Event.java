@@ -52,13 +52,4 @@ public class Event<T extends WebComponent> extends EventObject implements Contro
   public AbstractControl getControl() {
     return (AbstractControl) getSource();
   }
-
-  /**
-   * Gets the web component.
-   * 
-   * @return the web component
-   */
-  public T getWebComponent() {
-    return (T) getSource(); // NOSONAR
-  }
 }

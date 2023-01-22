@@ -274,7 +274,7 @@ public final class SlTabs extends SlComponent {
     try {
       method = tab.getClass().getDeclaredMethod("addPropertyChangeListener", PropertyChangeListener.class);
       method.setAccessible(true);
-      method.invoke(tab, new TabChangeListener());
+      method.invoke(tab, new SlTabChangeListener());
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
         | InvocationTargetException e) {
       throw new DwcRuntimeException("Error while adding property change listener to tab", e);
@@ -648,7 +648,7 @@ public final class SlTabs extends SlComponent {
    * 
    * @author Hyyan Abo Fakher
    */
-  private class TabChangeListener implements PropertyChangeListener {
+  private class SlTabChangeListener implements PropertyChangeListener {
 
     /**
      * {@inheritDoc}

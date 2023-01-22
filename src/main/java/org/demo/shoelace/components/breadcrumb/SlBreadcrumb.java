@@ -99,12 +99,12 @@ public final class SlBreadcrumb extends SlComponent implements HasControlText {
     items.add(item);
 
     // call addPropertyChangeListener with reflection
-    // to keep track of changes in the tab
+    // to keep track of changes in the breadcrumb item
     Method method = null;
     try {
       method = item.getClass().getDeclaredMethod("addPropertyChangeListener", PropertyChangeListener.class);
       method.setAccessible(true);
-      method.invoke(item, new ItemChangeListener());
+      method.invoke(item, new SlBreadcrumbItemChangeListener());
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
         | InvocationTargetException e) {
       throw new DwcRuntimeException("Error while adding property change listener to tab", e);
@@ -300,7 +300,7 @@ public final class SlBreadcrumb extends SlComponent implements HasControlText {
    * 
    * @author Hyyan Abo Fakher
    */
-  private class ItemChangeListener implements PropertyChangeListener {
+  private class SlBreadcrumbItemChangeListener implements PropertyChangeListener {
 
     /**
      * {@inheritDoc}
