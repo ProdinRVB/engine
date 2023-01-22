@@ -4,8 +4,8 @@ import java.util.EventObject;
 import java.util.Map;
 
 import org.dwcj.controls.AbstractControl;
+import org.dwcj.interfaces.Control;
 import org.dwcj.interfaces.ControlEvent;
-import org.dwcj.webcomponent.WebComponent;
 
 /**
  * The Class WcEvent. This class is the base class for all events fired by the
@@ -14,7 +14,7 @@ import org.dwcj.webcomponent.WebComponent;
  * @param <T>
  *            the generic type
  */
-public class Event<T extends WebComponent> extends EventObject implements ControlEvent {
+public class Event<T extends Control> extends EventObject implements ControlEvent {
 
   private Map<String, Object> eventMap;
 
