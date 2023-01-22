@@ -4,6 +4,7 @@ import java.util.HashMap;
 import org.dwcj.App;
 import org.dwcj.Environment;
 import org.dwcj.controls.AbstractControl;
+import org.dwcj.environment.ObjectTable;
 import org.dwcj.exceptions.DwcAnnotationException;
 import org.dwcj.exceptions.DwcException;
 import org.dwcj.util.Assets;
@@ -197,14 +198,9 @@ public final class AnnotationProcessor {
           attributes.put(attribute.name(), attribute.value());
         }
 
-        BBjObjectTable table = Environment.getInstance().getBBjAPI().getObjectTable();
         boolean hasId = sheet.id() != null && !sheet.id().isEmpty();
-        boolean isTracked;
-        try {
-          isTracked = (Boolean) table.get("dwcj.styles." + sheet.id());
-        } catch (Exception e1) {
-          isTracked = false;
-        }
+        String key = "dwcj.styles." + sheet.id();
+        boolean isTracked = ObjectTable.contains(key);
 
         if (hasId) {
           if (isTracked) {
@@ -214,8 +210,8 @@ public final class AnnotationProcessor {
           attributes.put("id", sheet.id());
 
           if (sheet.once()) {
-            attributes.put("bbj-once","");
-            table.put("dwcj.styles." + sheet.id(), true);
+            attributes.put("bbj-once", "");
+            ObjectTable.put(key, true);
           }
         }
 

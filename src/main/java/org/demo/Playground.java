@@ -9,6 +9,7 @@ import org.demo.shoelace.components.details.SlDetails;
 import org.demo.shoelace.components.details.SlDetailsGroup;
 import org.demo.shoelace.components.dialog.SlDialog;
 import org.demo.shoelace.components.drawer.SlDrawer;
+import org.demo.shoelace.components.input.SlInput;
 import org.demo.shoelace.utils.CssColor;
 import org.dwcj.App;
 import org.dwcj.annotations.Attribute;
@@ -71,7 +72,12 @@ public class Playground extends App {
       drawer.open();
     });
 
-    panel.add(open, drawer);
+    SlInput input = new SlInput();
+    input.addModifiedListener((e) -> {
+      consoleLog("Input Modified: " + e.getValue());
+    });
+
+    panel.add(open, drawer, input);
   }
 
 }

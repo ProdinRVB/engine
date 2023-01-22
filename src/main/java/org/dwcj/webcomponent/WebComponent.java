@@ -26,7 +26,7 @@ import org.dwcj.controls.AbstractDwcControl;
 import org.dwcj.controls.htmlcontainer.HtmlContainer;
 import org.dwcj.controls.htmlcontainer.events.HtmlContainerJavascriptEvent;
 import org.dwcj.controls.panels.AbstractDwcjPanel;
-
+import org.dwcj.environment.ObjectTable;
 import org.dwcj.exceptions.DwcControlDestroyed;
 import org.dwcj.exceptions.DwcRuntimeException;
 
@@ -74,7 +74,6 @@ public abstract class WebComponent extends AbstractControl {
   private AbstractDwcjPanel panel;
 
   /**
-   * O
    * Create a new web component
    */
   public WebComponent() {
@@ -106,6 +105,28 @@ public abstract class WebComponent extends AbstractControl {
    */
   public boolean isAttached() {
     return panel != null && !isDestroyed();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void destroy() {
+    if (isDestroyed()) {
+      return;
+    }
+
+    getHtmlContainer().destroy();
+    properties.clear();
+    attributes.clear();
+    asyncScripts.clear();
+    registeredClientEvents.clear();
+    clientEventMap.clear();
+    slots.clear();
+    rawSlots.clear();
+    dispatcher.clear();
+
+    super.destroy();
   }
 
   /**
@@ -226,20 +247,6 @@ public abstract class WebComponent extends AbstractControl {
         .append("</").append(name).append(">");
 
     return view.toString();
-  }
-
-  /**
-   * Get the default css styles of the web component
-   * 
-   * @return the default css styles of the web component or empty string if the
-   *         web component is destroyed
-   */
-  protected String getStylesheets() {
-    if (isDestroyed()) {
-      return "";
-    }
-
-    return "[bbj-slot]{overflow: visible}";
   }
 
   /**
@@ -1253,7 +1260,12 @@ public abstract class WebComponent extends AbstractControl {
     }
 
     // attach the stylesheets
-    App.addInlineStyleSheet(getStylesheets(), false, "id=wc-stylesheets");
+    String key = "dwcj.styles.__attacheWCStyleSheets__";
+    boolean attached = ObjectTable.contains(key);
+    if (!attached) {
+      App.addInlineStyleSheet(getStylesheets(), false, "id=wc-styles");
+      ObjectTable.put(key, true);
+    }
 
     this.panel = panel;
     super.create(panel);
@@ -1446,25 +1458,17 @@ public abstract class WebComponent extends AbstractControl {
   }
 
   /**
-   * {@inheritDoc}
+   * Get the default css styles of the web component
+   * 
+   * @return the default css styles of the web component or empty string if the
+   *         web component is destroyed
    */
-  @Override
-  public void destroy() {
+  private String getStylesheets() {
     if (isDestroyed()) {
-      return;
+      return "";
     }
 
-    getHtmlContainer().destroy();
-    properties.clear();
-    attributes.clear();
-    asyncScripts.clear();
-    registeredClientEvents.clear();
-    clientEventMap.clear();
-    slots.clear();
-    rawSlots.clear();
-    dispatcher.clear();
-
-    super.destroy();
+    return "[bbj-slot]{overflow: visible}";
   }
 
   /**
