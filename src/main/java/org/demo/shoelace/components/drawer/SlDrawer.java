@@ -3,6 +3,7 @@ package org.demo.shoelace.components.drawer;
 import org.demo.shoelace.components.SlComponent;
 import org.demo.shoelace.components.drawer.events.SlDrawerCloseEvent;
 import org.demo.shoelace.components.drawer.events.SlDrawerOpenEvent;
+import org.dwcj.annotations.InlineStyleSheet;
 import org.dwcj.controls.panels.Div;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;
@@ -16,6 +17,11 @@ import org.dwcj.webcomponent.events.EventListener;
  * @since 1.0.0
  */
 @NodeName("sl-drawer")
+@InlineStyleSheet(id = "sl-icon-button-styles", once = true, value = "" +
+    ".drawer-header-actions {" +
+    "   display: flex;" +
+    "   align-items: center;" +
+    "}")
 public class SlDrawer extends SlComponent {
 
   /** The direction from which the drawer will open. */
@@ -83,12 +89,13 @@ public class SlDrawer extends SlComponent {
   /**
    * Use the passed panel in header slot.
    * 
-   * @param content the header panel
+   * @param headerActions the header panel
    * @return the drawer
    */
-  public SlDrawer setHeaderActions(Div content) {
-    this.headerActions = content;
-    addSlot("header-actions", content);
+  public SlDrawer setHeaderActions(Div headerActions) {
+    this.headerActions = headerActions;
+    this.headerActions.addClassName("drawer-header-actions");
+    addSlot("header-actions", headerActions);
     return this;
   }
 
