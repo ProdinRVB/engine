@@ -95,11 +95,11 @@ public final class Toast extends WebComponent implements HasClassName {
   private final HashMap<String, String> buttons = new HashMap<>();
 
   // Property descriptors
-  private static PropertyDescriptor<Boolean> OPENED = PropertyDescriptor.property("opened", false);
-  private static PropertyDescriptor<String> MESSAGE = PropertyDescriptor.property("message", "");
-  private static PropertyDescriptor<Integer> DURATION = PropertyDescriptor.property("duration", 5000);
-  private static PropertyDescriptor<String> THEME = PropertyDescriptor.property("theme", Theme.GRAY.getValue());
-  private static PropertyDescriptor<String> PLACEMENT = PropertyDescriptor.property("placement",
+  private final PropertyDescriptor<Boolean> OPENED = PropertyDescriptor.property("opened", false);
+  private final PropertyDescriptor<String> MESSAGE = PropertyDescriptor.property("message", "");
+  private final PropertyDescriptor<Integer> DURATION = PropertyDescriptor.property("duration", 5000);
+  private final PropertyDescriptor<String> THEME = PropertyDescriptor.property("theme", Theme.GRAY.getValue());
+  private final PropertyDescriptor<String> PLACEMENT = PropertyDescriptor.property("placement",
       Placement.BOTTOM.getValue());
 
   /**

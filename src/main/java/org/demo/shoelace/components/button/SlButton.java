@@ -134,27 +134,27 @@ public final class SlButton extends SlComponent implements HasControlText {
   String badgeId = null;
 
   // Properties
-  private static PropertyDescriptor<String> VARIANT = PropertyDescriptor.property("variant",
+  private final PropertyDescriptor<String> VARIANT = PropertyDescriptor.property("variant",
       Variant.DEFAULT.getValue());
-  private static PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", SlSize.MEDIUM.getValue());
-  private static PropertyDescriptor<Boolean> CARET = PropertyDescriptor.property("caret", false);
-  private static PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
-  private static PropertyDescriptor<Boolean> LOADING = PropertyDescriptor.property("loading", false);
-  private static PropertyDescriptor<Boolean> OUTLINE = PropertyDescriptor.property("outline", false);
-  private static PropertyDescriptor<Boolean> PILL = PropertyDescriptor.property("pill", false);
-  private static PropertyDescriptor<Boolean> CIRCLE = PropertyDescriptor.property("circle", false);
-  private static PropertyDescriptor<String> TYPE = PropertyDescriptor.property("type", Type.BUTTON.getValue());
-  private static PropertyDescriptor<String> NAME = PropertyDescriptor.property("name", "");
-  private static PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
-  private static PropertyDescriptor<String> HREF = PropertyDescriptor.property("href", "");
-  private static PropertyDescriptor<String> TARGET = PropertyDescriptor.property("target", "");
-  private static PropertyDescriptor<String> DOWNLOAD = PropertyDescriptor.property("download", "");
-  private static PropertyDescriptor<String> FORM = PropertyDescriptor.property("form", "");
-  private static PropertyDescriptor<String> FORM_ACTION = PropertyDescriptor.property("formAction", "");
-  private static PropertyDescriptor<String> FORM_ENCTYPE = PropertyDescriptor.property("formEnctype", "");
-  private static PropertyDescriptor<String> FORM_METHOD = PropertyDescriptor.property("formMethod", "");
-  private static PropertyDescriptor<Boolean> FORM_NO_VALIDATE = PropertyDescriptor.property("formNoValidate", false);
-  private static PropertyDescriptor<String> FORM_TARGET = PropertyDescriptor.property("formTarget", "");
+  private final PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", SlSize.MEDIUM.getValue());
+  private final PropertyDescriptor<Boolean> CARET = PropertyDescriptor.property("caret", false);
+  private final PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
+  private final PropertyDescriptor<Boolean> LOADING = PropertyDescriptor.property("loading", false);
+  private final PropertyDescriptor<Boolean> OUTLINE = PropertyDescriptor.property("outline", false);
+  private final PropertyDescriptor<Boolean> PILL = PropertyDescriptor.property("pill", false);
+  private final PropertyDescriptor<Boolean> CIRCLE = PropertyDescriptor.property("circle", false);
+  private final PropertyDescriptor<String> TYPE = PropertyDescriptor.property("type", Type.BUTTON.getValue());
+  private final PropertyDescriptor<String> NAME = PropertyDescriptor.property("name", "");
+  private final PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
+  private final PropertyDescriptor<String> HREF = PropertyDescriptor.property("href", "");
+  private final PropertyDescriptor<String> TARGET = PropertyDescriptor.property("target", "");
+  private final PropertyDescriptor<String> DOWNLOAD = PropertyDescriptor.property("download", "");
+  private final PropertyDescriptor<String> FORM = PropertyDescriptor.property("form", "");
+  private final PropertyDescriptor<String> FORM_ACTION = PropertyDescriptor.property("formAction", "");
+  private final PropertyDescriptor<String> FORM_ENCTYPE = PropertyDescriptor.property("formEnctype", "");
+  private final PropertyDescriptor<String> FORM_METHOD = PropertyDescriptor.property("formMethod", "");
+  private final PropertyDescriptor<Boolean> FORM_NO_VALIDATE = PropertyDescriptor.property("formNoValidate", false);
+  private final PropertyDescriptor<String> FORM_TARGET = PropertyDescriptor.property("formTarget", "");
 
   /**
    * Create a button.

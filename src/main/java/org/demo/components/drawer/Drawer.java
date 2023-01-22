@@ -54,13 +54,13 @@ public class Drawer extends WebComponent implements HasClassName {
     }
   }
 
-  private static PropertyDescriptor<Boolean> AUTO_FOCUS = PropertyDescriptor.property("autoFocus", false);
-  private static PropertyDescriptor<String> LABEL = PropertyDescriptor.property("label", "Drawer");
-  private static PropertyDescriptor<String> MAX_SIZE = PropertyDescriptor.property("maxSize", "100%");
-  private static PropertyDescriptor<Boolean> OPENED = PropertyDescriptor.property("opened", false);
-  private static PropertyDescriptor<String> PLACEMENT = PropertyDescriptor.property("placement",
+  private final PropertyDescriptor<Boolean> AUTO_FOCUS = PropertyDescriptor.property("autoFocus", false);
+  private final PropertyDescriptor<String> LABEL = PropertyDescriptor.property("label", "Drawer");
+  private final PropertyDescriptor<String> MAX_SIZE = PropertyDescriptor.property("maxSize", "100%");
+  private final PropertyDescriptor<Boolean> OPENED = PropertyDescriptor.property("opened", false);
+  private final PropertyDescriptor<String> PLACEMENT = PropertyDescriptor.property("placement",
       Placement.LEFT.getValue());
-  private static PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", "16EM");
+  private final PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", "16EM");
 
   /**
    * Instantiates a new drawer.

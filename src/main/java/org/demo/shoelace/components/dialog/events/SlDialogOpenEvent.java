@@ -7,9 +7,7 @@ import org.dwcj.webcomponent.events.Event;
 import org.demo.shoelace.components.dialog.SlDialog;
 
 /**
- * The checkbox focus event.
- * 
- * Emitted when the checkbox receives input.
+ * 	Emitted when the details opens.
  * 
  * @author Hyyan Abo Fakher
  */

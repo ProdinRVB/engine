@@ -51,11 +51,11 @@ public final class SlAlert extends SlComponent implements HasControlText {
   }
 
   // Properties
-  private static PropertyDescriptor<Boolean> OPEN = PropertyDescriptor.property("open", false);
-  private static PropertyDescriptor<Boolean> CLOSABLE = PropertyDescriptor.property("closable", false);
-  private static PropertyDescriptor<String> VARIANT = PropertyDescriptor.property("variant",
+  private final PropertyDescriptor<Boolean> OPEN = PropertyDescriptor.property("open", false);
+  private final PropertyDescriptor<Boolean> CLOSABLE = PropertyDescriptor.property("closable", false);
+  private final PropertyDescriptor<String> VARIANT = PropertyDescriptor.property("variant",
       Variant.PRIMARY.getValue());
-  private static PropertyDescriptor<Integer> DURATION = PropertyDescriptor.property("duration", Integer.MAX_VALUE);
+  private final PropertyDescriptor<Integer> DURATION = PropertyDescriptor.property("duration", Integer.MAX_VALUE);
 
   /**
    * Create a new alert.

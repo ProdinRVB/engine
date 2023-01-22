@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.demo.shoelace.components.button.SlButton;
+import org.demo.shoelace.components.details.SlDetails;
 import org.demo.shoelace.components.select.SlOption;
 import org.demo.shoelace.components.select.SlSelect;
 import org.dwcj.App;
@@ -34,39 +35,19 @@ public class Playground extends App {
   public void run() throws DwcException {
 
     AppPanel panel = new AppPanel();
-    panel.addClassName("app-panel");
-    
-    SlSelect select = new SlSelect();
-    SlButton button = new SlButton("Log selected value");
-    panel.add(select, button);
+    // panel.addClassName("app-panel");
 
-    select.setStyle("width", "300px");
-    select.add("Email", "Phone", "Chat");
-    SlOption other = new SlOption("My Great Option");
-    other.setPrefix("<sl-icon  name='envelope'></sl-icon>");
-    select.add(other);
-    select.setMultiple(true);
-    select.setSelected("Phone", "Chat", "other");
-    // List<SlOption> values = select.getSelected();
-    // for (SlOption value : values) {
-    //   msgbox(String.valueOf(value.getValue()));
-    // }
-    // select.addShowListener(e -> {
-    //   List<SlOption> values = select.getSelected();
-    //   for (SlOption value : values) {
-    //     consoleLog("Show: " + (value.getValue()));
-    //   }
-    // });
-
-    button.addClickListener(e -> {
-      
-      List<SlOption> values2 = select.getSelected();
-      for (SlOption value : values2) {
-        consoleLog(value.getValue());
-      }
-    });
-
-    
+    SlDetails details = new SlDetails();
+    details.setSummary("Toggle me")
+        .setText(
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
+        .addOpenListener(event -> {
+          consoleLog("open");
+        })
+        .addCloseListener(event -> {
+          consoleLog("close");
+        });
+    panel.add(details);
   }
 
 }

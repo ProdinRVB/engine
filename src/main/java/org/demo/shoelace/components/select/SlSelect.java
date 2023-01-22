@@ -63,24 +63,24 @@ public final class SlSelect extends SlComponent {
   private List<SlOption> selected = new ArrayList<>();
 
   // Properties
-  private static PropertyDescriptor<String> NAME = PropertyDescriptor.property("name", "");
-  private static PropertyDescriptor<String> VALUE = PropertyDescriptor.attribute("value", "");
-  private static PropertyDescriptor<String> DEFAULT_VALUE = PropertyDescriptor.property("defaultValue", "");
-  private static PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", SlSize.MEDIUM.getValue());
-  private static PropertyDescriptor<String> PLACEHOLDER = PropertyDescriptor.property("placeholder", "");
-  private static PropertyDescriptor<Boolean> MULTIPLE = PropertyDescriptor.property("multiple", false);
-  private static PropertyDescriptor<Integer> MAX_OPTIONS_VISIBLE = PropertyDescriptor.property("maxOptionsVisible", 3);
-  private static PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
-  private static PropertyDescriptor<Boolean> CLEARABLE = PropertyDescriptor.property("clearable", false);
-  private static PropertyDescriptor<Boolean> OPEN = PropertyDescriptor.property("open", false);
-  private static PropertyDescriptor<Boolean> HOIST = PropertyDescriptor.property("hoist", false);
-  private static PropertyDescriptor<Boolean> FILLED = PropertyDescriptor.property("filled", false);
-  private static PropertyDescriptor<Boolean> PILL = PropertyDescriptor.property("pill", false);
-  private static PropertyDescriptor<String> LABEL = PropertyDescriptor.property("label", "");
-  private static PropertyDescriptor<String> PLACEMENT = PropertyDescriptor.property("placement",
+  private final PropertyDescriptor<String> NAME = PropertyDescriptor.property("name", "");
+  private final PropertyDescriptor<String> VALUE = PropertyDescriptor.attribute("value", "");
+  private final PropertyDescriptor<String> DEFAULT_VALUE = PropertyDescriptor.property("defaultValue", "");
+  private final PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", SlSize.MEDIUM.getValue());
+  private final PropertyDescriptor<String> PLACEHOLDER = PropertyDescriptor.property("placeholder", "");
+  private final PropertyDescriptor<Boolean> MULTIPLE = PropertyDescriptor.property("multiple", false);
+  private final PropertyDescriptor<Integer> MAX_OPTIONS_VISIBLE = PropertyDescriptor.property("maxOptionsVisible", 3);
+  private final PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
+  private final PropertyDescriptor<Boolean> CLEARABLE = PropertyDescriptor.property("clearable", false);
+  private final PropertyDescriptor<Boolean> OPEN = PropertyDescriptor.property("open", false);
+  private final PropertyDescriptor<Boolean> HOIST = PropertyDescriptor.property("hoist", false);
+  private final PropertyDescriptor<Boolean> FILLED = PropertyDescriptor.property("filled", false);
+  private final PropertyDescriptor<Boolean> PILL = PropertyDescriptor.property("pill", false);
+  private final PropertyDescriptor<String> LABEL = PropertyDescriptor.property("label", "");
+  private final PropertyDescriptor<String> PLACEMENT = PropertyDescriptor.property("placement",
       Placement.BOTTOM.getValue());
-  private static PropertyDescriptor<String> HELP_TEXT = PropertyDescriptor.property("helpText", "");
-  private static PropertyDescriptor<Boolean> REQUIRED = PropertyDescriptor.property("required", false);
+  private final PropertyDescriptor<String> HELP_TEXT = PropertyDescriptor.property("helpText", "");
+  private final PropertyDescriptor<Boolean> REQUIRED = PropertyDescriptor.property("required", false);
 
   /**
    * Create a new select.

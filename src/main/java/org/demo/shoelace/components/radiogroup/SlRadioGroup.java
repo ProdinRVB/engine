@@ -27,11 +27,11 @@ public final class SlRadioGroup extends SlComponent {
   private final Map<AbstractControl, String> controls = new HashMap<>();
 
   // Properties
-  private static PropertyDescriptor<String> LABEL = PropertyDescriptor.property("label", "");
-  private static PropertyDescriptor<String> HELP_TEXT = PropertyDescriptor.property("helpText", "");
-  private static PropertyDescriptor<String> NAME = PropertyDescriptor.property("name", "option");
-  private static PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
-  private static PropertyDescriptor<Boolean> REQUIRED = PropertyDescriptor.property("required", false);
+  private final PropertyDescriptor<String> LABEL = PropertyDescriptor.property("label", "");
+  private final PropertyDescriptor<String> HELP_TEXT = PropertyDescriptor.property("helpText", "");
+  private final PropertyDescriptor<String> NAME = PropertyDescriptor.property("name", "option");
+  private final PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
+  private final PropertyDescriptor<Boolean> REQUIRED = PropertyDescriptor.property("required", false);
 
   /**
    * Create a new radio group component.

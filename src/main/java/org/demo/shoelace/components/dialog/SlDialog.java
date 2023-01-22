@@ -23,9 +23,9 @@ public class SlDialog extends SlComponent {
   private AbstractDwcjPanel footer;
 
   // Properties
-  private static PropertyDescriptor<Boolean> OPEN = PropertyDescriptor.property("open", false);
-  private static PropertyDescriptor<String> LABEL = PropertyDescriptor.property("label", "");
-  private static PropertyDescriptor<Boolean> NO_HEADER = PropertyDescriptor.property("noHeader", false);
+  private final PropertyDescriptor<Boolean> OPEN = PropertyDescriptor.property("open", false);
+  private final PropertyDescriptor<String> LABEL = PropertyDescriptor.property("label", "");
+  private final PropertyDescriptor<Boolean> NO_HEADER = PropertyDescriptor.property("noHeader", false);
 
   /**
    * Create a new dialog.

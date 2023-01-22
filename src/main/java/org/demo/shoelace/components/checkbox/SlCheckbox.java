@@ -23,14 +23,14 @@ import org.dwcj.webcomponent.events.EventListener;
 public final class SlCheckbox extends SlComponent implements HasControlText {
 
   // Properties
-  private static PropertyDescriptor<String> NAME = PropertyDescriptor.property("name", "");
-  private static PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
-  private static PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", SlSize.MEDIUM.getValue());
-  private static PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
-  private static PropertyDescriptor<Boolean> REQUIRED = PropertyDescriptor.property("required", false);
-  private static PropertyDescriptor<Boolean> CHECKED = PropertyDescriptor.property("checked", false);
-  private static PropertyDescriptor<Boolean> INDETERMINATE = PropertyDescriptor.property("indeterminate", false);
-  private static PropertyDescriptor<Boolean> DEFAULT_CHECKED = PropertyDescriptor.property("defaultChecked", false);
+  private final PropertyDescriptor<String> NAME = PropertyDescriptor.property("name", "");
+  private final PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
+  private final PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", SlSize.MEDIUM.getValue());
+  private final PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
+  private final PropertyDescriptor<Boolean> REQUIRED = PropertyDescriptor.property("required", false);
+  private final PropertyDescriptor<Boolean> CHECKED = PropertyDescriptor.property("checked", false);
+  private final PropertyDescriptor<Boolean> INDETERMINATE = PropertyDescriptor.property("indeterminate", false);
+  private final PropertyDescriptor<Boolean> DEFAULT_CHECKED = PropertyDescriptor.property("defaultChecked", false);
 
   /**
    * Create a new checkbox.

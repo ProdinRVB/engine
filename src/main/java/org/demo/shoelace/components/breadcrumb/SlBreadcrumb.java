@@ -27,7 +27,7 @@ public final class SlBreadcrumb extends SlComponent implements HasControlText {
   private List<SlBreadcrumbItem> items = new ArrayList<>();
 
   // Properties
-  private static PropertyDescriptor<String> LABEL = PropertyDescriptor.property("labe", "");
+  private final PropertyDescriptor<String> LABEL = PropertyDescriptor.property("labe", "");
 
   /**
    * Create a new breadcrumb

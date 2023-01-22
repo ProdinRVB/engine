@@ -27,10 +27,10 @@ import org.dwcj.webcomponent.events.EventListener;
 public final class SlRadioButton extends SlComponent implements HasControlText {
 
   // Properties
-  private static PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
-  private static PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", SlSize.MEDIUM.getValue());
-  private static PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
-  private static PropertyDescriptor<Boolean> PILL = PropertyDescriptor.property("pill", false);
+  private final PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
+  private final PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", SlSize.MEDIUM.getValue());
+  private final PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
+  private final PropertyDescriptor<Boolean> PILL = PropertyDescriptor.property("pill", false);
 
   /**
    * Create a new radio button component.

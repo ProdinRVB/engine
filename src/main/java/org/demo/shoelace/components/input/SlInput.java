@@ -192,36 +192,36 @@ public final class SlInput extends SlComponent {
   }
 
   // Properties
-  private static PropertyDescriptor<String> TYPE = PropertyDescriptor.property("type", Type.TEXT.getValue());
-  private static PropertyDescriptor<String> NAME = PropertyDescriptor.property("name", "");
-  private static PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
-  private static PropertyDescriptor<String> DEFAULT_VALUE = PropertyDescriptor.property("defaultValue", "");
-  private static PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", SlSize.MEDIUM.getValue());
-  private static PropertyDescriptor<Boolean> FILLED = PropertyDescriptor.property("filled", false);
-  private static PropertyDescriptor<Boolean> PILL = PropertyDescriptor.property("pill", false);
-  private static PropertyDescriptor<String> LABEL = PropertyDescriptor.property("label", "");
-  private static PropertyDescriptor<String> HELP_TEXT = PropertyDescriptor.property("helpText", "");
-  private static PropertyDescriptor<Boolean> CLEARABLE = PropertyDescriptor.property("clearable", false);
-  private static PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
-  private static PropertyDescriptor<String> PLACEHOLDER = PropertyDescriptor.property("placeholder", "");
-  private static PropertyDescriptor<Boolean> READONLY = PropertyDescriptor.property("readonly", false);
-  private static PropertyDescriptor<Boolean> PASSWORD_TOGGLE = PropertyDescriptor.property("passwordToggle", false);
-  private static PropertyDescriptor<Boolean> PASSWORD_VISIBLE = PropertyDescriptor.property("passwordVisible", false);
-  private static PropertyDescriptor<Boolean> NO_SPIN_BUTTONS = PropertyDescriptor.property("noSpinButtons", false);
-  private static PropertyDescriptor<Boolean> REQUIRED = PropertyDescriptor.property("required", false);
-  private static PropertyDescriptor<String> PATTERN = PropertyDescriptor.property("pattern", "");
-  private static PropertyDescriptor<Integer> MIN_LENGTH = PropertyDescriptor.property("minlength", 0);
-  private static PropertyDescriptor<Integer> MAX_LENGTH = PropertyDescriptor.property("maxlength", 0);
-  private static PropertyDescriptor<Integer> MIN = PropertyDescriptor.property("min", 0);
-  private static PropertyDescriptor<Integer> MAX = PropertyDescriptor.property("max", 0);
-  private static PropertyDescriptor<Integer> STEP = PropertyDescriptor.property("step", 0);
-  private static PropertyDescriptor<String> AUTO_CAPITALIZE = PropertyDescriptor.property("autocapitalize", "");
-  private static PropertyDescriptor<String> AUTO_CORRECT = PropertyDescriptor.property("autocorrect", "");
-  private static PropertyDescriptor<String> AUTO_COMPLETE = PropertyDescriptor.property("autocomplete", "");
-  private static PropertyDescriptor<Boolean> AUTO_FOCUS = PropertyDescriptor.property("autofocus", false);
-  private static PropertyDescriptor<String> ENTER_KEY_HINT = PropertyDescriptor.property("enterkeyhint", "");
-  private static PropertyDescriptor<Boolean> SPELLCHECK = PropertyDescriptor.property("spellcheck", true);
-  private static PropertyDescriptor<String> INPUT_MODE = PropertyDescriptor.property("inputmode", "");
+  private final PropertyDescriptor<String> TYPE = PropertyDescriptor.property("type", Type.TEXT.getValue());
+  private final PropertyDescriptor<String> NAME = PropertyDescriptor.property("name", "");
+  private final PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
+  private final PropertyDescriptor<String> DEFAULT_VALUE = PropertyDescriptor.property("defaultValue", "");
+  private final PropertyDescriptor<String> SIZE = PropertyDescriptor.property("size", SlSize.MEDIUM.getValue());
+  private final PropertyDescriptor<Boolean> FILLED = PropertyDescriptor.property("filled", false);
+  private final PropertyDescriptor<Boolean> PILL = PropertyDescriptor.property("pill", false);
+  private final PropertyDescriptor<String> LABEL = PropertyDescriptor.property("label", "");
+  private final PropertyDescriptor<String> HELP_TEXT = PropertyDescriptor.property("helpText", "");
+  private final PropertyDescriptor<Boolean> CLEARABLE = PropertyDescriptor.property("clearable", false);
+  private final PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
+  private final PropertyDescriptor<String> PLACEHOLDER = PropertyDescriptor.property("placeholder", "");
+  private final PropertyDescriptor<Boolean> READONLY = PropertyDescriptor.property("readonly", false);
+  private final PropertyDescriptor<Boolean> PASSWORD_TOGGLE = PropertyDescriptor.property("passwordToggle", false);
+  private final PropertyDescriptor<Boolean> PASSWORD_VISIBLE = PropertyDescriptor.property("passwordVisible", false);
+  private final PropertyDescriptor<Boolean> NO_SPIN_BUTTONS = PropertyDescriptor.property("noSpinButtons", false);
+  private final PropertyDescriptor<Boolean> REQUIRED = PropertyDescriptor.property("required", false);
+  private final PropertyDescriptor<String> PATTERN = PropertyDescriptor.property("pattern", "");
+  private final PropertyDescriptor<Integer> MIN_LENGTH = PropertyDescriptor.property("minlength", 0);
+  private final PropertyDescriptor<Integer> MAX_LENGTH = PropertyDescriptor.property("maxlength", 0);
+  private final PropertyDescriptor<Integer> MIN = PropertyDescriptor.property("min", 0);
+  private final PropertyDescriptor<Integer> MAX = PropertyDescriptor.property("max", 0);
+  private final PropertyDescriptor<Integer> STEP = PropertyDescriptor.property("step", 0);
+  private final PropertyDescriptor<String> AUTO_CAPITALIZE = PropertyDescriptor.property("autocapitalize", "");
+  private final PropertyDescriptor<String> AUTO_CORRECT = PropertyDescriptor.property("autocorrect", "");
+  private final PropertyDescriptor<String> AUTO_COMPLETE = PropertyDescriptor.property("autocomplete", "");
+  private final PropertyDescriptor<Boolean> AUTO_FOCUS = PropertyDescriptor.property("autofocus", false);
+  private final PropertyDescriptor<String> ENTER_KEY_HINT = PropertyDescriptor.property("enterkeyhint", "");
+  private final PropertyDescriptor<Boolean> SPELLCHECK = PropertyDescriptor.property("spellcheck", true);
+  private final PropertyDescriptor<String> INPUT_MODE = PropertyDescriptor.property("inputmode", "");
 
   /**
    * Create a new input.

@@ -77,12 +77,12 @@ public final class SlAvatar extends SlComponent {
   private String size = "3rem";
 
   // Properties
-  private static PropertyDescriptor<String> IMAGE = PropertyDescriptor.property("image", "");
-  private static PropertyDescriptor<String> LABEL = PropertyDescriptor.property("label", "");
-  private static PropertyDescriptor<String> INITIALS = PropertyDescriptor.property("initials", "");
-  private static PropertyDescriptor<String> LOADING = PropertyDescriptor.property("loading",
+  private final PropertyDescriptor<String> IMAGE = PropertyDescriptor.property("image", "");
+  private final PropertyDescriptor<String> LABEL = PropertyDescriptor.property("label", "");
+  private final PropertyDescriptor<String> INITIALS = PropertyDescriptor.property("initials", "");
+  private final PropertyDescriptor<String> LOADING = PropertyDescriptor.property("loading",
       LoadingStrategy.EAGER.getValue());
-  private static PropertyDescriptor<String> SHAPE = PropertyDescriptor.property("shape", Shape.CIRCLE.getValue());
+  private final PropertyDescriptor<String> SHAPE = PropertyDescriptor.property("shape", Shape.CIRCLE.getValue());
 
   /**
    * Create new avatar.

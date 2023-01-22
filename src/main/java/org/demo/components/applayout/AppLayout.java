@@ -119,24 +119,24 @@ public class AppLayout extends WebComponent implements HasClassName {
   private AbstractDwcjPanel footer;
 
   // Property descriptors
-  private static PropertyDescriptor<Boolean> DRAWER_OPENED = PropertyDescriptor.property("drawerOpened", false);
-  private static PropertyDescriptor<Boolean> DRAWER_POPOVER = PropertyDescriptor.property("drawerPopover", false);
-  private static PropertyDescriptor<Boolean> DRAWER_OVERLAY = PropertyDescriptor.property("drawerOverlay", false);
-  private static PropertyDescriptor<String> DRAWER_WIDTH = PropertyDescriptor.property("drawerWidth", "16em");
-  private static PropertyDescriptor<String> DRAWER_PLACEMENT = PropertyDescriptor.property("drawerPlacement",
+  private final PropertyDescriptor<Boolean> DRAWER_OPENED = PropertyDescriptor.property("drawerOpened", false);
+  private final PropertyDescriptor<Boolean> DRAWER_POPOVER = PropertyDescriptor.property("drawerPopover", false);
+  private final PropertyDescriptor<Boolean> DRAWER_OVERLAY = PropertyDescriptor.property("drawerOverlay", false);
+  private final PropertyDescriptor<String> DRAWER_WIDTH = PropertyDescriptor.property("drawerWidth", "16em");
+  private final PropertyDescriptor<String> DRAWER_PLACEMENT = PropertyDescriptor.property("drawerPlacement",
       DrawerPlacement.LEFT.getValue());
-  private static PropertyDescriptor<String> DRAWER_BREAKPOINT = PropertyDescriptor.property("drawerBreakpoint",
+  private final PropertyDescriptor<String> DRAWER_BREAKPOINT = PropertyDescriptor.property("drawerBreakpoint",
       "(max-width: 800px)");
-  private static PropertyDescriptor<String> FOOTER_SHADOW = PropertyDescriptor.property("footerShadow",
+  private final PropertyDescriptor<String> FOOTER_SHADOW = PropertyDescriptor.property("footerShadow",
       Shadow.HIDDEN.getValue());
-  private static PropertyDescriptor<Boolean> FOOTER_FIXED = PropertyDescriptor.property("footerFixed", true);
-  private static PropertyDescriptor<Boolean> FOOTER_OFFSCREEN = PropertyDescriptor.property("footerOffscreen", true);
-  private static PropertyDescriptor<Boolean> FOOTER_REVEAL = PropertyDescriptor.property("footerReveal", false);
-  private static PropertyDescriptor<String> HEADER_SHADOW = PropertyDescriptor.property("headerShadow",
+  private final PropertyDescriptor<Boolean> FOOTER_FIXED = PropertyDescriptor.property("footerFixed", true);
+  private final PropertyDescriptor<Boolean> FOOTER_OFFSCREEN = PropertyDescriptor.property("footerOffscreen", true);
+  private final PropertyDescriptor<Boolean> FOOTER_REVEAL = PropertyDescriptor.property("footerReveal", false);
+  private final PropertyDescriptor<String> HEADER_SHADOW = PropertyDescriptor.property("headerShadow",
       Shadow.SCROLL.getValue());
-  private static PropertyDescriptor<Boolean> HEADER_FIXED = PropertyDescriptor.property("headerFixed", true);
-  private static PropertyDescriptor<Boolean> HEADER_OFFSCREEN = PropertyDescriptor.property("headerOffscreen", true);
-  private static PropertyDescriptor<Boolean> HEADER_REVEAL = PropertyDescriptor.property("headerReveal", false);
+  private final PropertyDescriptor<Boolean> HEADER_FIXED = PropertyDescriptor.property("headerFixed", true);
+  private final PropertyDescriptor<Boolean> HEADER_OFFSCREEN = PropertyDescriptor.property("headerOffscreen", true);
+  private final PropertyDescriptor<Boolean> HEADER_REVEAL = PropertyDescriptor.property("headerReveal", false);
 
   /**
    * Instantiates a new app layout.

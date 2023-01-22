@@ -90,11 +90,11 @@ public final class SlTabs extends SlComponent {
   private SlTab activeTab;
 
   // Properties
-  private static PropertyDescriptor<String> PLACEMENT = PropertyDescriptor.property("placement",
+  private final PropertyDescriptor<String> PLACEMENT = PropertyDescriptor.property("placement",
       Placement.TOP.getValue());
-  private static PropertyDescriptor<String> ACTIVATION_BEHAVIOR = PropertyDescriptor.property("activation",
+  private final PropertyDescriptor<String> ACTIVATION_BEHAVIOR = PropertyDescriptor.property("activation",
       ActivationBehavior.AUTO.getValue());
-  private static PropertyDescriptor<Boolean> NO_SCROLL_CONTROLS = PropertyDescriptor.property("noScrollControls",
+  private final PropertyDescriptor<Boolean> NO_SCROLL_CONTROLS = PropertyDescriptor.property("noScrollControls",
       false);
 
   /**

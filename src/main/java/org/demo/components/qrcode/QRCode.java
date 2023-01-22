@@ -19,9 +19,9 @@ import org.dwcj.webcomponent.annotations.NodeName;
 })
 public final class QRCode extends WebComponent {
 
-  private static PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
-  private static PropertyDescriptor<Integer> SIZE = PropertyDescriptor.property("size", 200);
-  private static PropertyDescriptor<String> COLOR = PropertyDescriptor.property("fill", "#000000");
+  private final PropertyDescriptor<String> VALUE = PropertyDescriptor.property("value", "");
+  private final PropertyDescriptor<Integer> SIZE = PropertyDescriptor.property("size", 200);
+  private final PropertyDescriptor<String> COLOR = PropertyDescriptor.property("fill", "#000000");
 
   /**
    * Create a new QRCode

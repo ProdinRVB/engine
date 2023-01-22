@@ -48,10 +48,10 @@ public final class SlBadge extends SlComponent implements HasControlText {
   }
 
   // Properties
-  private static PropertyDescriptor<String> VARIANT = PropertyDescriptor.property("variant",
+  private final PropertyDescriptor<String> VARIANT = PropertyDescriptor.property("variant",
       SlBadge.Variant.PRIMARY.getValue());
-  private static PropertyDescriptor<Boolean> PILL = PropertyDescriptor.property("pill", false);
-  private static PropertyDescriptor<Boolean> PULSE = PropertyDescriptor.property("pulse", false);
+  private final PropertyDescriptor<Boolean> PILL = PropertyDescriptor.property("pill", false);
+  private final PropertyDescriptor<Boolean> PULSE = PropertyDescriptor.property("pulse", false);
 
   /**
    * Creates a new badge
