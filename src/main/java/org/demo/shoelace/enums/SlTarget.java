@@ -7,7 +7,8 @@ public enum SlTarget {
   BLANK("_blank"),
   PARENT("_parent"),
   SELF("_self"),
-  TOP("_top");
+  TOP("_top"),
+  NONE("");
 
   private final String value;
 
@@ -34,7 +35,7 @@ public enum SlTarget {
    * @param value the value as string
    * @return the target
    */
-  public static SlTarget fromString(String value) {
+  public static SlTarget fromValue(String value) {
     for (SlTarget target : SlTarget.values()) {
       if (target.value.equals(value)) {
         return target;

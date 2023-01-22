@@ -35,7 +35,7 @@ public enum SlSize {
    * @param value the value as string
    * @return the size
    */
-  public static SlSize fromString(String value) {
+  public static SlSize fromValue(String value) {
     for (SlSize size : SlSize.values()) {
       if (size.value.equals(value)) {
         return size;

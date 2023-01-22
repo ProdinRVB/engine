@@ -12,7 +12,7 @@ import org.demo.shoelace.components.select.SlSelect;
 /**
  * @author Hyyan Abo Fakher
  */
-@EventExpressions(detail = "event.detail.options = [].concat(component.value).join(',');")
+@EventExpressions(detail = "event.detail.options = [].concat(component.value).join(',');", filter = "event.target.isSameNode(component)")
 public abstract class SlSelectAbstractEvent extends Event<SlSelect> {
 
   /**

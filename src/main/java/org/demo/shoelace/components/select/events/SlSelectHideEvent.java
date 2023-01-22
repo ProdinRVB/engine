@@ -3,7 +3,6 @@ package org.demo.shoelace.components.select.events;
 import java.util.Map;
 
 import org.demo.shoelace.components.select.SlSelect;
-import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
 
 /**
@@ -12,7 +11,6 @@ import org.dwcj.webcomponent.annotations.EventName;
  * @author Hyyan Abo Fakher
  */
 @EventName("sl-hide")
-@EventExpressions(stopPropagation = "true")
 public class SlSelectHideEvent extends SlSelectAbstractEvent {
 
   /**

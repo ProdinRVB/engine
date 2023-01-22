@@ -7,12 +7,14 @@ import org.demo.shoelace.components.colorpicker.SlColorPicker;
 import org.demo.shoelace.components.details.SlDetails;
 import org.demo.shoelace.components.details.SlDetailsGroup;
 import org.demo.shoelace.components.dialog.SlDialog;
+import org.demo.shoelace.components.drawer.SlDrawer;
 import org.demo.shoelace.utils.CssColor;
 import org.dwcj.App;
 import org.dwcj.annotations.Attribute;
 import org.dwcj.annotations.InlineStyleSheet;
 import org.dwcj.annotations.JavaScript;
 import org.dwcj.annotations.StyleSheet;
+import org.dwcj.controls.label.Label;
 import org.dwcj.controls.panels.AppPanel;
 import org.dwcj.exceptions.DwcException;
 
@@ -38,42 +40,33 @@ public class Playground extends App {
     AppPanel panel = new AppPanel();
     panel.addClassName("app-panel");
 
-    SlColorPicker colorPicker = new SlColorPicker(Color.RED);
-    colorPicker.setHoist(true);
-    colorPicker.addChangeListener(e -> {
-      consoleLog(e.getFormattedValue());
-    });
-    SlButton button = new SlButton("Click Me");
-    button.addClassName("button");
-    button.addClickListener(e -> {
-      colorPicker.setValue(new Color((int)(Math.random() * 0x1000000)));
-    });
-    
-    SlDetails details = new SlDetails("Color Picker");
-    details.getContent().add(colorPicker);
-    details.addOpenListener(e -> {
-      consoleLog("Open");
-    });
-    
-    SlDetails details2 = new SlDetails("Random Color Picker");
-    details2.getContent().add(button);
-    
-    SlDetailsGroup group = new SlDetailsGroup();
-    group.addClassName("details-group");
-    group.add(details, details2);
+    SlDrawer drawer = new SlDrawer();
+    drawer.setPlacement(SlDrawer.Placement.END).setSize("40em");
 
-    SlDialog dialog = new SlDialog("Dialog");
-    dialog.getContent().add(group);
-    dialog.open();
-    dialog.addOpenListener(e -> {
-      consoleLog("Dialog Open");
+    drawer.addOpenListener((e) -> {
+      consoleLog("Drawer Opened");
     });
-    dialog.addCloseListener(e -> {
-      consoleLog("Dialog Close");
+    drawer.addCloseListener((e) -> {
+      consoleLog("Drawer Closed");
     });
 
-    panel.add(dialog);
+    drawer.getContent().add(new Label("Drawer Content"));
 
+    SlButton close = new SlButton("Close Drawer");
+    close.setVariant(SlButton.Variant.PRIMARY);
+    close.addClickListener((e) -> {
+      drawer.close();
+    });
+    drawer.getFooter().add(close);
+
+    drawer.getHeaderActions().add(new Label("Drawer Header"));
+
+    SlButton open = new SlButton("Open Drawer");
+    open.addClickListener((e) -> {
+      drawer.open();
+    });
+
+    panel.add(open, drawer);
   }
 
 }

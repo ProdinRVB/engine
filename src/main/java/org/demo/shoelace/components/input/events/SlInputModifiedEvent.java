@@ -15,7 +15,7 @@ import org.demo.shoelace.components.input.SlInput;
  * @author Hyyan Abo Fakher
  */
 @EventName("sl-input")
-@EventExpressions(detail = "event.detail.value = event.target.value;")
+@EventExpressions(detail = "event.detail.value = event.target.value;", filter = "event.target.isSameNode(component)")
 public class SlInputModifiedEvent extends Event<SlInput> {
 
   /**
@@ -34,7 +34,7 @@ public class SlInputModifiedEvent extends Event<SlInput> {
   public String getValue() {
     @SuppressWarnings("unchecked")
     Map<String, Object> detail = (Map<String, Object>) getEventMap().get("detail");
-    
+
     return (String) detail.get("value");
   }
 }

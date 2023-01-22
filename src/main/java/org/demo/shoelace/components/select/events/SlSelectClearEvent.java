@@ -3,7 +3,6 @@ package org.demo.shoelace.components.select.events;
 import java.util.Map;
 
 import org.demo.shoelace.components.select.SlSelect;
-
 import org.dwcj.webcomponent.annotations.EventName;
 
 /**

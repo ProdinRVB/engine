@@ -12,7 +12,7 @@ import org.demo.shoelace.components.tabs.SlTabs;
  * @author Hyyan Abo Fakher
  */
 @EventName("sl-tab-show")
-@EventExpressions(stopPropagation = "true", preventDefault = "true")
+@EventExpressions(stopPropagation = "true", preventDefault = "true", filter = "event.target.isSameNode(component)")
 public class SlTabShowEvent extends SlTabAbstractEvent {
 
   /**

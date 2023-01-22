@@ -235,7 +235,7 @@ public final class SlSelect extends SlComponent {
    * @return The select's size.
    */
   public SlSize getSize() {
-    return SlSize.fromString(get(SIZE));
+    return SlSize.fromValue(get(SIZE));
   }
 
   /**

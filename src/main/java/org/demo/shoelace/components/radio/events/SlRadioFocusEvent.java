@@ -3,6 +3,7 @@ package org.demo.shoelace.components.radio.events;
 import java.util.Map;
 
 import org.demo.shoelace.components.radio.SlRadio;
+import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
 import org.dwcj.webcomponent.events.Event;
 
@@ -14,6 +15,7 @@ import org.dwcj.webcomponent.events.Event;
  * @author Hyyan Abo Fakher
  */
 @EventName("sl-focus")
+@EventExpressions( filter = "event.target.isSameNode(component)")
 public class SlRadioFocusEvent extends Event<SlRadio> {
 
   /**

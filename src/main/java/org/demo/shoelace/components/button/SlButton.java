@@ -257,7 +257,7 @@ public final class SlButton extends SlComponent implements HasControlText {
    * @see SlSize
    */
   public SlSize getSize() {
-    return SlSize.fromString(get(SIZE));
+    return SlSize.fromValue(get(SIZE));
   }
 
   /**
@@ -501,7 +501,7 @@ public final class SlButton extends SlComponent implements HasControlText {
    * @see SlTarget
    */
   public SlTarget getTarget() {
-    return SlTarget.fromString(get(TARGET));
+    return SlTarget.fromValue(get(TARGET));
   }
 
   /**

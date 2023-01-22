@@ -1,7 +1,6 @@
 package org.demo.shoelace.components.colorpicker;
 
 import java.awt.Color;
-import java.text.Format;
 import java.util.Arrays;
 import java.util.List;
 

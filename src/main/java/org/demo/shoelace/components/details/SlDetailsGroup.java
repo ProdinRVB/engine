@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.demo.shoelace.components.SlComponent;
-import org.dwcj.webcomponent.WebComponent;
 import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
 import org.dwcj.webcomponent.annotations.NodeName;

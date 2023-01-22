@@ -32,7 +32,7 @@ public final class SlDetails extends SlComponent {
    */
   public SlDetails(String summary) {
     super();
-    this.setContent(new Div());
+    setContent(new Div());
     setSummary(summary);
   }
 

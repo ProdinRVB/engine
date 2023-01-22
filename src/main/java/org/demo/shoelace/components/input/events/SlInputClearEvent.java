@@ -3,6 +3,7 @@ package org.demo.shoelace.components.input.events;
 import java.util.Map;
 
 import org.demo.shoelace.components.input.SlInput;
+import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
 import org.dwcj.webcomponent.events.Event;
 
@@ -14,7 +15,8 @@ import org.dwcj.webcomponent.events.Event;
  * @author Hyyan Abo Fakher
  */
 @EventName("sl-clear")
-public class SlInputClearEvent extends Event<SlInput>  {
+@EventExpressions(filter = "event.target.isSameNode(component)")
+public class SlInputClearEvent extends Event<SlInput> {
 
   /**
    * @param control  the control

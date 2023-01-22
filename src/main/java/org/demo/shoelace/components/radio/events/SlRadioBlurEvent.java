@@ -2,6 +2,7 @@ package org.demo.shoelace.components.radio.events;
 
 import java.util.Map;
 
+import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
 import org.dwcj.webcomponent.events.Event;
 import org.demo.shoelace.components.radio.SlRadio;
@@ -14,6 +15,7 @@ import org.demo.shoelace.components.radio.SlRadio;
  * @author Hyyan Abo Fakher
  */
 @EventName("sl-blur")
+@EventExpressions( filter = "event.target.isSameNode(component)")
 public class SlRadioBlurEvent extends Event<SlRadio> {
 
   /**

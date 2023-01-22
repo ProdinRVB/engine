@@ -450,7 +450,7 @@ public final class SlInput extends SlComponent {
    * @return the size
    */
   public SlSize getSize() {
-    return SlSize.fromString(get(SIZE));
+    return SlSize.fromValue(get(SIZE));
   }
 
   /**
