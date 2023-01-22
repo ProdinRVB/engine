@@ -15,7 +15,7 @@ import org.demo.shoelace.components.radiogroup.SlRadioGroup;
  * @author Hyyan Abo Fakher
  */
 @EventName("sl-input")
-@EventExpressions(detail = "event.detail.value = component.value;", filter = "event.target.isSameNode(component)")
+@EventExpressions(detail = "event.detail.value = component.value;")
 public class SlRadioGroupInputEvent extends Event<SlRadioGroup> {
 
   /**

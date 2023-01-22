@@ -1,9 +1,13 @@
 package org.demo.shoelace.components.button;
 
 import org.demo.shoelace.components.SlComponent;
+import org.demo.shoelace.components.button.events.SlIconButtonBlurEvent;
+import org.demo.shoelace.components.button.events.SlIconButtonClickEvent;
+import org.demo.shoelace.components.button.events.SlIconButtonFocusEvent;
 import org.demo.shoelace.enums.SlTarget;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;
+import org.dwcj.webcomponent.events.EventListener;
 
 /**
  * Shoelace Icon Button
@@ -16,25 +20,7 @@ import org.dwcj.webcomponent.annotations.NodeName;
 @NodeName("sl-icon-button")
 public final class SlIconButton extends SlComponent {
 
-  // name The name of the icon to draw. Available names depend on the icon library
-  // being used. string | undefined -
-  // library The name of a registered custom icon library. string | undefined -
-  // src An external URL of an SVG file. Be sure you trust the content you are
-  // including, as it will be executed as code and can result in XSS attacks.
-  // string | undefined -
-  // href When set, the underlying button will be rendered as an <a> with this
-  // href instead of a <button>. string | undefined -
-  // target Tells the browser where to open the link. Only used when href is set.
-  // '_blank' | '_parent' | '_self' | '_top' | undefined -
-  // download Tells the browser to download the linked file as this filename. Only
-  // used when href is set. string | undefined -
-  // label A description that gets read by assistive devices. For optimal
-  // accessibility, you should always include a label that describes what the icon
-  // button does. string ''
-  // disabled Disables the button. boolean false
-
   // properties
-
   private final PropertyDescriptor<String> NAME = PropertyDescriptor.property("name", "");
   private final PropertyDescriptor<String> LIBRARY = PropertyDescriptor.property("library", "");
   private final PropertyDescriptor<String> SRC = PropertyDescriptor.property("src", "");
@@ -45,12 +31,41 @@ public final class SlIconButton extends SlComponent {
   private final PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
 
   /**
+   * Create a new icon button
+   */
+  public SlIconButton() {
+    super();
+  }
+
+  /**
+   * Create a new icon button with the given name
+   * 
+   * @param name the name of the icon to draw
+   */
+  public SlIconButton(String name) {
+    super();
+    setName(name);
+  }
+
+  /**
+   * Create a new icon button with the given name and label
+   * 
+   * @param name  the name of the icon to draw
+   * @param label the label to display
+   */
+  public SlIconButton(String name, String label) {
+    super();
+    setName(name);
+    setLabel(label);
+  }
+
+  /**
    * Set the name of the icon to draw. Available names depend on the icon library
    * being used.
    * 
    * @param name the name of the icon to draw
    */
-  public SlIconButton setNAME(String name) {
+  public SlIconButton setName(String name) {
     set(NAME, name);
     return this;
   }
@@ -61,7 +76,7 @@ public final class SlIconButton extends SlComponent {
    * 
    * @return the name of the icon to draw
    */
-  public String getNAME() {
+  public String getName() {
     return get(NAME);
   }
 
@@ -217,4 +232,99 @@ public final class SlIconButton extends SlComponent {
     return get(DISABLED, true, Boolean.class);
   }
 
+  /**
+   * Click the button.
+   * 
+   * @return the button
+   */
+  public SlIconButton click() {
+    invokeAsync("click");
+    return this;
+  }
+
+  /**
+   * Focus the button.
+   * 
+   * @return the button
+   */
+  public SlIconButton focus() {
+    invokeAsync("focus");
+    return this;
+  }
+
+  /**
+   * Blur the button.
+   * 
+   * @return the button
+   */
+  public SlIconButton blur() {
+    invokeAsync("blur");
+    return this;
+  }
+
+  /**
+   * Add a click listener to the button.
+   * 
+   * @param listener
+   * @return the button
+   */
+  public SlIconButton addClickListener(EventListener<SlIconButtonClickEvent> listener) {
+    addEventListener(SlIconButtonClickEvent.class, listener);
+    return this;
+  }
+
+  /**
+   * Remove a click listener from the button.
+   * 
+   * @param listener
+   * @return the button
+   */
+  public SlIconButton removeClickListener(EventListener<SlIconButtonClickEvent> listener) {
+    removeEventListener(SlIconButtonClickEvent.class, listener);
+    return this;
+  }
+
+  /**
+   * Add a focus listener to the button.
+   * 
+   * @param listener
+   * @return the button
+   */
+  public SlIconButton addFocusListener(EventListener<SlIconButtonFocusEvent> listener) {
+    addEventListener(SlIconButtonFocusEvent.class, listener);
+    return this;
+  }
+
+  /**
+   * Remove a focus listener from the button.
+   * 
+   * @param listener
+   * @return the button
+   */
+  public SlIconButton removeFocusListener(EventListener<SlIconButtonFocusEvent> listener) {
+    removeEventListener(SlIconButtonFocusEvent.class, listener);
+    return this;
+  }
+
+  /**
+   * Add a blur listener to the button.
+   * 
+   * @param listener
+   * @return the button
+   */
+  public SlIconButton addBlurListener(EventListener<SlIconButtonBlurEvent> listener) {
+    addEventListener(SlIconButtonBlurEvent.class, listener);
+    return this;
+  }
+
+  /**
+   * Remove a blur listener from the button.
+   * 
+   * @param listener
+   * @return the button
+   */
+  public SlIconButton removeBlurListener(EventListener<SlIconButtonBlurEvent> listener) {
+    removeEventListener(SlIconButtonBlurEvent.class, listener);
+    return this;
+  }
 }

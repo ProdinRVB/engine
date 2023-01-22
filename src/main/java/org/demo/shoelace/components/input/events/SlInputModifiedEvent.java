@@ -15,7 +15,7 @@ import org.demo.shoelace.components.input.SlInput;
  * @author Hyyan Abo Fakher
  */
 @EventName("sl-input")
-@EventExpressions(detail = "event.detail.value = event.target.value;", filter = "event.target.isSameNode(component)")
+@EventExpressions(detail = "event.detail.value = event.target.value;")
 public class SlInputModifiedEvent extends Event<SlInput> {
 
   /**

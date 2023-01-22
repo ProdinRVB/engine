@@ -2,7 +2,6 @@ package org.demo.shoelace.components.radiogroup.events;
 
 import java.util.Map;
 
-import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
 import org.demo.shoelace.components.radiogroup.SlRadioGroup;
 
@@ -14,7 +13,6 @@ import org.demo.shoelace.components.radiogroup.SlRadioGroup;
  * @author Hyyan Abo Fakher
  */
 @EventName("sl-change")
-@EventExpressions(filter = "event.target.isSameNode(component)")
 public class SlRadioGroupChangeEvent extends SlRadioGroupInputEvent {
 
   /**

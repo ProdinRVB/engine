@@ -2,7 +2,6 @@ package org.demo.shoelace.components.input.events;
 
 import java.util.Map;
 import org.demo.shoelace.components.input.SlInput;
-import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
 
 /**
@@ -13,7 +12,6 @@ import org.dwcj.webcomponent.annotations.EventName;
  * @author Hyyan Abo Fakher
  */
 @EventName("sl-change")
-@EventExpressions( filter = "event.target.isSameNode(component)")
 public class SlInputChangeEvent extends SlInputModifiedEvent {
 
   /**

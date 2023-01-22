@@ -11,7 +11,7 @@ import org.demo.shoelace.utils.CssColor;
 /**
  * @author Hyyan Abo Fakher
  */
-@EventExpressions(detail = "event.detail.value = component.getFormattedValue('rgba');", filter = "event.target.isSameNode(component)")
+@EventExpressions(detail = "event.detail.value = component.getFormattedValue('rgba');")
 public class SlColorPickerAbstractEvent extends Event<SlColorPicker> {
 
   /**

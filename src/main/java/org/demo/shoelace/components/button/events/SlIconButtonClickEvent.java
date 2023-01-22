@@ -2,9 +2,10 @@ package org.demo.shoelace.components.button.events;
 
 import java.util.Map;
 
+import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
 import org.dwcj.webcomponent.events.Event;
-import org.demo.shoelace.components.button.SlButton;
+import org.demo.shoelace.components.button.SlIconButton;
 
 /**
  * The button click event.
@@ -12,13 +13,14 @@ import org.demo.shoelace.components.button.SlButton;
  * @author Hyyan Abo Fakher
  */
 @EventName("click")
-public class SlButtonClickEvent extends Event<SlButton> {
+@EventExpressions(filter = "event.target.isSameNode(component)")
+public class SlIconButtonClickEvent extends Event<SlIconButton> {
 
   /**
    * @param control  the control
    * @param eventMap the event map
    */
-  public SlButtonClickEvent(SlButton control, Map<String, Object> eventMap) {
+  public SlIconButtonClickEvent(SlIconButton control, Map<String, Object> eventMap) {
     super(control, eventMap);
   }
 }

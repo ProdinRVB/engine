@@ -12,7 +12,6 @@ import org.dwcj.webcomponent.annotations.EventName;
  * @author Hyyan Abo Fakher
  */
 @EventName("click")
-@EventExpressions( filter = "event.target.isSameNode(component)")
 public class SlCheckboxClickEvent extends SlCheckboxInputEvent {
 
   /**

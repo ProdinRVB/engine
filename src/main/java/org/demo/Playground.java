@@ -3,6 +3,7 @@ package org.demo;
 import java.awt.Color;
 
 import org.demo.shoelace.components.button.SlButton;
+import org.demo.shoelace.components.button.SlIconButton;
 import org.demo.shoelace.components.colorpicker.SlColorPicker;
 import org.demo.shoelace.components.details.SlDetails;
 import org.demo.shoelace.components.details.SlDetailsGroup;
@@ -59,7 +60,11 @@ public class Playground extends App {
     });
     drawer.getFooter().add(close);
 
-    drawer.getHeaderActions().add(new Label("Drawer Header"));
+    SlIconButton icon = new SlIconButton("box-arrow-up-right");
+    icon.addClickListener((e) -> {
+      consoleLog("Icon Clicked");
+    });
+    drawer.getHeaderActions().add(icon);
 
     SlButton open = new SlButton("Open Drawer");
     open.addClickListener((e) -> {
