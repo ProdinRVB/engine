@@ -2,6 +2,7 @@ package org.demo.shoelace.components.alert.events;
 
 import java.util.Map;
 
+import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
 import org.dwcj.webcomponent.events.Event;
 import org.demo.shoelace.components.alert.SlAlert;
@@ -14,6 +15,7 @@ import org.demo.shoelace.components.alert.SlAlert;
  * @author Hyyan Abo Fakher
  */
 @EventName("sl-hide")
+@EventExpressions(filter = "event.target.isSameNode(component)")
 public class SlAlertCloseEvent extends Event<SlAlert> {
 
   /**

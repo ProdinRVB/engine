@@ -6,6 +6,7 @@ import org.demo.shoelace.components.button.SlButton;
 import org.demo.shoelace.components.colorpicker.SlColorPicker;
 import org.demo.shoelace.components.details.SlDetails;
 import org.demo.shoelace.components.details.SlDetailsGroup;
+import org.demo.shoelace.components.dialog.SlDialog;
 import org.demo.shoelace.utils.CssColor;
 import org.dwcj.App;
 import org.dwcj.annotations.Attribute;
@@ -61,7 +62,17 @@ public class Playground extends App {
     group.addClassName("details-group");
     group.add(details, details2);
 
-    panel.add(group);
+    SlDialog dialog = new SlDialog("Dialog");
+    dialog.getContent().add(group);
+    dialog.open();
+    dialog.addOpenListener(e -> {
+      consoleLog("Dialog Open");
+    });
+    dialog.addCloseListener(e -> {
+      consoleLog("Dialog Close");
+    });
+
+    panel.add(dialog);
 
   }
 

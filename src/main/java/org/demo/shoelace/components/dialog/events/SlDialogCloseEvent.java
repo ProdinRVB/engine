@@ -2,6 +2,7 @@ package org.demo.shoelace.components.dialog.events;
 
 import java.util.Map;
 
+import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
 import org.dwcj.webcomponent.events.Event;
 import org.demo.shoelace.components.dialog.SlDialog;
@@ -12,6 +13,7 @@ import org.demo.shoelace.components.dialog.SlDialog;
  * @author Hyyan Abo Fakher
  */
 @EventName("sl-hide")
+@EventExpressions(filter = "event.target.isSameNode(component)")
 public class SlDialogCloseEvent extends Event<SlDialog> {
 
   /**
