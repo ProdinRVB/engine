@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.demo.shoelace.components.SlComponent;
+import org.demo.shoelace.components.select.events.SlSelectBlurEvent;
 import org.demo.shoelace.components.select.events.SlSelectChangeEvent;
 import org.demo.shoelace.components.select.events.SlSelectClearEvent;
 import org.demo.shoelace.components.select.events.SlSelectHideEvent;
 import org.demo.shoelace.components.select.events.SlSelectInputEvent;
-import org.demo.shoelace.components.select.events.SlSelectShowEvent;
+import org.demo.shoelace.components.select.events.SlSelectFocusEvent;
 import org.demo.shoelace.enums.SlSize;
 import org.dwcj.exceptions.DwcRuntimeException;
 import org.dwcj.webcomponent.PropertyDescriptor;
@@ -503,28 +504,53 @@ public class SlSelect extends SlComponent {
   }
 
   /**
-   * Add option to the select.
+   * Focus the button.
    * 
-   * @param option The option to add.
-   * @return select
+   * @return the button
    */
-  public SlSelect add(SlOption option) {
-    options.add(option);
+  public SlSelect focus() {
+    invokeAsync("focus");
+    return this;
+  }
 
-    // call addPropertyChangeListener with reflection
-    // to keep track of changes in the breadcrumb item
-    Method method = null;
-    try {
-      method = option.getClass().getDeclaredMethod("addPropertyChangeListener", PropertyChangeListener.class);
-      method.setAccessible(true);
-      method.invoke(option, new SlOptionChangeListener());
-    } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-        | InvocationTargetException e) {
-      throw new DwcRuntimeException("Failed to add property change listener to option item", e);
-    }
+  /**
+   * Blur the button.
+   * 
+   * @return the button
+   */
+  public SlSelect blur() {
+    callAsyncFunction("blur");
+    return this;
+  }
 
-    updateInClient(option);
+  /**
+   * Check the validity of the button.
+   * 
+   * @return the button
+   */
+  public SlSelect checkValidity() {
+    callAsyncFunction("checkValidity");
+    return this;
+  }
 
+  /**
+   * Report the validity of the button.
+   * 
+   * @return the button
+   */
+  public Boolean reportValidity() {
+    String result = (String) invoke("reportValidity");
+    return Boolean.parseBoolean(result);
+  }
+
+  /**
+   * Set the custom validity of the button.
+   * 
+   * @param message
+   * @return the button
+   */
+  public SlSelect setCustomValidity(String message) {
+    callAsyncFunction("setCustomValidity", message);
     return this;
   }
 
@@ -600,8 +626,8 @@ public class SlSelect extends SlComponent {
    * @param listener
    * @return the select
    */
-  public SlSelect addShowListener(EventListener<SlSelectShowEvent> listener) {
-    addEventListener(SlSelectShowEvent.class, listener);
+  public SlSelect addShowListener(EventListener<SlSelectFocusEvent> listener) {
+    addEventListener(SlSelectFocusEvent.class, listener);
     return this;
   }
 
@@ -611,8 +637,8 @@ public class SlSelect extends SlComponent {
    * @param listener
    * @return the select
    */
-  public SlSelect removeShowListener(EventListener<SlSelectShowEvent> listener) {
-    removeEventListener(SlSelectShowEvent.class, listener);
+  public SlSelect removeShowListener(EventListener<SlSelectFocusEvent> listener) {
+    removeEventListener(SlSelectFocusEvent.class, listener);
     return this;
   }
 
@@ -635,6 +661,76 @@ public class SlSelect extends SlComponent {
    */
   public SlSelect removeHideListener(EventListener<SlSelectHideEvent> listener) {
     removeEventListener(SlSelectHideEvent.class, listener);
+    return this;
+  }
+
+  /**
+   * Add focus listener to the select.
+   * 
+   * @param listener
+   * @return the select
+   */
+  public SlSelect addFocusListener(EventListener<SlSelectFocusEvent> listener) {
+    addEventListener(SlSelectFocusEvent.class, listener);
+    return this;
+  }
+
+  /**
+   * Remove focus listener from the select.
+   * 
+   * @param listener
+   * @return the select
+   */
+  public SlSelect removeFocusListener(EventListener<SlSelectFocusEvent> listener) {
+    removeEventListener(SlSelectFocusEvent.class, listener);
+    return this;
+  }
+
+  /**
+   * Add blur listener to the select.
+   * 
+   * @param listener
+   * @return the select
+   */
+  public SlSelect addBlurListener(EventListener<SlSelectBlurEvent> listener) {
+    addEventListener(SlSelectBlurEvent.class, listener);
+    return this;
+  }
+
+  /**
+   * Remove blur listener from the select.
+   * 
+   * @param listener
+   * @return the select
+   */
+  public SlSelect removeBlurListener(EventListener<SlSelectBlurEvent> listener) {
+    removeEventListener(SlSelectBlurEvent.class, listener);
+    return this;
+  }
+
+  /**
+   * Add option to the select.
+   * 
+   * @param option The option to add.
+   * @return select
+   */
+  public SlSelect add(SlOption option) {
+    options.add(option);
+
+    // call addPropertyChangeListener with reflection
+    // to keep track of changes in the breadcrumb item
+    Method method = null;
+    try {
+      method = option.getClass().getDeclaredMethod("addPropertyChangeListener", PropertyChangeListener.class);
+      method.setAccessible(true);
+      method.invoke(option, new SlOptionChangeListener());
+    } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+        | InvocationTargetException e) {
+      throw new DwcRuntimeException("Failed to add property change listener to option item", e);
+    }
+
+    updateInClient(option);
+
     return this;
   }
 

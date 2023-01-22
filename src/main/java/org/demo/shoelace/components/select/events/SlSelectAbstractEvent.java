@@ -12,7 +12,7 @@ import org.demo.shoelace.components.select.SlSelect;
 /**
  * @author Hyyan Abo Fakher
  */
-@EventExpressions(filter = "event.detail.options = [].concat(component.value).join(','); console.log(event);return true;")
+@EventExpressions(filter = "event.detail.options = [].concat(component.value).join(',');")
 public abstract class SlSelectAbstractEvent extends Event<SlSelect> {
 
   /**
