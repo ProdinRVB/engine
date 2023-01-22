@@ -15,7 +15,6 @@ import org.demo.shoelace.components.select.events.SlSelectHideEvent;
 import org.demo.shoelace.components.select.events.SlSelectInputEvent;
 import org.demo.shoelace.components.select.events.SlSelectFocusEvent;
 import org.demo.shoelace.enums.SlSize;
-import org.dwcj.annotations.InlineStyleSheet;
 import org.dwcj.exceptions.DwcRuntimeException;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;
@@ -28,7 +27,7 @@ import org.dwcj.webcomponent.events.EventListener;
  * @since 1.0.0
  */
 @NodeName("sl-select")
-public class SlSelect extends SlComponent {
+public final class SlSelect extends SlComponent {
 
   /**
    * The preferred placement of the select's menu. Note that the actual placement
