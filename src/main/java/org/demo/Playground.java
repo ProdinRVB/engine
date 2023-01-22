@@ -1,7 +1,10 @@
 package org.demo;
 
+import java.awt.Color;
+import org.demo.shoelace.components.colorpicker.SlColorPicker;
 import org.demo.shoelace.components.details.SlDetails;
 import org.demo.shoelace.components.details.SlDetailsGroup;
+import org.demo.shoelace.utils.CssColor;
 import org.dwcj.App;
 import org.dwcj.annotations.Attribute;
 import org.dwcj.annotations.InlineStyleSheet;
@@ -30,27 +33,17 @@ public class Playground extends App {
   public void run() throws DwcException {
 
     AppPanel panel = new AppPanel();
-    // panel.addClassName("app-panel");
+    panel.addClassName("app-panel");
 
-    SlDetailsGroup group = new SlDetailsGroup();
-    panel.add(group);
-
-    SlDetails details = new SlDetails("Details 1", "My text");
-    // details.addOpenListener(event -> {
-    // consoleLog("open 1");
-    // }).addCloseListener(event -> {
-    // consoleLog("close 1");
-    // });
-
-    SlDetails details2 = new SlDetails("Details 2", "My text 2");
-    details2.addOpenListener(event -> {
-      consoleLog("open 2");
-    }).addCloseListener(event -> {
-      consoleLog("close 2");
+    SlColorPicker colorPicker = new SlColorPicker(Color.RED);
+    colorPicker.setOpacity(true).setInline(true);
+    String swatches = "#d0021b; #f5a623; #f8e71c; #8b572a; #7ed321; #417505; #bd10e0; #9013fe;#4a90e2; #50e3c2; #b8e986; #000; #444; #888; #ccc; #fff;";
+    colorPicker.setSwatches(swatches.split(";"));
+    colorPicker.addChangeListener(e -> {
+      consoleLog("value: " + e.getFormattedValue());
     });
-    group.add(details, details2);
 
-    // panel.add(details, details2);
+    panel.add(colorPicker);
   }
 
 }

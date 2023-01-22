@@ -34,6 +34,7 @@ import org.dwcj.webcomponent.annotations.NodeAttribute;
 import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
 import org.dwcj.webcomponent.annotations.NodeName;
+import org.dwcj.webcomponent.annotations.NodeProperty;
 import org.dwcj.webcomponent.events.Event;
 import org.dwcj.webcomponent.events.EventDispatcher;
 import org.dwcj.webcomponent.events.EventListener;
@@ -210,6 +211,12 @@ public abstract class WebComponent extends AbstractControl {
     StringBuilder attr = new StringBuilder();
     for (NodeAttribute a : attrs) {
       attr.append(" ").append(a.name()).append("=\"").append(a.value()).append("\"");
+    }
+
+    // parse NodeProperty annotations
+    NodeProperty[] props = getClass().getAnnotationsByType(NodeProperty.class);
+    for (NodeProperty p : props) {
+      setComponentProperty(p.name(), p.value());
     }
 
     attr.append(" bbj-component=\"").append(getUUID()).append("\"");
@@ -1363,7 +1370,7 @@ public abstract class WebComponent extends AbstractControl {
           new TypeToken<Map<String, Object>>() {
           }.getType());
       Event<?> event = createEvent(clientEventMap.get(type), data);
-      
+
       if (event != null) {
         eventDispatcher.dispatchEvent(event);
       }

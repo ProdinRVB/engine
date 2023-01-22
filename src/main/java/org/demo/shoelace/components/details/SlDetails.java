@@ -5,7 +5,6 @@ import org.demo.shoelace.components.details.events.SlDetailsCloseEvent;
 import org.demo.shoelace.components.details.events.SlDetailsOpenEvent;
 import org.dwcj.interfaces.HasControlText;
 import org.dwcj.webcomponent.PropertyDescriptor;
-import org.dwcj.webcomponent.WebComponent;
 import org.dwcj.webcomponent.annotations.NodeName;
 import org.dwcj.webcomponent.events.EventListener;
 
