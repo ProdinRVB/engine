@@ -1439,7 +1439,7 @@ public abstract class WebComponent extends AbstractControl {
    * 
    * @author Hyyan Abo Fakher
    */
-  protected class JsRawParam {
+  public class JsRawParam {
 
     private String param;
 
