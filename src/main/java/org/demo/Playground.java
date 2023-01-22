@@ -1,12 +1,7 @@
 package org.demo;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.demo.shoelace.components.button.SlButton;
 import org.demo.shoelace.components.details.SlDetails;
-import org.demo.shoelace.components.select.SlOption;
-import org.demo.shoelace.components.select.SlSelect;
+import org.demo.shoelace.components.details.SlDetailsGroup;
 import org.dwcj.App;
 import org.dwcj.annotations.Attribute;
 import org.dwcj.annotations.InlineStyleSheet;
@@ -37,17 +32,25 @@ public class Playground extends App {
     AppPanel panel = new AppPanel();
     // panel.addClassName("app-panel");
 
-    SlDetails details = new SlDetails();
-    details.setSummary("Toggle me")
-        .setText(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
-        .addOpenListener(event -> {
-          consoleLog("open");
-        })
-        .addCloseListener(event -> {
-          consoleLog("close");
-        });
-    panel.add(details);
+    SlDetailsGroup group = new SlDetailsGroup();
+    panel.add(group);
+
+    SlDetails details = new SlDetails("Details 1", "My text");
+    // details.addOpenListener(event -> {
+    // consoleLog("open 1");
+    // }).addCloseListener(event -> {
+    // consoleLog("close 1");
+    // });
+
+    SlDetails details2 = new SlDetails("Details 2", "My text 2");
+    details2.addOpenListener(event -> {
+      consoleLog("open 2");
+    }).addCloseListener(event -> {
+      consoleLog("close 2");
+    });
+    group.add(details, details2);
+
+    // panel.add(details, details2);
   }
 
 }

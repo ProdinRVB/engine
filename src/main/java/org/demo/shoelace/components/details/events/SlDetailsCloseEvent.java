@@ -2,7 +2,6 @@ package org.demo.shoelace.components.details.events;
 
 import java.util.Map;
 
-import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
 import org.dwcj.webcomponent.events.Event;
 import org.demo.shoelace.components.details.SlDetails;
@@ -13,7 +12,6 @@ import org.demo.shoelace.components.details.SlDetails;
  * @author Hyyan Abo Fakher
  */
 @EventName("sl-hide")
-@EventExpressions(stopPropagation = "true")
 public class SlDetailsCloseEvent extends Event<SlDetails> {
 
   /**

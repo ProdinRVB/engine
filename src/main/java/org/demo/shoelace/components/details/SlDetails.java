@@ -1,5 +1,6 @@
 package org.demo.shoelace.components.details;
 
+import org.demo.shoelace.components.SlComponent;
 import org.demo.shoelace.components.details.events.SlDetailsCloseEvent;
 import org.demo.shoelace.components.details.events.SlDetailsOpenEvent;
 import org.dwcj.interfaces.HasControlText;
@@ -16,11 +17,30 @@ import org.dwcj.webcomponent.events.EventListener;
  * @since 1.0.0
  */
 @NodeName("sl-details")
-public final class SlDetails extends WebComponent implements HasControlText {
+public final class SlDetails extends SlComponent implements HasControlText {
 
   private final PropertyDescriptor<Boolean> OPEN = PropertyDescriptor.property("open", false);
   private final PropertyDescriptor<String> SUMMARY = PropertyDescriptor.property("summary", "");
   private final PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
+
+  /**
+   * Creates a new SlDetails component.
+   * 
+   * @param summary the summary
+   * @param text    the text
+   */
+  public SlDetails(String summary, String text) {
+    super();
+    setSummary(summary);
+    setText(text);
+  }
+
+  /**
+   * Creates a new SlDetails component.
+   */
+  public SlDetails() {
+    this("", "");
+  }
 
   /**
    * Set the summary to show in the header.

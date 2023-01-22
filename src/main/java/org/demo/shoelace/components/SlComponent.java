@@ -1,6 +1,7 @@
 package org.demo.shoelace.components;
 
 import org.dwcj.annotations.InlineStyleSheet;
+import org.dwcj.interfaces.HasAttribute;
 import org.dwcj.interfaces.HasClassName;
 import org.dwcj.interfaces.HasStyle;
 import org.dwcj.webcomponent.WebComponent;
@@ -15,7 +16,7 @@ import org.dwcj.webcomponent.WebComponent;
 @InlineStyleSheet(id = "sl-common-styles", once = true, value = "" +
     "[sl-component]{overflow: visible}" +
     "[sl-component] .BBjHtmlView-content{overflow: visible}")
-public abstract class SlComponent extends WebComponent implements HasClassName, HasStyle {
+public abstract class SlComponent extends WebComponent implements HasClassName, HasStyle, HasAttribute {
 
   /**
    * Creates a new Shoelace component
@@ -49,6 +50,21 @@ public abstract class SlComponent extends WebComponent implements HasClassName, 
   @Override
   public SlComponent setStyle(String style, String value) {
     setComponentStyle(style, value);
+    return this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public String getAttribute(String attribute) {
+    return getComponentAttribute(attribute);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public SlComponent setAttribute(String attribute, String value) {
+    setComponentAttribute(attribute, value);
     return this;
   }
 }

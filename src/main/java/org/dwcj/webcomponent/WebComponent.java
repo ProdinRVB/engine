@@ -73,6 +73,7 @@ public abstract class WebComponent extends AbstractControl {
   private AbstractDwcjPanel panel;
 
   /**
+   * O
    * Create a new web component
    */
   public WebComponent() {
@@ -1362,7 +1363,7 @@ public abstract class WebComponent extends AbstractControl {
           new TypeToken<Map<String, Object>>() {
           }.getType());
       Event<?> event = createEvent(clientEventMap.get(type), data);
-
+      
       if (event != null) {
         eventDispatcher.dispatchEvent(event);
       }
@@ -1383,6 +1384,7 @@ public abstract class WebComponent extends AbstractControl {
 
     Constructor<?>[] constructors = eventClass.getDeclaredConstructors();
     for (Constructor<?> constructor : constructors) {
+      constructor.setAccessible(true);
       Class<?>[] parameterTypes = constructor.getParameterTypes();
 
       // is not inner class
@@ -1391,6 +1393,19 @@ public abstract class WebComponent extends AbstractControl {
           parameterTypes[1] == Map.class) {
         try {
           event = (E) constructor.newInstance(this, data); // NOSONAR
+          break;
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+            | InvocationTargetException e) {
+          Environment.logError("Failed to create webcomponent event", e);
+        }
+      }
+      // else if inner class
+      else if (parameterTypes.length == 3 &&
+          WebComponent.class.isAssignableFrom(parameterTypes[0]) &&
+          WebComponent.class.isAssignableFrom(parameterTypes[1]) &&
+          parameterTypes[2] == Map.class) {
+        try {
+          event = (E) constructor.newInstance(this, this, data); // NOSONAR
           break;
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
             | InvocationTargetException e) {
