@@ -19,7 +19,7 @@ import org.dwcj.webcomponent.events.EventListener;
  * @since 1.0.0
  */
 @NodeName("sl-radio-button")
-@InlineStyleSheet(id = "sl-button-styles", once = true, top = false, value = "" +
+@InlineStyleSheet(id = "sl-radio-button-styles", once = true, value = "" +
     "[sl-radio-button] [slot='prefix']," +
     "[sl-radio-button] [slot='suffix']{" +
     " display: flex" +

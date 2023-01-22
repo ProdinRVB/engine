@@ -1,6 +1,8 @@
 package org.demo;
 
 import java.awt.Color;
+
+import org.demo.shoelace.components.button.SlButton;
 import org.demo.shoelace.components.colorpicker.SlColorPicker;
 import org.demo.shoelace.components.details.SlDetails;
 import org.demo.shoelace.components.details.SlDetailsGroup;
@@ -36,14 +38,31 @@ public class Playground extends App {
     panel.addClassName("app-panel");
 
     SlColorPicker colorPicker = new SlColorPicker(Color.RED);
-    colorPicker.setOpacity(true).setInline(true);
-    String swatches = "#d0021b; #f5a623; #f8e71c; #8b572a; #7ed321; #417505; #bd10e0; #9013fe;#4a90e2; #50e3c2; #b8e986; #000; #444; #888; #ccc; #fff;";
-    colorPicker.setSwatches(swatches.split(";"));
+    colorPicker.setHoist(true);
     colorPicker.addChangeListener(e -> {
-      consoleLog("value: " + e.getFormattedValue());
+      consoleLog(e.getFormattedValue());
     });
+    SlButton button = new SlButton("Click Me");
+    button.addClassName("button");
+    button.addClickListener(e -> {
+      colorPicker.setValue(new Color((int)(Math.random() * 0x1000000)));
+    });
+    
+    SlDetails details = new SlDetails("Color Picker");
+    details.getContent().add(colorPicker);
+    details.addOpenListener(e -> {
+      consoleLog("Open");
+    });
+    
+    SlDetails details2 = new SlDetails("Random Color Picker");
+    details2.getContent().add(button);
+    
+    SlDetailsGroup group = new SlDetailsGroup();
+    group.addClassName("details-group");
+    group.add(details, details2);
 
-    panel.add(colorPicker);
+    panel.add(group);
+
   }
 
 }

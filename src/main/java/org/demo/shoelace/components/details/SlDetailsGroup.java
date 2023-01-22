@@ -3,6 +3,7 @@ package org.demo.shoelace.components.details;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.demo.shoelace.components.SlComponent;
 import org.dwcj.webcomponent.WebComponent;
 import org.dwcj.webcomponent.annotations.EventExpressions;
 import org.dwcj.webcomponent.annotations.EventName;
@@ -20,7 +21,7 @@ import org.dwcj.webcomponent.events.Event;
  * @since 1.0.0
  */
 @NodeName("div")
-public final class SlDetailsGroup extends WebComponent {
+public final class SlDetailsGroup extends SlComponent {
   private Map<String, SlDetails> details = new HashMap<>();
 
   /**
@@ -90,7 +91,7 @@ public final class SlDetailsGroup extends WebComponent {
   }
 
   @EventName("sl-show")
-  @EventExpressions(detail = "event.detail.control= event.target.getAttribute('sl-details-group')")
+  @EventExpressions(detail = "event.detail.control= event.target.getAttribute('sl-details-group')", filter = "event.target.nodeName === 'SL-DETAILS'")
   private class SlDetailsGroupToggleEvent extends Event<SlDetailsGroup> {
 
     /**

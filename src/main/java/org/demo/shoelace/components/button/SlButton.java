@@ -21,7 +21,7 @@ import org.dwcj.webcomponent.events.EventListener;
  * @since 1.0.0
  */
 @NodeName("sl-button")
-@InlineStyleSheet(id = "sl-button-styles", once = true, top = false, value = "" +
+@InlineStyleSheet(id = "sl-button-styles", once = true, value = "" +
     "[sl-button] [slot='prefix']," +
     "[sl-button] [slot='suffix']{" +
     " display: flex" +

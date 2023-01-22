@@ -20,7 +20,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.dwcj.App;
 import org.dwcj.Environment;
-
+import org.dwcj.annotations.InlineStyleSheet;
 import org.dwcj.controls.AbstractControl;
 import org.dwcj.controls.AbstractDwcControl;
 import org.dwcj.controls.htmlcontainer.HtmlContainer;
@@ -226,6 +226,20 @@ public abstract class WebComponent extends AbstractControl {
         .append("</").append(name).append(">");
 
     return view.toString();
+  }
+
+  /**
+   * Get the default css styles of the web component
+   * 
+   * @return the default css styles of the web component or empty string if the
+   *         web component is destroyed
+   */
+  protected String getStylesheets() {
+    if (isDestroyed()) {
+      return "";
+    }
+
+    return "[bbj-slot]{overflow: visible}";
   }
 
   /**
@@ -1233,6 +1247,13 @@ public abstract class WebComponent extends AbstractControl {
    */
   protected void create(AbstractDwcjPanel panel) {
     assertNotDestroyed();
+
+    if (isAttached()) {
+      return;
+    }
+
+    // attach the stylesheets
+    App.addInlineStyleSheet(getStylesheets(), false, "id=wc-stylesheets");
 
     this.panel = panel;
     super.create(panel);

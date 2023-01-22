@@ -3,7 +3,7 @@ package org.demo.shoelace.components.details;
 import org.demo.shoelace.components.SlComponent;
 import org.demo.shoelace.components.details.events.SlDetailsCloseEvent;
 import org.demo.shoelace.components.details.events.SlDetailsOpenEvent;
-import org.dwcj.interfaces.HasControlText;
+import org.dwcj.controls.panels.Div;
 import org.dwcj.webcomponent.PropertyDescriptor;
 import org.dwcj.webcomponent.annotations.NodeName;
 import org.dwcj.webcomponent.events.EventListener;
@@ -16,8 +16,11 @@ import org.dwcj.webcomponent.events.EventListener;
  * @since 1.0.0
  */
 @NodeName("sl-details")
-public final class SlDetails extends SlComponent implements HasControlText {
+public final class SlDetails extends SlComponent {
 
+  private Div content;
+
+  // Properties
   private final PropertyDescriptor<Boolean> OPEN = PropertyDescriptor.property("open", false);
   private final PropertyDescriptor<String> SUMMARY = PropertyDescriptor.property("summary", "");
   private final PropertyDescriptor<Boolean> DISABLED = PropertyDescriptor.property("disabled", false);
@@ -26,19 +29,39 @@ public final class SlDetails extends SlComponent implements HasControlText {
    * Creates a new SlDetails component.
    * 
    * @param summary the summary
-   * @param text    the text
    */
-  public SlDetails(String summary, String text) {
+  public SlDetails(String summary) {
     super();
+    this.setContent(new Div());
     setSummary(summary);
-    setText(text);
   }
 
   /**
    * Creates a new SlDetails component.
    */
   public SlDetails() {
-    this("", "");
+    this("");
+  }
+
+  /**
+   * Using the passed panel in content slot.
+   * 
+   * @param content the content panel
+   * @return the details
+   */
+  public SlDetails setContent(Div content) {
+    this.content = content;
+    addSlot(content);
+    return this;
+  }
+
+  /**
+   * Get the content panel instance.
+   * 
+   * @return the content panel
+   */
+  public Div getContent() {
+    return content;
   }
 
   /**
@@ -117,21 +140,6 @@ public final class SlDetails extends SlComponent implements HasControlText {
    */
   public boolean isDisabled() {
     return get(DISABLED);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public SlDetails setText(String text) {
-    addRawSlot(text);
-    return this;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public String getText() {
-    return getRawSlot();
   }
 
   /**
