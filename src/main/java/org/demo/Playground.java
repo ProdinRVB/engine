@@ -1,16 +1,10 @@
 package org.demo;
 
-import java.awt.Color;
-
+import org.demo.shoelace.components.badge.SlBadge;
 import org.demo.shoelace.components.button.SlButton;
 import org.demo.shoelace.components.button.SlIconButton;
-import org.demo.shoelace.components.colorpicker.SlColorPicker;
-import org.demo.shoelace.components.details.SlDetails;
-import org.demo.shoelace.components.details.SlDetailsGroup;
-import org.demo.shoelace.components.dialog.SlDialog;
 import org.demo.shoelace.components.drawer.SlDrawer;
 import org.demo.shoelace.components.input.SlInput;
-import org.demo.shoelace.utils.CssColor;
 import org.dwcj.App;
 import org.dwcj.annotations.Attribute;
 import org.dwcj.annotations.InlineStyleSheet;
@@ -68,6 +62,7 @@ public class Playground extends App {
     drawer.getHeaderActions().add(icon);
 
     SlButton open = new SlButton("Open Drawer");
+    open.setBadge(new SlBadge("200").setPill(true).setPulse(true));
     open.addClickListener((e) -> {
       drawer.open();
     });
